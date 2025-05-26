@@ -1,0 +1,140 @@
+<template>
+  <section class="seccion-principal-corporativa">
+    <div class="contenedor-principal">
+      <div class="texto-izquierda">
+        <p>¿Sabías que...</p>
+        <p>A través de este portal podrás obtener material de utilidad para el óptimo desarrollo de tus procesos?</p>
+      </div>
+      <div class="cuadros-interactivos">
+        <div class="cuadro" v-for="(cuadro, index) in cuadros" :key="index">
+          <img :src="cuadro.imagen" :alt="'Imagen ' + (index + 1)">
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+export default {
+  name: 'Inicio', // Asegúrate de que este es el nombre correcto para tu componente
+  data() {
+    return {
+      cuadros: [
+        { imagen: '/imagen1.png' },
+        { imagen: '/imagen2.png' },
+        { imagen: '/imagen3.png' },
+        { imagen: '/imagen4.png' },
+      ],
+    };
+  },
+};
+</script>
+
+<style scoped>
+/* Estilos de la sección principal con los cuadros */
+.seccion-principal-corporativa {
+  display: flex;
+  justify-content: center; /* Centramos el contenido principal */
+  align-items: center;
+  padding: 2rem;
+  background-color: #f0f0f0; /* Un color de fondo para la sección principal */
+}
+
+.contenedor-principal {
+  display: flex;
+  max-width: 960px; /* Un ancho máximo para el contenido principal */
+  width: 100%;
+  align-items: center; /* Alineamos verticalmente los elementos */
+  /* Permitir que los elementos se apilen en pantallas pequeñas */
+  flex-wrap: wrap;
+  justify-content: center; /* Centrar en pantallas pequeñas */
+  gap: 2rem; /* Espacio entre el texto y los cuadros en pantallas pequeñas */
+}
+
+.texto-izquierda {
+  flex: 1; /* El texto ocupa espacio disponible */
+  padding-right: 20px; /* Espacio entre el texto y los cuadros */
+  text-align: left;
+  min-width: 300px; /* Asegura que el texto no se comprima demasiado */
+}
+
+.texto-izquierda p {
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* Contenedor del Grid de cuadros */
+.cuadros-interactivos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas de igual tamaño */
+  grid-template-rows: repeat(2, 1fr);    /* 2 filas de igual tamaño */
+  gap: 0; /* ¡Importante! Elimina el espacio entre las celdas del grid */
+  width: 420px; /* Aseguramos un tamaño fijo */
+  height: 420px; /* Aseguramos un tamaño fijo */
+  max-width: 420px; /* Aseguramos que los cuadros no se expandan demasiado */
+  /* Centrar el grid si el contenedor flex es más grande */
+  justify-content: center;
+  align-content: center;
+}
+
+/* Estilos para cada cuadro individual (Actualizado) */
+.cuadro {
+  /* background-color: #fff; /* Se puede quitar si la imagen cubre todo */
+  border-radius: 0; /* Quitamos el borde redondeado para que parezcan unidas */
+  box-shadow: none; /* Quitamos la sombra inicial para que parezcan unidas */
+  overflow: hidden; /* Asegura que la imagen no se salga al escalar */
+  cursor: pointer;
+  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out; /* Transición para la transformación y sombra */
+  margin: 0; /* Aseguramos que no haya márgenes externos */
+  padding: 0; /* Aseguramos que no haya padding interno */
+  /* Eliminado display: flex y centrado de items aquí, ya que la imagen llenará el espacio */
+  position: relative; /* Necesario para z-index en hover */
+}
+
+.cuadro:hover {
+  transform: scale(1.02) rotate(360deg); /* Efecto en el contenedor (el cuadro) */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Añadimos la sombra al pasar el ratón */
+  z-index: 1; /* Asegura que el cuadro al que pasamos el ratón esté por encima */
+}
+
+/* Estilos para la imagen dentro de cada cuadro (Actualizado para precisión) */
+.cuadro img {
+  display: block; /* Importante: ayuda a eliminar pequeños espacios debajo de la imagen */
+  width: 100%; /* La imagen ocupa todo el ancho del cuadro */
+  height: 100%; /* La imagen ocupa todo el alto del cuadro */
+  /* Eliminamos max-width y max-height ya que width/height 100% es más directo */
+  /* max-width: 100%; */
+  /* max-height: 100%; */
+  object-fit: fill; /* **FORZAMOS que la imagen llene exactamente el contenedor, incluso si distorsiona ligeramente** */
+  transition: transform 0.3s ease-in-out; /* Efecto en la imagen (dentro del cuadro) */
+}
+
+.cuadro:hover img {
+  transform: scale(1.08); /* Efecto en la imagen al pasar el ratón */
+}
+
+/* Media query para ajustar el layout en pantallas pequeñas si es necesario */
+@media (max-width: 768px) {
+  .contenedor-principal {
+    flex-direction: column; /* Apila el texto y los cuadros */
+    padding: 1rem;
+  }
+
+  .texto-izquierda {
+    padding-right: 0;
+    margin-bottom: 1.5rem; /* Espacio entre el texto y los cuadros apilados */
+    text-align: center; /* Centra el texto en pantallas pequeñas */
+  }
+
+  .cuadros-interactivos {
+    width: 100%; /* Permite que el grid ocupe todo el ancho disponible */
+    height: auto; /* Ajusta la altura automáticamente */
+    max-width: 300px; /* Limita el ancho máximo del grid en pantallas pequeñas */
+    /* Aseguramos que las celdas del grid sigan una proporción 1:1 */
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr); /* O podrías usar 'auto' si quieres que la altura dependa del contenido */
+  }
+}
+</style>
