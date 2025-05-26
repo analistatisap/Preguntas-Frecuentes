@@ -1,5 +1,5 @@
 """
-ASGI config for preguntas_frecuentes project.
+ASGI config for Preguntas_frecuentes project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'preguntas_frecuentes.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Preguntas_frecuentes.settings')
 
 application = get_asgi_application()

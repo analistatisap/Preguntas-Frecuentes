@@ -1,0 +1,30 @@
+## Usa una imagen base ligera de Python
+FROM python:3.10-slim
+
+## Establece el directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+## Copia el archivo de requisitos primero para aprovechar el cache de Podman
+## Asegúrate de tener un archivo requirements.txt en tu directorio backend
+COPY requirements.txt /app/
+
+## Instala las dependencias
+RUN pip install --no-cache-dir -r requirements.txt
+
+## Copia el resto del código de la aplicación
+COPY . /app/
+
+## Ejecuta las migraciones de la base de datos (ajusta si usas un contenedor de base de datos separado)
+## Descomenta la siguiente línea si quieres que las migraciones se ejecuten durante la construcción de la imagen
+## RUN python manage.py migrate
+
+## Recolecta archivos estáticos (ajusta si usas un servidor de archivos estáticos separado como Nginx)
+## Descomenta la siguiente línea si quieres que los estáticos se recolecten durante la construcción de la imagen
+RUN python manage.py collectstatic --noinput
+
+## Expone el puerto en el que Gunicorn escuchará (según tu gunicorn_config.py)
+EXPOSE 8000
+
+## Comando para ejecutar Gunicorn
+## Asegúrate de que 'Preguntas_frecuentes.wsgi' coincida con la ubicación del archivo WSGI de tu proyecto
+CMD ["gunicorn", "--config", "gunicorn_config.py", "Preguntas_frecuentes.wsgi:application"]

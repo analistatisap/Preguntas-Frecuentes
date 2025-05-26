@@ -1,5 +1,5 @@
 """
-WSGI config for preguntas_frecuentes project.
+WSGI config for Preguntas_frecuentes project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'preguntas_frecuentes.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Preguntas_frecuentes.settings')
 
 application = get_wsgi_application()
