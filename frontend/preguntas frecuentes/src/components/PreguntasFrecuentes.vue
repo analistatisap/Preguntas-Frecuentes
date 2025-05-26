@@ -685,6 +685,9 @@ export default {
     background-color: #fff; /* **Fondo blanco para la imagen** */
     box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* **Sombra suave** */
     box-sizing: border-box; /* Asegura que padding y borde no aumenten el ancho */
+    /* Estilos para efecto de expansión en hover */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: zoom-in; /* Indica que la imagen se puede ampliar */
 }
 
 .answer .nota {
@@ -700,6 +703,11 @@ export default {
     color: #856404; /* Asegura que el "NOTA:" sea del mismo color */
 }
 
+.answer img:hover {
+    transform: scale(2); /* Aumenta el tamaño de la imagen al 180% */
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.25); /* Sombra más pronunciada para destacar */
+    /* z-index: 10; Opcional: si necesitas que la imagen se superponga a otros elementos */
+}
 .answer ul {
     margin-top: 1em;
     margin-bottom: 1em;

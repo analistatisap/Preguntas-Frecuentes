@@ -17,22 +17,22 @@
       </div>
       <div class="contacto-derecha">
         <h2>CONTACTO</h2>
-        <form class="formulario-contacto">
+        <form class="formulario-contacto" @submit.prevent="handleSubmit">
           <div class="campo">
             <label for="nombre">NOMBRE</label>
-            <input type="text" id="nombre" placeholder="Tu nombre">
+            <input type="text" id="nombre" placeholder="Tu nombre" v-model="formData.nombre" required>
           </div>
           <div class="campo">
             <label for="apellido">APELLIDO</label>
-            <input type="text" id="apellido" placeholder="Tu apellido">
+            <input type="text" id="apellido" placeholder="Tu apellido" v-model="formData.apellido" required>
           </div>
           <div class="campo">
             <label for="correo">CORREO</label>
-            <input type="email" id="correo" placeholder="Tu correo electrónico">
+            <input type="email" id="correo" placeholder="Tu correo electrónico" v-model="formData.correo" required>
           </div>
           <div class="campo mensaje-campo">
             <label for="mensaje">MENSAJE</label>
-            <textarea id="mensaje" placeholder="Escribe tu mensaje"></textarea>
+            <textarea id="mensaje" placeholder="Escribe tu mensaje" v-model="formData.mensaje" required></textarea>
           </div>
           <button type="submit" class="boton-enviar">ENVIAR</button>
         </form>
@@ -46,12 +46,51 @@ export default {
   name: 'PaginaContacto',
   data() {
     return {
-      // Aquí puedes añadir datos si necesitas interactividad en el formulario
+      formData: {
+        nombre: '',
+        apellido: '',
+        correo: '',
+        mensaje: ''
+      }
     };
   },
   methods: {
-    // Aquí puedes añadir métodos para manejar el envío del formulario, etc.
-    // Ya no necesitas un método para abrir el correo si usas enlaces mailto: directamente
+    async handleSubmit() {
+      // Validación básica (puedes añadir más si es necesario)
+      if (!this.formData.nombre || !this.formData.apellido || !this.formData.correo || !this.formData.mensaje) {
+        alert('Por favor, completa todos los campos.');
+        return;
+      }
+
+      try {
+        // IMPORTANTE: Reemplaza '/api/enviar-correo' con la URL real de tu endpoint en el backend.
+        // Este endpoint es el que realmente enviará el correo.
+        const response = await fetch('http://127.0.0.1:8000/api/contacto/enviar-correo/', { // URL del backend
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...this.formData,
+            destinatario: 'jagrajales@grupodecor.com' // El correo al que se enviará
+          }),
+        });
+
+        if (response.ok) {
+          alert('¡Mensaje enviado con éxito!');
+          // Limpiar el formulario
+          this.formData.nombre = '';
+          this.formData.apellido = '';
+          this.formData.correo = '';
+          this.formData.mensaje = '';
+        } else {
+          alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
+        }
+      } catch (error) {
+        console.error('Error al enviar el formulario:', error);
+        alert('Ocurrió un error de conexión. Por favor, inténtalo de nuevo más tarde.');
+      }
+    }
   },
 };
 </script>

@@ -7,24 +7,38 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-.DS_Store
-dist
-dist-ssr
-coverage
-*.local
+# Dependency directories
+node_modules/
 
+# Build output
+dist/
+dist-ssr/
+coverage/
+
+# Local environment files
+*.local
+.env
+.env.*.local
+
+# Cypress test output
 /cypress/videos/
 /cypress/screenshots/
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
+# TypeScript
 *.tsbuildinfo
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
