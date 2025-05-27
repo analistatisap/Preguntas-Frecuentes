@@ -14,6 +14,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 ## Copia el resto del código de la aplicación
 COPY . /app/
 
+# Configura la variable de entorno DJANGO_SETTINGS_MODULE
+# Esto le dice a Django dónde encontrar tu archivo settings.py
+# Asegúrate de que 'Preguntas_frecuentes' es el nombre exacto de la carpeta de tu proyecto.
+ENV DJANGO_SETTINGS_MODULE=Preguntas_frecuentes.settings
+
 ## Ejecuta las migraciones de la base de datos (ajusta si usas un contenedor de base de datos separado)
 ## Descomenta la siguiente línea si quieres que las migraciones se ejecuten durante la construcción de la imagen
 ## RUN python manage.py migrate

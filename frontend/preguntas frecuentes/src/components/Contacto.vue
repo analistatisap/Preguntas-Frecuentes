@@ -63,8 +63,7 @@ export default {
       }
 
       try {
-        // IMPORTANTE: Reemplaza '/api/enviar-correo' con la URL real de tu endpoint en el backend.
-        // Este endpoint es el que realmente enviará el correo.
+        // Envia los datos al backend
         const response = await fetch('http://127.0.0.1:8000/api/contacto/enviar-correo/', { // URL del backend
           method: 'POST',
           headers: {
