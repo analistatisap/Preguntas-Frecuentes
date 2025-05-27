@@ -1,0 +1,33 @@
+.env
+__pycache__/
+*.pyc
+venv/ # O 'pf-venv/' si ese es el nombre real de tu entorno virtual en la raíz.
+      # Asegúrate de que este nombre coincida con tu carpeta de entorno virtual.
+
+# Archivos de base de datos SQLite (si no la quieres en el repo para producción)
+# Si usas SQLite para desarrollo y PostgreSQL para producción, puedes ignorar el de desarrollo.
+db.sqlite3
+*.sqlite3
+
+# Archivos de IDEs
+.vscode/
+
+# Archivos de Sistema Operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de dependencias de Node.js (para tu frontend Vue)
+node_modules/
+
+# Archivos de build del frontend (se generan y no se versionan)
+dist/
+.output/ # Común en algunos frameworks Vue/Nuxt
+
+# Logs
+logs/
+*.log
+
+# Cobertura de pruebas
+.coverage
+coverage.xml
+htmlcov/

@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend # El contexto de construcción para el backend
+      dockerfile: Containerfile
+    container_name: django_backend
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app # Monta el directorio del backend del host en /app del contenedor
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks: # Es buena práctica definir redes si las usas, aunque aquí no está tu pf_network_server
+      - default # Por defecto, Podman Compose crea una red para los servicios
+
+  frontend:
+    build:
+      context: ./frontend/preguntas frecuentes # Aquí la carpeta 'preguntas frecuentes' podría dar problemas por el espacio
+      dockerfile: Containerfile
+    container_name: vue_frontend
+    volumes:
+      - ./frontend/preguntas frecuentes:/app # Misma nota sobre el espacio
+    ports:
+      - "3000:80"
+    depends_on: # Si tu frontend necesita del backend para correr (lo más probable)
+      - backend
+    networks:
+      - default
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: preguntas_frecuentes
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+
+volumes:
+  postgres_data: {} 
