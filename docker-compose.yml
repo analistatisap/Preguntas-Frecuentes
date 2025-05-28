@@ -12,8 +12,8 @@ services:
       - ./backend:/app # Monta el directorio del backend del host en /app del contenedor
     ports:
       - "8000:8000"
-    depends_on:
-      - db
+    # depends_on: # Comentado o eliminado ya que 'db' está comentado
+      # - db
     networks: # Es buena práctica definir redes si las usas, aunque aquí no está tu pf_network_server
       - default # Por defecto, Podman Compose crea una red para los servicios
 
@@ -42,8 +42,8 @@ services:
       #- postgres_data:/var/lib/postgresql/data
     #ports:
       #- "5432:5432"
-  networks:
-    - default
+  # networks: # Este bloque estaba mal ubicado y es innecesario aquí
+    # - default
 
 #volumes:
   #postgres_data: {} 
