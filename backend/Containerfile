@@ -5,39 +5,38 @@ FROM python:3.10-slim
 WORKDIR /app
 
 ## Copia el archivo de requisitos primero para aprovechar el cache de Podman
-## Asegúrate de tener un archivo requirements.txt en tu directorio backend
 COPY requirements.txt /app/
 
 ## Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
-## Copia el resto del código de la aplicación
-COPY ./Preguntas-Frecuentes /app/Preguntas-Frecuentes
+## Copia el script de entrada y dale permisos de ejecución
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+## Copia el archivo de configuración de Gunicorn explícitamente y asegura permisos
 COPY gunicorn_config.py /app/gunicorn_config.py
 RUN chmod 644 /app/gunicorn_config.py
-COPY . /app/
 
+## Copia el resto del código de la aplicación
+COPY . /app/
 
 # Configura la variable de entorno DJANGO_SETTINGS_MODULE
 # Esto le dice a Django dónde encontrar tu archivo settings.py
 # Asegúrate de que 'Preguntas_frecuentes' es el nombre exacto de la carpeta de tu proyecto.
 ENV DJANGO_SETTINGS_MODULE=Preguntas_frecuentes.settings
 
-## Ejecuta las migraciones de la base de datos (ajusta si usas un contenedor de base de datos separado)
+## Ejecuta las migraciones de la base de datos (opcional, si no usas un contenedor de DB separado)
 ## Descomenta la siguiente línea si quieres que las migraciones se ejecuten durante la construcción de la imagen
-## RUN python manage.py migrate
+# RUN python manage.py migrate
 
-## Recolecta archivos estáticos (ajusta si usas un servidor de archivos estáticos separado como Nginx)
+## Recolecta archivos estáticos (opcional, si no usas un servidor de estáticos como Nginx)
 ## Descomenta la siguiente línea si quieres que los estáticos se recolecten durante la construcción de la imagen
 RUN python manage.py collectstatic --noinput
 
 ## Expone el puerto en el que Gunicorn escuchará (según tu gunicorn_config.py)
 EXPOSE 8000
 
-## Comando para ejecutar Gunicorn
-## Asegúrate de que 'Preguntas_frecuentes.wsgi' coincida con la ubicación del archivo WSGI de tu proyecto
-<<<<<<< HEAD
-CMD ["gunicorn", "--config", "gunicorn_config.py", "Preguntas_frecuentes.wsgi:application"]
-=======
-CMD ["gunicorn", "--config", "gunicorn_config.py", "Preguntas_frecuentes.wsgi:application"]
->>>>>>> 4e4cd84f7fd4181c68b45f2c4c993d966b779095
+## Usa el script como ENTRYPOINT para iniciar la aplicación
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# CMD ya no es necesario aquí, ya que el ENTRYPOINT se encarga de ejecutar Gunicorn.
