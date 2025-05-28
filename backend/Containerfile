@@ -14,29 +14,20 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-## Copia el archivo de configuración de Gunicorn explícitamente y asegura permisos
-COPY gunicorn_config.py /app/gunicorn_config.py
-RUN chmod 644 /app/gunicorn_config.py
-
 ## Copia el resto del código de la aplicación
 COPY . /app/
 
 # Configura la variable de entorno DJANGO_SETTINGS_MODULE
-# Esto le dice a Django dónde encontrar tu archivo settings.py
-# Asegúrate de que 'Preguntas_frecuentes' es el nombre exacto de la carpeta de tu proyecto.
 ENV DJANGO_SETTINGS_MODULE=Preguntas_frecuentes.settings
 
-## Ejecuta las migraciones de la base de datos (opcional, si no usas un contenedor de DB separado)
-## Descomenta la siguiente línea si quieres que las migraciones se ejecuten durante la construcción de la imagen
+## Ejecuta las migraciones de la base de datos (opcional)
 # RUN python manage.py migrate
 
-## Recolecta archivos estáticos (opcional, si no usas un servidor de estáticos como Nginx)
-## Descomenta la siguiente línea si quieres que los estáticos se recolecten durante la construcción de la imagen
+## Recolecta archivos estáticos (opcional)
 RUN python manage.py collectstatic --noinput
 
-## Expone el puerto en el que Gunicorn escuchará (según tu gunicorn_config.py)
+## Expone el puerto en el que Gunicorn escuchará
 EXPOSE 8000
 
 ## Usa el script como ENTRYPOINT para iniciar la aplicación
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-# CMD ya no es necesario aquí, ya que el ENTRYPOINT se encarga de ejecutar Gunicorn.

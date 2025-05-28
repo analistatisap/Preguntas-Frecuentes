@@ -8,6 +8,7 @@ services:
     container_name: django_backend
     env_file:
       - ./backend/.env
+      - - ./backend/gunicorn_config.py:/app/gunicorn_config.py
     volumes:
       - ./backend:/app/ # Monta el directorio del backend del host en /app del contenedor
     ports:
