@@ -64,7 +64,7 @@ export default {
 
       try {
         // Envia los datos al backend
-        const response = await fetch('http://127.0.0.1:8000/api/contacto/enviar-correo/', { // URL del backend
+        const response = await fetch('/api/contacto/enviar-correo/', { // URL del backend
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -27,8 +27,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Se proporciona un valor por defecto para desarrollo si no está en .env o el entorno.
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-development-key-placeholder')
 
-# <<<<<<< MODIFICACIONES TEMPORALES PARA DEPURACIÓN - INICIO >>>>>>>
-# IMPORTANTE: Revertir estas líneas antes de ir a producción.
 
 # Forzamos DEBUG a True para que los errores se muestren y logueen.
 DEBUG = True
