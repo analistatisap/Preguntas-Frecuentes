@@ -32,4 +32,4 @@ EXPOSE 8000
 
 ## Comando para ejecutar Gunicorn
 ## Asegúrate de que 'Preguntas_frecuentes.wsgi' coincida con la ubicación del archivo WSGI de tu proyecto
-CMD ["gunicorn", "--config", "gunicorn_config.py", "Preguntas_frecuentes.wsgi:application"]
+CMD ["gunicorn", "--config", "/app/gunicorn_config.py", "Preguntas_frecuentes.wsgi:application"]
