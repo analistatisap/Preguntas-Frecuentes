@@ -19,11 +19,11 @@ services:
 
   frontend:
     build:
-      context: ./frontend/preguntas frecuentes # Aquí la carpeta 'preguntas frecuentes' podría dar problemas por el espacio
+      context: ./frontend/preguntas_frecuentes 
       dockerfile: Containerfile
     container_name: vue_frontend
     volumes:
-      - ./frontend/preguntas frecuentes:/app # Misma nota sobre el espacio
+      - ./frontend/preguntas_frecuentes:/app 
     ports:
       - "3000:80"
     depends_on: # Si tu frontend necesita del backend para correr (lo más probable)
@@ -31,19 +31,19 @@ services:
     networks:
       - default
 
-  db:
-    image: postgres:13
-    container_name: postgres_db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: preguntas_frecuentes
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - default
+  #db:
+    #image: postgres:13
+    #container_name: postgres_db
+    #environment:
+      #POSTGRES_USER: postgres
+      #POSTGRES_PASSWORD: postgres
+      #POSTGRES_DB: preguntas_frecuentes
+    #volumes:
+      #- postgres_data:/var/lib/postgresql/data
+    #ports:
+      #- "5432:5432"
+  networks:
+    - default
 
-volumes:
-  postgres_data: {} 
+#volumes:
+  #postgres_data: {} 
