@@ -19,7 +19,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend/preguntas_frecuentes 
+      context: ./frontend/preguntas_frecuentes
       dockerfile: Containerfile
     container_name: vue_frontend
     volumes:
