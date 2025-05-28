@@ -11,12 +11,13 @@ COPY requirements.txt /app/
 ## Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
-## Copia explícitamente gunicorn_config.py primero (para diagnóstico)
-COPY gunicorn_config.py /app/gunicorn_config.py
-
 ## Copia el resto del código de la aplicación
 COPY . /app/
 COPY gunicorn_config.py /app/gunicorn_config.py
+
+RUN chmod 644 /app/gunicorn_config.py
+
+
 # Configura la variable de entorno DJANGO_SETTINGS_MODULE
 # Esto le dice a Django dónde encontrar tu archivo settings.py
 # Asegúrate de que 'Preguntas_frecuentes' es el nombre exacto de la carpeta de tu proyecto.
