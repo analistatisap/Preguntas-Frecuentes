@@ -9,7 +9,7 @@ services:
     env_file:
       - ./backend/.env
     volumes:
-      - ./backend:/app/Preguntas-Frecuentes # Monta el directorio del backend del host en /app del contenedor
+      - ./backend:/app/ # Monta el directorio del backend del host en /app del contenedor
     ports:
       - "8000:8000"
     # depends_on: # Comentado o eliminado ya que 'db' está comentado
