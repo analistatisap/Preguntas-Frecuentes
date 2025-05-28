@@ -12,6 +12,7 @@ COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 ## Copia el resto del código de la aplicación
+COPY ./Preguntas-Frecuentes /app/Preguntas-Frecuentes
 COPY gunicorn_config.py /app/gunicorn_config.py
 RUN chmod 644 /app/gunicorn_config.py
 COPY . /app/
@@ -35,4 +36,8 @@ EXPOSE 8000
 
 ## Comando para ejecutar Gunicorn
 ## Asegúrate de que 'Preguntas_frecuentes.wsgi' coincida con la ubicación del archivo WSGI de tu proyecto
+<<<<<<< HEAD
 CMD ["gunicorn", "--config", "gunicorn_config.py", "Preguntas_frecuentes.wsgi:application"]
+=======
+CMD ["gunicorn", "--config", "gunicorn_config.py", "Preguntas_frecuentes.wsgi:application"]
+>>>>>>> 4e4cd84f7fd4181c68b45f2c4c993d966b779095
