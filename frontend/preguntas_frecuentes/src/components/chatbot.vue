@@ -13,7 +13,7 @@
         initPayload: "/get_started", // Mensaje inicial opcional
         customData: { language: "es" }, // Datos personalizados
         socketUrl: "http://localhost:5005", // URL del servidor de Rasa
-        socketPath: "/socket.io/", // Ruta del socket
+        socketPath: "/webhooks/rest/webhook", // Ruta del socket
         title: "Chatbot", // Título del chatbot
         subtitle: "Estoy aquí para ayudarte", // Subtítulo opcional
         params: {
