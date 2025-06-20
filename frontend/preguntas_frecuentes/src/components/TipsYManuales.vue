@@ -11,10 +11,22 @@
       <div v-for="(manual, index) in manuales" :key="index" class="cuadro-manual">
         <h3>{{ manual.titulo }}</h3>
         <div class="icono-manual">
-          <a :href="manual.link" target="_blank" class="manual-icon-link">
-            <img :src="manual.icono" :alt="manual.titulo">
+          <!-- Si tiene archivo, muestra el botón de descarga -->
+          <a v-if="manual.archivo" :href="getManualUrl(manual.archivo)" target="_blank" class="manual-icon-link">
+            <img src="/imgtipsymanuales/manual.png" :alt="manual.titulo">
+            <span>Descargar</span>
           </a>
+          <!-- Si no tiene archivo pero la descripción parece un link, muestra el link -->
+          <a v-else-if="isUrl(manual.descripcion)" :href="manual.descripcion" target="_blank" class="manual-icon-link">
+            <img src="/imgtipsymanuales/manual.png" :alt="manual.titulo">
+            <span>Ver Link</span>
+          </a>
+          <!-- Si no tiene archivo ni link, solo muestra el icono -->
+          <div v-else>
+            <img src="/imgtipsymanuales/manual.png" :alt="manual.titulo">
+          </div>
         </div>
+        <p v-if="manual.descripcion && !isUrl(manual.descripcion)" class="manual-desc">{{ manual.descripcion }}</p>
       </div>
     </div>
 
@@ -30,8 +42,10 @@
       <div v-for="(tip, index) in tips" :key="index" class="cuadro-tip">
         <h3 v-if="tip.titulo">{{ tip.titulo }}</h3>
         <div class="imagen-tip">
-          <img :src="tip.imagen" :alt="tip.titulo || 'Tip Image'">
+          <img v-if="tip.imagen" :src="getTipUrl(tip.imagen)" :alt="tip.titulo || 'Tip Image'">
+          <a v-else-if="tip.archivo" :href="getTipUrl(tip.archivo)" target="_blank">Descargar archivo</a>
         </div>
+        <p v-if="tip.descripcion" class="tip-desc">{{ tip.descripcion }}</p>
       </div>
     </div>
   </div>
@@ -42,54 +56,47 @@ export default {
   name: 'TipsYManuales',
   data() {
     return {
-      manuales: [
-        // Añade la propiedad 'link' a cada objeto con la URL de SharePoint
-        { titulo: 'Manual: Ofertas', icono: '/imgtipsymanuales/ofertas.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial%2FTI%2DMAN%2D175%20Manual%20Ofertas%20Movilidad%20V01%2Epdf&parent=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial' },
-        { titulo: 'Manual: Pedidos', icono: '/imgtipsymanuales/pedidos.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial%2FCreaci%C3%B3n%20Pedido%20de%20Venta%20V07%2Epdf&parent=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial' },
-        { titulo: 'Manual: Clientes', icono: '/imgtipsymanuales/clientes.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial%2FTI%2DMAN%2D171%20Manual%20Creaci%C3%B3n%20Socio%20de%20Negocio%20Movilidad%20V01%2Epdf&parent=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial' },
-        { titulo: 'Manual: Entregas', icono: '/imgtipsymanuales/entregas.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial%2FTI%2DMAN%2D172%20Manual%20Entrega%20de%20Salida%20Movilidad%20V01%2Epdf&parent=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial' },
-        { titulo: 'Manual: ATP', icono: '/imgtipsymanuales/atp.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial%2FTI%2DMAN%2D173%20Manual%20Verificaci%C3%B3n%20de%20Disponibilidad%20ATP%20V01%2Epdf&parent=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial' },
-        { titulo: 'Manual: Facturas', icono: '/imgtipsymanuales/facturas.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial%2FTI%2DMAN%2D174%20Manual%20Factura%20PQR%20y%20WF%20V01%2Epdf&parent=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial' },
-        { titulo: 'Manual: Instalacion Movilidad', icono: '/imgtipsymanuales/movilidad.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial%2FTI%2DMAN%2D168%20Manual%20Ingreso%20Movilidad%20V02%2Epdf&parent=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20Area%20Comercial' },
-        { titulo: 'Manual: Afluencia', icono: '/imgtipsymanuales/afluencia.png', link: 'https://c8450f47-07d2-4221-a56c-0a352fe167b0.filesusr.com/ugd/37b12c_0390e973084a43848a783aa345e362c8.pdf' },
-        { titulo: 'Manual: Citas en Bodega', icono: '/imgtipsymanuales/citas-bodega.png', link: 'https://grupodecor.sharepoint.com/calidad/gestiondocumentos/tecnologiainformacion/Forms/AllItems.aspx?id=%2Fcalidad%2Fgestiondocumentos%2Ftecnologiainformacion%2FInstructivos%2FTI%2DINS%2D004%20Instructivo%20Portal%20Agendador%20Citas%20V01%2Epdf&parent=%2Fcalidad%2Fgestiondocumentos%2Ftecnologiainformacion%2FInstructivos' },
-        { titulo: 'Manual: Caja General', icono: '/imgtipsymanuales/caja-general.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20%C3%81rea%20Cartera%20%2D%20FI%20%2DCO%2FTI%2DMAN%2D104%20Manejo%20de%20Recaudos%20para%20Usuarios%20SAP%20V09%2Epdf&parent=%2Fcalidad%2Fmanualesap%2FDocumentos%20compartidos%2FManuales%20%C3%81rea%20Cartera%20%2D%20FI%20%2DCO' },
-        { titulo: 'Manual: Oferta y pedido exportacion', icono: '/imgtipsymanuales/oferta-exportacion.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Manuales%20Area%20Comercial/TI-MAN-185%20Manual%20de%20Oferta%20y%20Pedido%20Exportaciones%20V01.pdf' },
-        { titulo: 'Manual: Crear cliente - DecorMovil', icono: '/imgtipsymanuales/crear-cliente.png', link: 'https://grupodecor.sharepoint.com/calidad/manualesap/Documentos%20compartidos/Manuales%20Area%20Comercial/TI-MAN-171%20Manual%20Creaci%C3%B3n%20Socio%20de%20Negocio%20Movilidad%20V01.pdf' },
-        { titulo: 'Manual: Portal Clientes CD', icono: '/imgtipsymanuales/portal-clientes-cd.png', link: 'https://grupodecor.sharepoint.com/calidad/gestiondocumentos/tecnologiainformacion/Forms/AllItems.aspx?id=%2Fcalidad%2Fgestiondocumentos%2Ftecnologiainformacion%2FInstructivos%2FTI%2DINS%2D003%20Instructivo%20Portal%20Clientes%20Decorceramica%20V02%2Epdf&parent=%2Fcalidad%2Fgestiondocumentos%2Ftecnologiainformacion%2FInstructivos' },
-        { titulo: 'Manual: Portal Clientes NV', icono: '/imgtipsymanuales/portal-clientes-nv.png', link: 'https://grupodecor.sharepoint.com/calidad/gestiondocumentos/tecnologiainformacion/Forms/AllItems.aspx?id=%2Fcalidad%2Fgestiondocumentos%2Ftecnologiainformacion%2FInstructivos%2FTI%2DINS%2D002%20Instructivo%20Portal%20Clientes%20NovaCasa%20V02%2Epdf&parent=%2Fcalidad%2Fgestiondocumentos%2Ftecnologiainformacion%2FInstructivos' },
-        { titulo: 'Manual: Pedido de muestra gratuita', icono: '/imgtipsymanuales/pedido-muestra.png', link: 'https://grupodecor-my.sharepoint.com/personal/jpina_grupodecor_com/_layouts/15/AccessDenied.aspx?Source=https%3A%2F%2Fgrupodecor%2Dmy%2Esharepoint%2Ecom%2F%3Ab%3A%2Fp%2Fjpina%2FERi47SsZbmdMjNli4yZ351oBU0u3iEdvHwnbUQXI6Vp4fQ%3Fe%3DGV3F6S&correlation=4b8a9ca1%2D100b%2D0000%2Dab65%2De090d905be49&Type=web&SiteId=123d0212%2Df13c%2D434f%2Db7d4%2D3d97f07cd836' },
-        { titulo: 'Manual: Pedido de donacion', icono: '/imgtipsymanuales/pedido-donacion.jpg', link: 'https://grupodecor-my.sharepoint.com/personal/jpina_grupodecor_com/_layouts/15/AccessDenied.aspx?Source=https%3A%2F%2Fgrupodecor%2Dmy%2Esharepoint%2Ecom%2F%3Ab%3A%2Fp%2Fjpina%2FEf03yJ0NukVClZX%5FB67o7u4BfQFbTM0KAlfayXLEQsiPrA%3Fe%3DOPh7VI&correlation=4f8a9ca1%2D004a%2D0000%2Dab65%2De20d9f4c0924&Type=web&SiteId=123d0212%2Df13c%2D434f%2Db7d4%2D3d97f07cd836' },
-      ],
-      // Nueva propiedad para los tips
-      tips: [
-        // Aquí puedes añadir tus tips. Cada objeto debe tener al menos una propiedad 'imagen'.
-        // Puedes añadir una propiedad 'titulo' si quieres un título debajo de la imagen.
-        { titulo: 'TIP1', imagen: '/tips/TIP1.jpg' },
-        { titulo: 'TIP2', imagen: '/tips/tip2.jpeg' },
-        { titulo: 'TIP3', imagen: '/tips/tip3.jpeg' },
-        { titulo: 'TIP4', imagen: '/tips/tip4.jpeg' },
-        { titulo: 'TIP5', imagen: '/tips/tip5.jpeg' },
-        { titulo: 'TIP6', imagen: '/tips/tip6.jpeg' },
-        { titulo: 'TIP7', imagen: '/tips/tip7.jpeg' },
-        { titulo: 'TIP8', imagen: '/tips/tip8.jpeg' },
-        { titulo: 'TIP9', imagen: '/tips/tip9.jpeg' },
-        { titulo: 'TIP10', imagen: '/tips/tip10.jpeg' },
-        { titulo: 'TIP11', imagen: '/tips/tip11.jpeg' },
-        { titulo: 'TIP12', imagen: '/tips/tip12.jpeg' },
-        { titulo: 'TIP13', imagen: '/tips/tip13.jpeg' },
-        { titulo: 'TIP14', imagen: '/tips/tip14.jpeg' },
-        { titulo: 'TIP15', imagen: '/tips/tip15.jpeg' },
-        { titulo: 'TIP16', imagen: '/tips/tip16.jpg' },
-        { titulo: 'TIP17', imagen: '/tips/tip17.jpg' },
-        { titulo: 'TIP18', imagen: '/tips/tip18.jpg' },
-        { titulo: 'TIP19', imagen: '/tips/tip19.jpg' },
-        { titulo: 'TIP20', imagen: '/tips/tip20.jpg' },
-        { titulo: 'TIP21', imagen: '/tips/tip21.jpg' },
-        { titulo: 'TIP22', imagen: '/tips/tip22.jpeg' },
-        { titulo: 'TIP23', imagen: '/tips/tip23.jpg' },
-      ],
+      manuales: [],
+      tips: [],
+      backendUrl: 'http://172.16.29.5:8000', // Cambia esto si tu backend está en otra IP/puerto
     };
+  },
+  methods: {
+    getManualUrl(path) {
+      // Si el path ya es una URL absoluta, la retorna tal cual
+      if (/^https?:\/\//.test(path)) return path;
+      return `${this.backendUrl}${path}`;
+    },
+    getTipUrl(path) {
+      if (!path) return '';
+      if (/^https?:\/\//.test(path)) return path;
+      return `${this.backendUrl}${path}`;
+    },
+    isUrl(text) {
+      return /^https?:\/\//.test(text);
+    },
+    async fetchManuales() {
+      try {
+        const res = await fetch(`${this.backendUrl}/api/recursos/manuales/`);
+        if (!res.ok) throw new Error('Error al obtener manuales');
+        this.manuales = await res.json();
+      } catch (e) {
+        this.manuales = [];
+      }
+    },
+    async fetchTips() {
+      try {
+        const res = await fetch(`${this.backendUrl}/api/recursos/tips/`);
+        if (!res.ok) throw new Error('Error al obtener tips');
+        this.tips = await res.json();
+      } catch (e) {
+        this.tips = [];
+      }
+    },
+  },
+  mounted() {
+    this.fetchManuales();
+    this.fetchTips();
   },
 };
 </script>
@@ -219,5 +226,16 @@ export default {
 /* Efecto de escala en la imagen del tip al pasar el mouse sobre el cuadro */
 .cuadro-tip:hover .imagen-tip img {
     transform: scale(1.1);
+}
+
+.manual-desc {
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+.tip-desc {
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
 }
 </style>
