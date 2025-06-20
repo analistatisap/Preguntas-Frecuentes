@@ -14,7 +14,7 @@ class Tip(models.Model):
 
 class Manual(models.Model):
     titulo = models.CharField(max_length=200)
-    archivo = models.FileField(upload_to='manuales/')
+    archivo = models.FileField(upload_to='manuales/', blank=True, null=True)
     descripcion = models.TextField(blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
