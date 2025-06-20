@@ -12,43 +12,23 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType # Necesitamos GroupOfNamesType ahora
+import logging
+from ldap3 import SUBTREE
 
-# Cargar las variables de entorno desde el archivo .env
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+DEBUG = True
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECRET_KEY se lee de la variable de entorno SECRET_KEY
-# Se proporciona un valor por defecto para desarrollo si no está en .env o el entorno.
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-development-key-placeholder')
 
+ALLOWED_HOSTS = ['*'] # ¡Cambiar para producción!
 
-# Forzamos DEBUG a True para que los errores se muestren y logueen.
-DEBUG = True
-print(f"!!! DEBUG_STATUS: {DEBUG} (Forzado para depuración)")
-
-
-# Permite cualquier host para asegurar que no sea un problema de ALLOWED_HOSTS.
-# En producción, esto DEBE ser una lista explícita de tus dominios y IPs.
-ALLOWED_HOSTS = ['*']
-
-
-# Forzamos las credenciales de email directamente para ver si el problema es de envío SMTP.
-# Esto bypassa la lectura del .env para estas variables.
 EMAIL_HOST_USER = 'notificacionesaplicativoweb@grupodecor.com'
 EMAIL_HOST_PASSWORD = '1Ngr3s0W3b2024*'
 DEFAULT_FROM_EMAIL = 'notificacionesaplicativoweb@grupodecor.com'
-
-print(f"!!! EMAIL_HOST_USER (Forzado): {EMAIL_HOST_USER}")
-print(f"!!! EMAIL_HOST_PASSWORD (Forzado): {'*' * len(EMAIL_HOST_PASSWORD) if EMAIL_HOST_PASSWORD else 'None'}")
-print(f"!!! DEFAULT_FROM_EMAIL (Forzado): {DEFAULT_FROM_EMAIL}")
-
-# <<<<<<< MODIFICACIONES TEMPORALES PARA DEPURACIÓN - FIN >>>>>>>
 
 
 # Application definition
@@ -59,19 +39,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'contacto', # Asegúrate de que esta app exista y esté registrada
-    'corsheaders', # Necesario para CORS
+    'contacto',
+    'corsheaders',
+    'rest_framework_simplejwt',
+    'django_auth_ldap',
+    'recursos',
 ]
 
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Para tu frontend de desarrollo (ej. Vite/React)
-     #"172.16.29.5", # DESCOMENTAR Y AÑADIR el dominio de tu frontend en producción
+    "http://localhost:5173",
+    # "https://tu_frontend_en_produccion.com",
 ]
 
-
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # Middleware para CORS (DEBE IR AL PRINCIPIO)
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -100,20 +82,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Preguntas_frecuentes.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -130,68 +104,121 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = 'static/'
-# Directorio donde `collectstatic` reunirá todos los archivos estáticos para producción.
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR.parent / 'staticfiles'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configuración de Correo Electrónico
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.office365.com') # Lee de variable de entorno
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587)) # Lee de variable de entorno, convierte a int
-EMAIL_USE_TLS = True  # El puerto 587 típicamente usa STARTTLS.
-# EMAIL_USE_SSL = False # Si usas TLS, SSL debe ser False. SSL se usa comúnmente con el puerto 465.
-
-# Las siguientes variables de email ahora están forzadas en la sección de depuración temporal arriba.
-# Las líneas originales de os.environ.get() están comentadas o no ejecutadas.
-# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-
-# Comentamos o eliminamos la validación de credenciales de correo temporalmente,
-# ya que ahora las forzamos en la sección de depuración.
-# if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
-#     if not DEBUG:
-#         from django.core.exceptions import ImproperlyConfigured
-#         raise ImproperlyConfigured(
-#             "EMAIL_HOST_USER y EMAIL_HOST_PASSWORD deben estar configurados en variables de entorno para producción."
-#         )
-#     else:
-#         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-#         print("ADVERTENCIA (Desarrollo): EMAIL_HOST_USER y/o EMAIL_HOST_PASSWORD no están configurados.")
-#         print("El envío de correos electrónicos que requieren autenticación SMTP probablemente fallará.")
-#         print(f"EMAIL_HOST_USER actual: {EMAIL_HOST_USER}")
-#         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
-# DEFAULT_FROM_EMAIL también está forzado en la sección de depuración temporal.
-# Es recomendable que DEFAULT_FROM_EMAIL sea el mismo que EMAIL_HOST_USER
-# o una dirección desde la cual EMAIL_HOST_USER tiene permiso para enviar.
-# DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER or 'webmaster@localhost')
-
-# if DEFAULT_FROM_EMAIL == 'webmaster@localhost' and not os.environ.get('DEFAULT_FROM_EMAIL') and not EMAIL_HOST_USER and DEBUG:
-#     print("**********************************************************************************************")
-#     print(f"ADVERTENCIA: DEFAULT_FROM_EMAIL se ha establecido en '{DEFAULT_FROM_EMAIL}'.")
-#     print("Esto ocurrió porque ni la variable de entorno DEFAULT_FROM_EMAIL ni EMAIL_HOST_USER están configuradas.")
-#     print(f"Si su servidor SMTP ('{EMAIL_HOST}') requiere un remitente autenticado o específico, esto causará errores de envío.")
-#     print("**********************************************************************************************")
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.office365.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = True
 
 
+# --- CONFIGURACIÓN PARA AUTENTICACIÓN LDAP con verificación de actividad ---
+
+#LDAPS (seguro): 'ldaps://10.10.10.4:636'
+AUTH_LDAP_SERVER_URI = 'ldap://10.10.10.4:389'
+
+# Credenciales del usuario de servicio para el bind (lectura del AD)
+AUTH_LDAP_BIND_DN = 'CN=jagrajales,OU=Usuarios,DC=grupodecor,DC=local'
+AUTH_LDAP_BIND_PASSWORD = 'contraseña de servicio' 
+
+# Base DN (Distinguished Name) donde buscar usuarios
+# Asegúrate de que esta ruta sea 100% correcta y contenga a tus usuarios.
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    'OU=Usuarios,OU=01 - GRUPODECOR,DC=grupodecor,DC=local',
+    SUBTREE,
+    '(sAMAccountName=%(user)s)'
+)
+
+# Mapea atributos de AD a campos del modelo de usuario de Django (opcional, pero recomendado)
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail",
+}
+
+# --- Configuración de Grupos para verificar actividad ---
+
+# Base DN donde se encuentran tus grupos.
+# ¡REEMPLAZA con el DN que te dé el equipo de AD donde están los grupos relevantes!
+# Este es necesario para que Django pueda evaluar la membresía del grupo de "usuarios activos".
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+    'OU=Usuarios,OU=01 - GRUPODECOR,DC=grupodecor,DC=local', #falta por confirmar
+    SUBTREE,
+    '(objectClass=group)'
+)
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
+
+# Aquí es donde se define qué grupo de AD indica que el usuario está "activo".
+# Si el usuario NO pertenece a este grupo, django.contrib.auth.authenticate()
+# establecerá user.is_active = False, impidiendo el login.
+AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+    "is_active": 'CN=Usuarios,OU=Usuarios,OU=01 - GRUPODECOR,DC=grupodecor,DC=local', # DN DE GRUPO DE USUARIOS ACTIVOS
+}
+
+# Estas opciones controlan la actualización y el reflejo de grupos.
+# AUTH_LDAP_MIRROR_GROUPS = False # No reflejar todos los grupos en Django si no se necesita permisos.
+# AUTH_LDAP_FIND_GROUP_PERMS = False # No busqa permisos granulares de grupo.
+
+AUTH_LDAP_ALWAYS_UPDATE_USER = True # Actualiza el perfil del usuario en Django en cada login
+AUTHENTICATION_BACKENDS = [
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# --- Configuración para Django REST Framework y JWT ---
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_ENABLED': True,
+}
+
+# --- Configuración de Logging para depuración LDAP ---
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django_auth_ldap': {
+            'handlers': ['console'],
+            'level': 'DEBUG', #DEBUG para las pruebas
+            'propagate': False,
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
