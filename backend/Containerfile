@@ -7,6 +7,9 @@ WORKDIR /app
 ## Copia el archivo de requisitos primero para aprovechar el cache de Podman
 COPY requirements.txt /app/
 
+## Instala dependencias del sistema necesarias para python-ldap y Pillow
+RUN apt-get update && apt-get install -y gcc libldap2-dev libsasl2-dev python3-dev libssl-dev && rm -rf /var/lib/apt/lists/*
+
 ## Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
