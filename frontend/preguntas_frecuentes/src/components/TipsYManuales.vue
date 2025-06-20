@@ -13,17 +13,17 @@
         <div class="icono-manual">
           <!-- Si tiene archivo, muestra el botón de descarga -->
           <a v-if="manual.archivo" :href="getManualUrl(manual.archivo)" target="_blank" class="manual-icon-link">
-            <img src="/imgtipsymanuales/manual.png" :alt="manual.titulo">
+            <img src="/imgtipsymanuales/ofertas.png" :alt="manual.titulo">
             <span>Descargar</span>
           </a>
           <!-- Si no tiene archivo pero la descripción parece un link, muestra el link -->
           <a v-else-if="isUrl(manual.descripcion)" :href="manual.descripcion" target="_blank" class="manual-icon-link">
-            <img src="/imgtipsymanuales/manual.png" :alt="manual.titulo">
+            <img src="/imgtipsymanuales/ofertas.png" :alt="manual.titulo">
             <span>Ver Link</span>
           </a>
           <!-- Si no tiene archivo ni link, solo muestra el icono -->
           <div v-else>
-            <img src="/imgtipsymanuales/manual.png" :alt="manual.titulo">
+            <img src="/imgtipsymanuales/ofertas.png" :alt="manual.titulo">
           </div>
         </div>
         <p v-if="manual.descripcion && !isUrl(manual.descripcion)" class="manual-desc">{{ manual.descripcion }}</p>
