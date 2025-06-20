@@ -6,16 +6,16 @@ import AboutView from '../views/AboutView.vue';
 import PreguntasFrecuentes from '@/components/PreguntasFrecuentes.vue';
 import Contacto from '@/components/Contacto.vue';
 import TipsYManuales from '@/components/TipsYManuales.vue';
-import Login from '@/components/Login.vue';
+//import Login from '@/components/Login.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/login',
-      name: 'login',
-      component: Login,
-    },    
+    //{
+      //path: '/login',
+      //name: 'login',
+      //component: Login,
+      //},    
     
     {
       path: '/',
