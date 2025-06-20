@@ -6,15 +6,23 @@ import AboutView from '../views/AboutView.vue';
 import PreguntasFrecuentes from '@/components/PreguntasFrecuentes.vue';
 import Contacto from '@/components/Contacto.vue';
 import TipsYManuales from '@/components/TipsYManuales.vue';
+import Login from '@/components/Login.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },    
+    
+    {
       path: '/',
       name: 'inicio',
       component: Inicio
     },
+
     {
       path: '/about',
       name: 'about',
@@ -47,6 +55,15 @@ const router = createRouter({
       component: TipsYManuales,
     }
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('user'); // Verifica si hay un usuario autenticado
+  if (to.name !== 'login' && !isAuthenticated) {
+    next({ name: 'login' });
+  } else {
+    next();
+  }
 });
 
 export default router;

@@ -88,7 +88,6 @@ export default {
         { titulo: 'TIP21', imagen: '/tips/tip21.jpg' },
         { titulo: 'TIP22', imagen: '/tips/tip22.jpeg' },
         { titulo: 'TIP23', imagen: '/tips/tip23.jpg' },
-        // Añade más tips aquí
       ],
     };
   },
