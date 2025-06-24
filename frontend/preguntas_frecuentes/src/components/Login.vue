@@ -38,7 +38,7 @@ export default {
       this.loading = true;
       this.error = null;
       try {
-        const response = await fetch('/api/auth/login/', {
+        const response = await fetch('http://172.16.29.5:8000/api/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
