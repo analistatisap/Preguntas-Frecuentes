@@ -3,7 +3,7 @@
     <!-- El header y el nav solo se muestran si no estamos en la página de login -->
     <header class="cabecera-corporativa" v-if="!isLoginPage">
       <div class="logo-corporativo">
-        <img src="/logo.png" alt="Logo Corporativo" />
+        <img :src="logoUrl" alt="Logo Corporativo" />
       </div>
 
       <!-- La navegación principal solo se muestra si el usuario está autenticado -->
@@ -62,11 +62,14 @@
 </template>
 
 <script>
+import logoUrl from '@/assets/logo.png';
+
 export default {
   name: 'App',
   data() {
     return {
       menuAbierto: false,
+      logoUrl: logoUrl,
       user: null,
     };
   },
