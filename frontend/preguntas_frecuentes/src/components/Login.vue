@@ -49,19 +49,30 @@ export default {
           }),
         });
 
-        if (response.ok) {
+        if (response.ok) { // Status 200-299
           const data = await response.json();
           // Guardar la información del usuario en localStorage para mantener la sesión
           localStorage.setItem('user', JSON.stringify(data.user));
           // Redirigir a la página de inicio
           this.$router.push('/');
-        } else {
-          const errorData = await response.json();
-          this.error = errorData.error || 'Usuario o contraseña incorrectos.';
+        } else { // Status 4xx, 5xx
+          // Revisa si la respuesta es JSON antes de intentar parsearla
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+              const errorData = await response.json();
+              this.error = errorData.error || `Error: ${response.statusText}`;
+          } else {
+              // La respuesta no es JSON (probablemente una página de error HTML para el error 500)
+              if (response.status === 500) {
+                  this.error = 'Error interno del servidor. Por favor, contacte al administrador.';
+              } else {
+                  this.error = `Error inesperado del servidor (Código: ${response.status}).`;
+              }
+          }
         }
       } catch (err) {
-        console.error('Error de conexión durante el login:', err);
-        this.error = 'No se pudo conectar con el servidor. Inténtalo más tarde.';
+        console.error('Error de red durante el login:', err);
+        this.error = 'No se pudo conectar con el servidor. Revisa tu conexión de red.';
       } finally {
         this.loading = false;
       }

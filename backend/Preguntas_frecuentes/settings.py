@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_auth_ldap',
     'recursos',
+    'api'
 ]
 
 # Configuración de CORS
