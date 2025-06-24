@@ -23,9 +23,11 @@ from rest_framework_simplejwt.views import (
 )
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views  # al inicio del archivo
 
 
 urlpatterns = [
+    path('', views.home, name='home'),  # esta es la ruta de inicio
     path('admin/', admin.site.urls),
     path('api/contacto/', include('contacto.urls')),  # URL para la API de contacto
     path('api/login/', auth_views.LoginView.as_view(), name='login'),
