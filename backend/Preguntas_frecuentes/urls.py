@@ -30,7 +30,6 @@ urlpatterns = [
     path('', views.home, name='home'),  # esta es la ruta de inicio
     path('admin/', admin.site.urls),
     path('api/contacto/', include('contacto.urls')),  # URL para la API de contacto
-    path('api/login/', auth_views.LoginView.as_view(), name='login'),
     path('api/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import json
@@ -20,8 +20,13 @@ LDAP_BIND_PASSWORD = os.environ.get('LDAP_BIND_PASSWORD')
 LDAP_TLS_CACERT = os.environ.get('LDAP_TLS_CACERT', None)
 
 @csrf_exempt
-@require_POST
 def login_ldap_view(request):
+    if request.method == "OPTIONS":
+        response = HttpResponse()
+        response["Access-Control-Allow-Origin"] = "http://172.16.29.5:3000"
+        response["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type"
+        return response
     conn = None
     user_conn = None
     try:
