@@ -1,33 +1,42 @@
 <template>
-  <section class="seccion-principal-corporativa">
-    <div class="contenedor-principal">
-      <div class="texto-izquierda">
-        <p>¿Sabías que...</p>
-        <p>A través de este portal podrás obtener material de utilidad para el óptimo desarrollo de tus procesos?</p>
-      </div>
-      <div class="cuadros-interactivos">
-        <div class="cuadro" v-for="(cuadro, index) in cuadros" :key="index">
-          <img :src="cuadro.imagen" :alt="'Imagen ' + (index + 1)">
+  <div class="container my-5">
+    <div class="text-center mb-5">
+      <img src="/logo.png" alt="Logo" width="80" class="mb-3" />
+      <h1 class="fw-bold">Autogestión de Cuentas</h1>
+      <p class="lead">Seleccione el entorno en el que desea realizar la gestión</p>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-4 mb-4" v-for="entorno in entornos" :key="entorno.titulo">
+        <div class="card shadow-sm h-100">
+          <div class="card-body text-center">
+            <i :class="entorno.icono" style="font-size: 3rem; color: #2c3e50;"></i>
+            <h5 class="card-title mt-3 fw-bold">{{ entorno.titulo }}</h5>
+            <p class="card-text">{{ entorno.descripcion }}</p>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
-<script>
-export default {
-  name: 'Inicio', // Asegúrate de que este es el nombre correcto para tu componente
-  data() {
-    return {
-      cuadros: [
-        { imagen: '/imagen1.png' },
-        { imagen: '/imagen2.png' },
-        { imagen: '/imagen3.png' },
-        { imagen: '/imagen4.png' },
-      ],
-    };
+<script setup>
+const entornos = [
+  {
+    titulo: 'Entorno SAP',
+    descripcion: 'Gestión de cuentas para sistemas SAP ERP - LOGON, SAP CRM, SAP BO y otros sistemas SAP',
+    icono: 'bi bi-database'
   },
-};
+  {
+    titulo: 'Intiva – (Movilidad)',
+    descripcion: 'Gestión Comercial para las Ventas, Inicio de Sesión y Restablecimiento de Clave',
+    icono: 'bi bi-bag'
+  },
+  {
+    titulo: 'Entorno Office-Red',
+    descripcion: 'Restablecer la clave de su equipo afectando el Directorio Activo y servicios relacionados',
+    icono: 'bi bi-diagram-3'
+  }
+]
 </script>
 
 <style scoped>
