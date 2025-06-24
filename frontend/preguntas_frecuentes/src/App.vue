@@ -13,27 +13,27 @@
         </button>
         <ul :class="['menu-principal', { 'menu-visible': menuAbierto }]">
           <li class="menu-item">
-            <router-link to="/" class="menu-link" @click="closeMenu">Inicio</router-link>
+            <router-link to="/" class="menu-link">Inicio</router-link>
           </li>
           <li class="menu-item dropdown">
             <a href="#" class="menu-link" @click.prevent>Nosotros</a>
             <ul class="submenu">
-              <li><router-link to="/about" @click="closeMenu">Acerca de</router-link></li>
-              <li><router-link to="/nuestro-equipo" @click="closeMenu">Nuestro Equipo</router-link></li>
+              <li><router-link to="/about">Acerca de</router-link></li>
+              <li><router-link to="/nuestro-equipo">Nuestro Equipo</router-link></li>
             </ul>
           </li>
           <li class="menu-item dropdown">
             <a href="#" class="menu-link" @click.prevent>Recursos</a>
             <ul class="submenu">
-              <li><router-link to="/tips-y-manuales" @click="closeMenu">Tips y Manuales</router-link></li>
-              <li><router-link to="/preguntas-frecuentes" @click="closeMenu">Preguntas Frecuentes</router-link></li>
+              <li><router-link to="/tips-y-manuales">Tips y Manuales</router-link></li>
+              <li><router-link to="/preguntas-frecuentes">Preguntas Frecuentes</router-link></li>
             </ul>
           </li>
           <li class="menu-item">
-            <router-link to="/portales" class="menu-link" @click="closeMenu">Portales</router-link>
+            <router-link to="/portales" class="menu-link">Portales</router-link>
           </li>
           <li class="menu-item">
-            <router-link to="/contacto" class="menu-link" @click="closeMenu">Contacto</router-link>
+            <router-link to="/contacto" class="menu-link">Contacto</router-link>
           </li>
         </ul>
       </nav>

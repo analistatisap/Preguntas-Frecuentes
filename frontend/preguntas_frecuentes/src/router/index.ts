@@ -41,7 +41,7 @@ const router = createRouter({
 
     {
       path: '/preguntas-frecuentes',
-      name: 'Preguntas-frecuentes', // Asegúrate de que el 'name' coincida si lo usas en <router-link>
+      name: 'preguntas-frecuentes',
       component: PreguntasFrecuentes,
     },
     {
@@ -59,9 +59,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('user'); // Verifica si hay un usuario autenticado
-  if (to.name !== 'login' && !isAuthenticated) {
+
+  if (to.name === 'login' && isAuthenticated) {
+    // Si el usuario está autenticado e intenta ir al login, lo redirigimos al inicio
+    next({ name: 'inicio' });
+  } else if (to.name !== 'login' && !isAuthenticated) {
+    // Si el usuario NO está autenticado y no va al login, lo redirigimos al login
     next({ name: 'login' });
   } else {
+    // En cualquier otro caso, permitimos la navegación
     next();
   }
 });
