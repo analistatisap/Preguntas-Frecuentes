@@ -51,9 +51,9 @@ INSTALLED_APPS = [
 
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
     "http://172.16.29.5:3000",
-    # "https://tu_frontend_en_produccion.com",
 ]
 
 MIDDLEWARE = [
