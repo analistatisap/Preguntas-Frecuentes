@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import logoUrl from '@/assets/logo.png';
+import logoUrl from '@/assets/logo.svg';
 
 export default {
   name: 'App',
