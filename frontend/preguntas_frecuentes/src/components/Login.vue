@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <img src="/robot.png" alt="Logo" class="login-logo">
+      <img :src="robotLogoUrl" alt="Logo" class="login-logo">
       <h2>Iniciar Sesión</h2>
       <p>Acceso al portal de Preguntas Frecuentes</p>
       <form @submit.prevent="handleLogin">
@@ -23,12 +23,15 @@
 </template>
 
 <script>
+import robotLogoUrl from '@/assets/robot.png';
+
 export default {
   name: 'Login',
   data() {
     return {
       username: '',
       password: '',
+      robotLogoUrl: robotLogoUrl,
       loading: false,
       error: null,
     };
