@@ -1,34 +1,44 @@
 <template>
-  <div class="login-page">
-    <h2>Iniciar Sesión</h2>
-    <form @submit.prevent="handleLogin">
-      <div class="form-group">
-        <label for="username">Usuario</label>
-        <input type="text" id="username" v-model="username" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" v-model="password" required />
-      </div>
-      <button type="submit">Iniciar Sesión</button>
-    </form>
-    <p v-if="error" class="error">{{ error }}</p>
+  <div class="login-container">
+    <div class="login-box">
+      <img src="/robot.png" alt="Logo" class="login-logo">
+      <h2>Iniciar Sesión</h2>
+      <p>Acceso al portal de Preguntas Frecuentes</p>
+      <form @submit.prevent="handleLogin">
+        <div class="input-group">
+          <label for="username">Usuario</label>
+          <input type="text" id="username" v-model="username" required placeholder="Tu usuario de red">
+        </div>
+        <div class="input-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" v-model="password" required placeholder="Tu contraseña">
+        </div>
+        <div v-if="error" class="error-message">{{ error }}</div>
+        <button type="submit" :disabled="loading">
+          {{ loading ? 'Ingresando...' : 'Ingresar' }}
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'Login',
   data() {
     return {
       username: '',
       password: '',
+      loading: false,
       error: null,
     };
   },
   methods: {
     async handleLogin() {
+      this.loading = true;
+      this.error = null;
       try {
-        const response = await fetch('http://localhost:8000/api/login/', {
+        const response = await fetch('/api/auth/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -37,17 +47,23 @@ export default {
             username: this.username,
             password: this.password,
           }),
-          credentials: 'include', // Incluye cookies para sesiones
         });
 
-        if (!response.ok) {
-          throw new Error('Credenciales inválidas');
+        if (response.ok) {
+          const data = await response.json();
+          // Guardar la información del usuario en localStorage para mantener la sesión
+          localStorage.setItem('user', JSON.stringify(data.user));
+          // Redirigir a la página de inicio
+          this.$router.push('/');
+        } else {
+          const errorData = await response.json();
+          this.error = errorData.error || 'Usuario o contraseña incorrectos.';
         }
-
-        // Redirige al usuario después del login
-        this.$router.push('/');
-      } catch (error) {
-        this.error = error.message;
+      } catch (err) {
+        console.error('Error de conexión durante el login:', err);
+        this.error = 'No se pudo conectar con el servidor. Inténtalo más tarde.';
+      } finally {
+        this.loading = false;
       }
     },
   },
@@ -55,96 +71,51 @@ export default {
 </script>
 
 <style scoped>
-.login-page {
+.login-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background-color: #f0f2f5; /* Fondo de página neutro y claro */
-  padding: 1rem;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #f0f2f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 2000; /* Asegura que esté por encima de todo */
 }
 
-h2 {
-  color: #333;
-  margin-bottom: 2rem;
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-
-form {
-  background: #ffffff;
-  padding: 2rem 2.5rem;
+.login-box {
+  background: white;
+  padding: 2.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Sombra suave y moderna */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  box-sizing: border-box;
-  text-align: left; /* Alinea el contenido del formulario a la izquierda */
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #495057; /* Color de texto de etiqueta más suave */
-  font-size: 0.9rem;
-}
-
-input[type="text"],
-input[type="password"] {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border: 1px solid #ced4da; /* Borde estándar */
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 1rem;
-  color: #495057;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
-  border-color: #80bdff; /* Color de resaltado al enfocar (azul claro) */
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efecto de brillo al enfocar */
-}
-
-button[type="submit"] {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  background-color: #007bff; /* Color de acción principal (azul) */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease-in-out;
-  margin-top: 0.5rem; /* Espacio sobre el botón */
-}
-
-button[type="submit"]:hover {
-  background-color: #0056b3; /* Tono más oscuro al pasar el cursor */
-}
-
-.error {
-  background-color: #ffebee; /* Fondo rojo más claro para el error */
-  color: #c62828;      /* Texto rojo más oscuro para el error */
-  padding: 0.75rem 1.25rem;
-  margin-top: 1.5rem;
-  border: 1px solid #ef9a9a; /* Borde rojo más suave */
-  border-radius: 4px;
-  font-size: 0.9rem;
   text-align: center;
+}
+
+.login-logo {
+  max-width: 80px;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-group input {
   width: 100%;
-  max-width: 400px; /* Asegura que el mensaje de error tenga el mismo ancho que el formulario */
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   box-sizing: border-box;
+}
+
+.error-message {
+  color: #d93025;
+  margin-bottom: 1rem;
 }
 </style>
