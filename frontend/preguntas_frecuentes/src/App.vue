@@ -18,15 +18,15 @@
           <li class="menu-item dropdown">
             <a href="#" class="menu-link" @click.prevent>Nosotros</a>
             <ul class="submenu">
-              <li><router-link to="/about">Acerca de</router-link></li>
-              <li><router-link to="/nuestro-equipo">Nuestro Equipo</router-link></li>
+              <li><router-link to="/about" class="submenu-link">Acerca de</router-link></li>
+              <li><router-link to="/nuestro-equipo" class="submenu-link">Nuestro Equipo</router-link></li>
             </ul>
           </li>
           <li class="menu-item dropdown">
             <a href="#" class="menu-link" @click.prevent>Recursos</a>
             <ul class="submenu">
-              <li><router-link to="/tips-y-manuales">Tips y Manuales</router-link></li>
-              <li><router-link to="/preguntas-frecuentes">Preguntas Frecuentes</router-link></li>
+              <li><router-link to="/tips-y-manuales" class="submenu-link">Tips y Manuales</router-link></li>
+              <li><router-link to="/preguntas-frecuentes" class="submenu-link">Preguntas Frecuentes</router-link></li>
             </ul>
           </li>
           <li class="menu-item">
@@ -182,8 +182,8 @@ main {
   position: absolute;
   background-color: #34495e;
   list-style: none;
-  padding: 0.5rem 0;
-  margin-top: 0.5rem;
+  padding: 0.5rem 0; /* Mantenemos el padding interno */
+  margin-top: 0; /* Eliminamos el margen que crea el espacio problemático */
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
@@ -192,7 +192,7 @@ main {
   display: block;
 }
 
-.submenu li a {
+.submenu-link { /* Cambiamos el selector a la nueva clase, más específico y seguro */
   color: white;
   padding: 0.5rem 1rem;
   display: block;
@@ -200,7 +200,7 @@ main {
   transition: background-color 0.3s;
 }
 
-.submenu li a:hover {
+.submenu-link:hover {
   background-color: #46627f;
 }
 
