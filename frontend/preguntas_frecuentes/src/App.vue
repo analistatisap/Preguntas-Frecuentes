@@ -18,7 +18,6 @@
           <li class="menu-item dropdown">
             <a href="#" class="menu-link" @click.prevent>Nosotros</a>
             <ul class="submenu">
-              <li><router-link to="/about" class="submenu-link">Acerca de</router-link></li>
               <li><router-link to="/nuestro-equipo" class="submenu-link">Nuestro Equipo</router-link></li>
             </ul>
           </li>
@@ -51,12 +50,7 @@
 
     <!-- El footer solo se muestra si no estamos en la página de login -->
     <footer class="pie-pagina-corporativo" v-if="!isLoginPage">
-      <p>&copy; 2023 GRUPO DECOR. Todos los derechos reservados.</p>
-      <div class="redes-sociales">
-        <a href="https://www.facebook.com" target="_blank">Facebook</a>
-        <a href="https://www.twitter.com" target="_blank">Twitter</a>
-        <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
-      </div>
+      <p>&copy; 2025 GRUPO DECOR. Todos los derechos reservados.</p>
     </footer>
   </div>
 </template>
