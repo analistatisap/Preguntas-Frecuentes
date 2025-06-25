@@ -3,13 +3,15 @@ import re
 import logging
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
+from django.template.loader import render_to_string
+from django.utils import timezone
 
 
 
@@ -37,27 +39,29 @@ def enviar_correo_api(request):
             if not re.match(r"[^@]+@[^@]+\.[^@]+", correo_remitente):
                 return JsonResponse({'error': 'El correo remitente no tiene un formato válido'}, status=400)
 
-            # Construir el asunto y el cuerpo del correo
+            # Construir el asunto
             asunto = f'Nuevo mensaje de contacto de: {nombre} {apellido}'
-            cuerpo_mensaje = f"""
-            Has recibido un nuevo mensaje de contacto:
 
-            Nombre: {nombre} {apellido}
-            Correo Remitente: {correo_remitente}
+            # Renderizar la plantilla HTML
+            year = timezone.now().year
+            html_content = render_to_string('contacto/correo_contacto.html', {
+                'nombre': nombre,
+                'apellido': apellido,
+                'correo': correo_remitente,
+                'mensaje': mensaje,
+                'year': year
+            })
 
-            Mensaje:
-            {mensaje}
-            """
-
-            # Intentar enviar el correo
+            # Intentar enviar el correo en HTML
             try:
-                send_mail(
+                email = EmailMessage(
                     asunto,
-                    cuerpo_mensaje,
-                    settings.DEFAULT_FROM_EMAIL,  # El correo desde el que Django enviará
-                    [destinatario],
-                    fail_silently=False,
+                    html_content,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [destinatario]
                 )
+                email.content_subtype = 'html'  # Importante para que se envíe como HTML
+                email.send(fail_silently=False)
             except BadHeaderError:
                 return JsonResponse({'error': 'Encabezado de correo inválido'}, status=400)
 

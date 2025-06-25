@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo mensaje de contacto</title>
+    <style>
+        body {
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+        }
+        .header {
+            background: #0056b3;
+            color: #fff;
+            padding: 32px 0 16px 0;
+            text-align: center;
+        }
+        .header img.logo {
+            height: 48px;
+            margin-bottom: 8px;
+        }
+        .header img.robot {
+            height: 60px;
+            margin-bottom: 8px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+        .content {
+            padding: 32px 24px;
+            color: #333;
+        }
+        .content h2 {
+            color: #0056b3;
+            margin-top: 0;
+        }
+        .dato {
+            margin-bottom: 12px;
+        }
+        .dato strong {
+            color: #0056b3;
+        }
+        .footer {
+            background: #f4f4f4;
+            color: #888;
+            text-align: center;
+            padding: 16px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.imgur.com/0y0y0y0.png" alt="Robot saludando" class="robot" />
+            <h1>¡Nuevo mensaje de contacto!</h1>
+            <img src="https://i.imgur.com/1X1X1X1.png" alt="Logo Grupo Decor" class="logo" />
+        </div>
+        <div class="content">
+            <h2>Detalles del mensaje</h2>
+            <div class="dato"><strong>Nombre:</strong> {{ nombre }} {{ apellido }}</div>
+            <div class="dato"><strong>Correo:</strong> {{ correo }}</div>
+            <div class="dato"><strong>Mensaje:</strong><br>{{ mensaje }}</div>
+        </div>
+        <div class="footer">
+            Este correo fue generado automáticamente por el sistema de contacto de Grupo Decor.<br>
+            &copy; {{ year }} Grupo Decor
+        </div>
+    </div>
+</body>
+</html> 
