@@ -1,16 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
-  <!-- Bocadillo de chat principal -->
-  <rect x="12" y="16" rx="18" ry="18" width="56" height="40" fill="#2c3e50"/>
-  <!-- Cola del bocadillo -->
-  <polygon points="36,56 44,56 40,68" fill="#2c3e50"/>
-  <!-- Sombra suave -->
-  <ellipse cx="40" cy="74" rx="18" ry="4" fill="#222" opacity="0.12"/>
-  <!-- Destello tecnológico (círculos y líneas) -->
-  <circle cx="60" cy="24" r="4" fill="#aef1fb"/>
-  <rect x="59" y="28" width="2" height="8" rx="1" fill="#aef1fb"/>
-  <rect x="64" y="22" width="8" height="2" rx="1" fill="#aef1fb"/>
-  <rect x="56" y="18" width="2" height="8" rx="1" fill="#aef1fb"/>
-  <!-- Símbolo de pregunta -->
-  <path d="M40 32 Q40 28 44 28 Q48 28 48 32 Q48 36 44 36 Q40 36 40 40" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  <circle cx="44" cy="44" r="2" fill="#fff"/>
+  <!-- Cabeza ovalada, borde azul -->
+  <ellipse cx="40" cy="26" rx="18" ry="14" fill="#181818" stroke="#2980d9" stroke-width="2.5"/>
+  <!-- Ojos minimalistas -->
+  <ellipse cx="34" cy="26" rx="2" ry="2.5" fill="#aef1fb"/>
+  <ellipse cx="46" cy="26" rx="2" ry="2.5" fill="#aef1fb"/>
+  <!-- Cuerpo ovalado, gris claro -->
+  <ellipse cx="40" cy="52" rx="13" ry="16" fill="#f8f8f8" stroke="#222" stroke-width="2"/>
+  <!-- Detalle en el pecho (línea azul) -->
+  <rect x="37" y="56" width="6" height="2" rx="1" fill="#2980d9"/>
+  <!-- Brazos minimalistas -->
+  <rect x="18" y="44" width="5" height="18" rx="2.5" fill="#222"/>
+  <rect x="57" y="44" width="5" height="18" rx="2.5" fill="#222"/>
+  <!-- Piernas minimalistas -->
+  <rect x="33" y="66" width="4" height="10" rx="2" fill="#222"/>
+  <rect x="43" y="66" width="4" height="10" rx="2" fill="#222"/>
+  <!-- Sombra -->
+  <ellipse cx="40" cy="78" rx="12" ry="2.5" fill="#222" opacity="0.12"/>
 </svg>
