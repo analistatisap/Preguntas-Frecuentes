@@ -34,12 +34,11 @@ export default {
               link: 'https://entregabodega.grupodecor.com/'
             },
              {
-              imagen: '/imagen3.png',
+              imagen: '<i class="fi fi-tr-language-learning-app"></i>',
               titulo: 'GDecorbot',
               descripcion: 'Aquí podrás accder al chatbot para realizar diferentes tramites como descargar desprendibles de pagos entre otros.',
               link: 'https://decorghnet.grupodecor.com:5450/chatbot_decor/'
             },
-            // Puedes añadir más portales web aquí
           ]
         },
         {
@@ -47,24 +46,23 @@ export default {
           portales: [
 
             {
-              imagen: '/imagen3.png', 
+              imagen: '<i class="fi fi-sr-lock"></i>', 
               titulo: 'Gestor claves',
               descripcion: 'Aquí podrás encontrar gestionar las claves del CRM y ERP logon.',
               link: 'https://gestionclavesap.grupodecor.com/'
             },
              {
-              link: <a href="https://www.flaticon.es/iconos-gratis/crm" title="crm iconos">Crm iconos creados por Muhammad Atif - Flaticon</a>,
+              imagen: '/crm.png', // Reemplaza con la ruta de la imagen para SAP GUI
               titulo: 'CRM',
               descripcion: 'Podras ingresar al CRM.',
               link: 'https://decorcrmprd.decorceramica.com:41212/sap(bD1lcyZjPTMwMCZkPW1pbg==)/bc/bsp/sap/crm_ui_start/default.htm?sap-client=300&sap-language=ES' // <-- Pega la URL (quizás un manual) para SAP GUI aquí
             },
              {
-              imagen: '/sap-business-one.png', // Reemplaza con la ruta de la imagen para SAP Business One
+              imagen: '<i class="fi fi-brands-sap"></i>',
               titulo: 'SAP BO',
               descripcion: 'Podras ingresar a Sap BO.',
               link: 'http://bo.decorceramica.com:8080/BOE/BI' // <-- Pega la URL para SAP Business One aquí
             },
-            // Puedes añadir más portales SAP aquí
           ]
         },
         {
@@ -72,18 +70,17 @@ export default {
           portales: [
             // Añade aquí los datos de tus webs corporativas
             {
-              imagen: '/web-corporativa-1.png', // Reemplaza con la ruta de la imagen para la Web Corporativa 1
+              imagen: '<i class="fi fi-tr-customer-care"></i>', // Reemplaza con la ruta de la imagen para la Web Corporativa 1
               titulo: 'Decorcerámica',
               descripcion: 'Portal de clientes Decorceramica.',
               link: 'https://www.decorceramica.com/' // <-- Pega la URL para el Sitio Web Principal aquí
             },
              {
-              imagen: '/intranet.png', // Reemplaza con la ruta de la imagen para la Intranet
+              imagen: '<i class="fi fi-ss-customer-care"></i>', // Reemplaza con la ruta de la imagen para la Intranet
               titulo: 'NovaCasa',
               descripcion: 'Acceso al portal de Novacasa.',
               link: 'https://www.novacasacenter.com/' // <-- Pega la URL para la Intranet aquí
             },
-            // Puedes añadir más webs corporativas aquí
           ]
         }
       ]
