@@ -174,31 +174,61 @@ main {
 }
 
 /* Submenú */
+.dropdown {
+  position: relative;
+}
 .dropdown .submenu {
   display: none;
   position: absolute;
+  left: 0;
+  top: 100%;
   background-color: #34495e;
   list-style: none;
-  padding: 0.5rem 0; /* Mantenemos el padding interno */
-  margin-top: 0; /* Eliminamos el margen que crea el espacio problemático */
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  border-radius: 16px; /* Más redondeado */
+  box-shadow: 0 8px 32px 0 rgba(44, 62, 80, 0.18), 0 1.5px 6px 0 rgba(0,0,0,0.10);
+  min-width: 170px;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(.4,0,.2,1), transform 0.25s cubic-bezier(.4,0,.2,1);
+  z-index: 1001;
 }
-
-.dropdown:hover .submenu {
+.dropdown:hover .submenu,
+.dropdown:focus-within .submenu {
   display: block;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
-
-.submenu-link { /* Cambiamos el selector a la nueva clase, más específico y seguro */
+/* Triángulo indicador */
+.dropdown .submenu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #34495e;
+  filter: drop-shadow(0 2px 2px rgba(44,62,80,0.10));
+}
+.submenu-link {
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1.2rem;
   display: block;
   text-decoration: none;
-  transition: background-color 0.3s;
+  border-radius: 10px;
+  font-size: 1.08rem;
+  transition: background 0.18s, color 0.18s, transform 0.18s;
 }
-
 .submenu-link:hover {
-  background-color: #46627f;
+  background: #1abc9c;
+  color: #fff;
+  transform: scale(1.04);
+  box-shadow: 0 2px 8px rgba(26,188,156,0.10);
 }
 
 /* Acciones de Usuario */
