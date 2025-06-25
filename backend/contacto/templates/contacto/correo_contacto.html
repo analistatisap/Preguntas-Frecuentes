@@ -22,14 +22,22 @@
         .header {
             background: #2c3e50;
             color: #fff;
-            padding: 28px 0 18px 0;
-            text-align: center;
+            padding: 18px 0 18px 0;
+            text-align: left;
+            position: relative;
+        }
+        .header-logo {
+            position: absolute;
+            top: 16px;
+            right: 24px;
+            height: 44px;
         }
         .header h1 {
             margin: 0;
             font-size: 1.3rem;
             font-weight: 500;
             letter-spacing: 1px;
+            padding-left: 28px;
         }
         .content {
             padding: 32px 28px 24px 28px;
@@ -41,17 +49,45 @@
             font-size: 1.1rem;
             font-weight: 600;
         }
+        .datos {
+            margin-top: 18px;
+        }
         .dato {
-            margin-bottom: 16px;
-            padding: 12px 16px;
-            background: #f2f2f2;
-            border-radius: 6px;
+            margin-bottom: 12px;
+            padding: 0;
+            background: none;
+            border-radius: 0;
             font-size: 1rem;
+            border-bottom: 1px solid #f2f2f2;
+            display: flex;
+            align-items: flex-start;
+        }
+        .dato:last-child {
+            border-bottom: none;
         }
         .dato strong {
             color: #2c3e50;
             font-weight: 600;
-            margin-right: 6px;
+            min-width: 90px;
+            display: inline-block;
+        }
+        .dato .dato-valor {
+            color: #222;
+            word-break: break-all;
+        }
+        .dato .dato-valor a {
+            color: #2c3e50;
+            text-decoration: underline;
+        }
+        .mensaje-bloque {
+            background: #f7f7f7;
+            border-radius: 6px;
+            padding: 16px 14px;
+            margin-top: 8px;
+            color: #222;
+            font-size: 1rem;
+            line-height: 1.6;
+            border: 1px solid #ececec;
         }
         .footer {
             background: #f8f8f8;
@@ -71,12 +107,16 @@
     <div class="container">
         <div class="header">
             <h1>Nuevo mensaje de contacto</h1>
+            <img src="https://decorceramica.wpengine.com/portalcliente/public/logo_grupo.jpg" alt="Logo Grupo Decor" class="header-logo" />
         </div>
         <div class="content">
             <h2>Detalles del mensaje</h2>
-            <div class="dato"><strong>Nombre:</strong> {{ nombre }} {{ apellido }}</div>
-            <div class="dato"><strong>Correo:</strong> {{ correo }}</div>
-            <div class="dato"><strong>Mensaje:</strong><br>{{ mensaje }}</div>
+            <div class="datos">
+                <div class="dato"><strong>Nombre:</strong> <span class="dato-valor">{{ nombre }} {{ apellido }}</span></div>
+                <div class="dato"><strong>Correo:</strong> <span class="dato-valor"><a href="mailto:{{ correo }}">{{ correo }}</a></span></div>
+                <div class="dato"><strong>Mensaje:</strong></div>
+                <div class="mensaje-bloque">{{ mensaje }}</div>
+            </div>
         </div>
         <div class="footer">
             Este correo fue generado automáticamente por el sistema de contacto de Grupo Decor.<br>
