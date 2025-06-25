@@ -69,13 +69,13 @@ export default {
           titulo: 'WEBS CORPORATIVAS',
           portales: [
             {
-              imagen: 'portal-clientes-cd.png',
+              imagen: '/portalclientescd.png',
               titulo: 'Decorcerámica',
               descripcion: 'Portal de clientes Decorceramica.',
               link: 'https://www.decorceramica.com/'
             },
              {
-              imagen: 'portal-clientes-nv.png',
+              imagen: '/portalclientesnv.png',
               titulo: 'NovaCasa',
               descripcion: 'Acceso al portal de Novacasa.',
               link: 'https://www.novacasacenter.com/'
