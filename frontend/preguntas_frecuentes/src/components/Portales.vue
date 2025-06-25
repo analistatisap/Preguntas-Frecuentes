@@ -5,57 +5,7 @@
       <div class="portal-container">
         <div class="portal-card" v-for="(portal, portalIndex) in seccion.portales" :key="'portal-' + seccionIndex + '-' + portalIndex">
           <div class="portal-icon-wrapper">
-            <template v-if="portal.titulo.toLowerCase().includes('colaboradores')">
-              <!-- Icono grupo/personas -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
-                <circle cx="24" cy="18" r="5" fill="#223046"/>
-                <circle cx="14" cy="22" r="3" fill="#223046"/>
-                <circle cx="34" cy="22" r="3" fill="#223046"/>
-                <rect x="10" y="28" width="28" height="8" rx="4" fill="#223046"/>
-              </svg>
-            </template>
-            <template v-else-if="portal.titulo.toLowerCase().includes('citas en bodega')">
-              <!-- Icono calendario -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
-                <rect x="8" y="14" width="32" height="26" rx="5" fill="#223046"/>
-                <rect x="8" y="20" width="32" height="4" fill="#fff" opacity="0.15"/>
-                <rect x="14" y="28" width="6" height="6" rx="2" fill="#fff" opacity="0.7"/>
-                <rect x="24" y="28" width="6" height="6" rx="2" fill="#fff" opacity="0.7"/>
-                <rect x="34" y="28" width="6" height="6" rx="2" fill="#fff" opacity="0.7"/>
-              </svg>
-            </template>
-            <template v-else-if="portal.titulo.toLowerCase().includes('gestor') || portal.titulo.toLowerCase().includes('claves') || portal.titulo.toLowerCase().includes('password')">
-              <!-- Icono llave -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
-                <circle cx="16" cy="32" r="6" fill="#223046"/>
-                <rect x="22" y="30" width="14" height="4" rx="2" fill="#223046"/>
-                <rect x="34" y="28" width="6" height="4" rx="2" fill="#223046"/>
-                <circle cx="16" cy="32" r="2" fill="#fff"/>
-              </svg>
-            </template>
-            <template v-else-if="portal.titulo.toLowerCase().includes('crm')">
-              <!-- Icono manos entrelazadas (apretón de manos) -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
-                <path d="M12 30 Q18 36 24 30 Q30 24 36 30" stroke="#223046" stroke-width="3" fill="none" stroke-linecap="round"/>
-                <ellipse cx="18" cy="36" rx="3" ry="2" fill="#223046"/>
-                <ellipse cx="30" cy="36" rx="3" ry="2" fill="#223046"/>
-              </svg>
-            </template>
-            <template v-else-if="portal.titulo.toLowerCase().includes('bo')">
-              <!-- Icono gráfico circular -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
-                <circle cx="24" cy="24" r="12" fill="none" stroke="#223046" stroke-width="4"/>
-                <path d="M24 24 L24 12 A12 12 0 0 1 36 24 Z" fill="#223046"/>
-              </svg>
-            </template>
-            <template v-else-if="portal.titulo.toLowerCase().includes('cuentas')">
-              <!-- Icono billetera/tarjeta -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
-                <rect x="10" y="18" width="28" height="16" rx="4" fill="#223046"/>
-                <rect x="14" y="26" width="8" height="4" rx="2" fill="#fff" opacity="0.7"/>
-              </svg>
-            </template>
-            <img v-else :src="portal.imagen" :alt="portal.alt" class="portal-icon" />
+            <img :src="portal.imagen" :alt="portal.titulo" class="portal-icon" />
           </div>
           <h3>{{ portal.titulo }}</h3>
           <p>{{ portal.descripcion && portal.descripcion.length > 60 ? portal.descripcion.slice(0, 60) + '...' : portal.descripcion }}</p>
@@ -103,7 +53,7 @@ export default {
               link: 'https://gestionclavesap.grupodecor.com/'
             },
              {
-              imagen: '/sap-gui.png', // Reemplaza con la ruta de la imagen para SAP GUI
+              link: <a href="https://www.flaticon.es/iconos-gratis/crm" title="crm iconos">Crm iconos creados por Muhammad Atif - Flaticon</a>,
               titulo: 'CRM',
               descripcion: 'Podras ingresar al CRM.',
               link: 'https://decorcrmprd.decorceramica.com:41212/sap(bD1lcyZjPTMwMCZkPW1pbg==)/bc/bsp/sap/crm_ui_start/default.htm?sap-client=300&sap-language=ES' // <-- Pega la URL (quizás un manual) para SAP GUI aquí
