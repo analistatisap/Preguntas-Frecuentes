@@ -4,10 +4,12 @@
       <h2>{{ seccion.titulo }}</h2>
       <div class="portal-container">
         <div class="portal-card" v-for="(portal, portalIndex) in seccion.portales" :key="'portal-' + seccionIndex + '-' + portalIndex">
-          <img :src="portal.imagen" :alt="portal.alt">
+          <div class="portal-icon-wrapper">
+            <img :src="portal.imagen" :alt="portal.alt" class="portal-icon" />
+          </div>
           <h3>{{ portal.titulo }}</h3>
           <p>{{ portal.descripcion && portal.descripcion.length > 60 ? portal.descripcion.slice(0, 60) + '...' : portal.descripcion }}</p>
-          <button @click="descargarArchivo(portal.link)">INGRESAR</button>
+          <a :href="portal.link" target="_blank" class="portal-link">Acceder <span class="arrow">→</span></a>
         </div>
       </div>
     </div>
@@ -131,50 +133,73 @@ h2 {
 }
 
 .portal-card {
-  background-color: #e0e0e0; /* Un color de tarjeta similar */
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
   overflow: hidden;
-  width: 300px; /* Ajusta el ancho según necesites */
+  width: 320px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Para empujar el botón hacia abajo si es necesario */
+  align-items: center;
+  padding: 2rem 1.2rem 1.2rem 1.2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  transition: box-shadow 0.2s;
 }
 
-.portal-card img {
+.portal-card:hover {
+  box-shadow: 0 8px 24px rgba(41,128,217,0.18), 0 1.5px 6px rgba(44,62,80,0.10);
+}
+
+.portal-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: auto;
-  display: block;
+  margin-bottom: 1.2rem;
+}
+
+.portal-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: grayscale(100%) brightness(0.3) sepia(1) hue-rotate(-20deg) saturate(4);
 }
 
 .portal-card h3 {
-  color: #333;
-  padding: 1rem;
-  margin-bottom: 0.5rem; /* Espacio reducido */
+  color: #223046;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
   text-align: center;
 }
 
 .portal-card p {
   color: #555;
-  padding: 0 1rem; /* Ajuste de padding */
-  margin-top: 0;
-  text-align: center;
-  flex-grow: 1; /* Permite que el párrafo ocupe espacio flexible */
-}
-
-.portal-card button {
-  background-color: #28a745; /* Un color verde para indicar acción */
-  color: white;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  cursor: pointer;
   font-size: 1rem;
-  border-radius: 0 0 8px 8px;
-  transition: background-color 0.3s ease;
-  width: 100%; /* Asegura que el botón ocupe todo el ancho inferior */
+  margin: 0 0 1.2rem 0;
+  text-align: center;
+  flex-grow: 1;
 }
 
-.portal-card button:hover {
-  background-color: #1e7e34;
+.portal-link {
+  display: flex;
+  align-items: center;
+  color: #223046;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 1.05rem;
+  margin-top: auto;
+  margin-left: 0;
+  transition: color 0.2s;
+}
+
+.portal-link:hover {
+  color: #2980d9;
+}
+
+.arrow {
+  font-size: 1.2em;
+  margin-left: 0.3em;
 }
 </style>
