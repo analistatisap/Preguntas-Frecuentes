@@ -228,19 +228,19 @@ export default {
 }
 
 .imagen-tip img {
-  max-width: 100%; /* Asegura que la imagen no se salga del contenedor */
-  max-height: 100%; /* Asegura que la imagen no se salga del contenedor */
+  max-width: 100%;
+  max-height: 100%;
   display: block;
-  object-fit: contain; /* Asegura que la imagen se ajuste sin distorsionarse */
-  transition: transform 0.3s ease-in-out; /* Transición para el efecto de escala */
+  object-fit: contain;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1), border 0.3s cubic-bezier(.4,0,.2,1);
 }
 
 /* Efecto de escala en la imagen del tip al pasar el mouse sobre el cuadro */
 .cuadro-tip:hover .imagen-tip img {
-    transform: scale(1.25); /* Más zoom */
-    box-shadow: 0 8px 24px rgba(41,128,217,0.18), 0 1.5px 6px rgba(44,62,80,0.10);
-    border: 2.5px solid #2980d9;
-    z-index: 2;
+  transform: scale(1.25);
+  box-shadow: 0 8px 24px rgba(41,128,217,0.18), 0 1.5px 6px rgba(44,62,80,0.10);
+  border: 2.5px solid #2980d9;
+  z-index: 2;
 }
 
 .manual-desc {
