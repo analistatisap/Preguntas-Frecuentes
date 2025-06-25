@@ -12,8 +12,25 @@
       </div>
       <!-- Columna de imagen -->
       <div class="col-md-6 text-center">
-        <img src="/fotosNE/robot_moderno.png" alt="Robot moderno" class="img-fluid mb-3" style="max-height: 220px;" />
-        <img src="/fotosNE/celular_moderno.png" alt="Celular moderno" class="img-fluid" style="max-height: 220px;" />
+        <div class="animated-gradient rounded-3 d-flex flex-column align-items-center justify-content-center" style="height: 220px;">
+          <!-- Icono Robot SVG -->
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="8" width="16" height="10" rx="4" fill="#fff" stroke="#333" stroke-width="2"/>
+            <circle cx="8" cy="13" r="1.5" fill="#333"/>
+            <circle cx="16" cy="13" r="1.5" fill="#333"/>
+            <rect x="10" y="2" width="4" height="6" rx="2" fill="#333"/>
+            <rect x="2" y="10" width="2" height="4" rx="1" fill="#333"/>
+            <rect x="20" y="10" width="2" height="4" rx="1" fill="#333"/>
+          </svg>
+          <!-- Espacio -->
+          <div style="height: 16px;"></div>
+          <!-- Icono Celular SVG -->
+          <svg width="50" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="2" width="12" height="20" rx="3" fill="#fff" stroke="#333" stroke-width="2"/>
+            <rect x="10" y="18" width="4" height="2" rx="1" fill="#333"/>
+            <rect x="9" y="4" width="6" height="10" rx="2" fill="#e0e0e0"/>
+          </svg>
+        </div>
       </div>
     </div>
   </div>
@@ -145,5 +162,16 @@ const entornos = [
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr); /* O podrías usar 'auto' si quieres que la altura dependa del contenido */
   }
+}
+
+.animated-gradient {
+  background: linear-gradient(270deg, #e0eafc, #cfdef3, #e0eafc, #cfdef3);
+  background-size: 400% 400%;
+  animation: gradientMove 6s ease-in-out infinite;
+}
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 </style>
