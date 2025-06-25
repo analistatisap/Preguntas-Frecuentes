@@ -34,7 +34,7 @@ export default {
               link: 'https://entregabodega.grupodecor.com/'
             },
              {
-              imagen: '<i class="fi fi-tr-language-learning-app"</i>',
+              imagen: '/aplicacionchat"</i>',
               titulo: 'GDecorbot',
               descripcion: 'Aquí podrás accder al chatbot para realizar diferentes tramites como descargar desprendibles de pagos entre otros',
               link: 'https://decorghnet.grupodecor.com:5450/chatbot_decor/'
@@ -46,40 +46,39 @@ export default {
           portales: [
 
             {
-              imagen: '<i class="fi fi-sr-lock"</i>', 
+              imagen: '/cerrar', 
               titulo: 'Gestor claves',
               descripcion: 'Aquí podrás encontrar gestionar las claves del CRM y ERP logon.',
               link: 'https://gestionclavesap.grupodecor.com/'
             },
              {
-              imagen: '/crm.png', // Reemplaza con la ruta de la imagen para SAP GUI
+              imagen: '/crm.png', 
               titulo: 'CRM',
               descripcion: 'Podras ingresar al CRM.',
               link: 'https://decorcrmprd.decorceramica.com:41212/sap(bD1lcyZjPTMwMCZkPW1pbg==)/bc/bsp/sap/crm_ui_start/default.htm?sap-client=300&sap-language=ES' // <-- Pega la URL (quizás un manual) para SAP GUI aquí
             },
              {
-              imagen: '<i class="fi fi-brands-sap"</i>',
+              imagen: 'datos.png',
               titulo: 'SAP BO',
               descripcion: 'Podras ingresar a Sap BO.',
-              link: 'http://bo.decorceramica.com:8080/BOE/BI' // <-- Pega la URL para SAP Business One aquí
+              link: 'http://bo.decorceramica.com:8080/BOE/BI'
             },
           ]
         },
         {
           titulo: 'WEBS CORPORATIVAS',
           portales: [
-            // Añade aquí los datos de tus webs corporativas
             {
-              imagen: '<i class="fi fi-tr-customer-care"</i>', // Reemplaza con la ruta de la imagen para la Web Corporativa 1
+              imagen: 'portal-clientes-cd',
               titulo: 'Decorcerámica',
               descripcion: 'Portal de clientes Decorceramica.',
-              link: 'https://www.decorceramica.com/' // <-- Pega la URL para el Sitio Web Principal aquí
+              link: 'https://www.decorceramica.com/'
             },
              {
-              imagen: '<i class="fi fi-ss-customer-care"</i>', // Reemplaza con la ruta de la imagen para la Intranet
+              imagen: 'portal-clientes-nv',
               titulo: 'NovaCasa',
               descripcion: 'Acceso al portal de Novacasa.',
-              link: 'https://www.novacasacenter.com/' // <-- Pega la URL para la Intranet aquí
+              link: 'https://www.novacasacenter.com/'
             },
           ]
         }
@@ -102,18 +101,17 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f4f4f4; /* Un fondo similar al de la imagen */
+  background-color: #f4f4f4;
 }
 
 h2 {
   color: #333;
-  margin-top: 2rem; /* Añadir espacio arriba para el segundo título */
+  margin-top: 2rem;
   margin-bottom: 1.5rem;
-  text-align: center; /* Centrar el título */
-  width: 100%; /* Asegurar que ocupe el ancho para centrar */
+  text-align: center; 
+  width: 100%; 
 }
 
-/* Aseguramos que el primer h2 no tenga margin-top si es el primero */
 .portales-page > div:first-child h2 {
     margin-top: 0;
 }
