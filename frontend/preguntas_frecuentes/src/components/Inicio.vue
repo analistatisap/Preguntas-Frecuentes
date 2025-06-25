@@ -1,19 +1,18 @@
 <template>
   <div class="container my-5">
-    <div class="text-center mb-5">
-      <img src="/logo.png" alt="Logo" width="80" class="mb-3" />
-      <h1 class="fw-bold">Autogestión de Cuentas</h1>
-      <p class="lead">Seleccione el entorno en el que desea realizar la gestión</p>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-md-4 mb-4" v-for="entorno in entornos" :key="entorno.titulo">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i :class="entorno.icono" style="font-size: 3rem; color: #2c3e50;"></i>
-            <h5 class="card-title mt-3 fw-bold">{{ entorno.titulo }}</h5>
-            <p class="card-text">{{ entorno.descripcion }}</p>
-          </div>
+    <div class="row align-items-center justify-content-center">
+      <!-- Columna de texto -->
+      <div class="col-md-6 mb-4 mb-md-0">
+        <div class="p-4 rounded-3 bg-white shadow-sm">
+          <h2 class="mb-3">¿Sabías que…</h2>
+          <p class="lead">
+            A través de este portal podrás obtener material de utilidad para el óptimo desarrollo de tus procesos?
+          </p>
         </div>
+      </div>
+      <!-- Columna de imagen -->
+      <div class="col-md-6 text-center">
+        <img src="@/assets/robot_celular.png" alt="Robot y celular" class="img-fluid" style="max-height: 350px;" />
       </div>
     </div>
   </div>
