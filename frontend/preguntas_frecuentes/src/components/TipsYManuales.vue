@@ -237,7 +237,10 @@ export default {
 
 /* Efecto de escala en la imagen del tip al pasar el mouse sobre el cuadro */
 .cuadro-tip:hover .imagen-tip img {
-    transform: scale(1.1);
+    transform: scale(1.25); /* Más zoom */
+    box-shadow: 0 8px 24px rgba(41,128,217,0.18), 0 1.5px 6px rgba(44,62,80,0.10);
+    border: 2.5px solid #2980d9;
+    z-index: 2;
 }
 
 .manual-desc {
