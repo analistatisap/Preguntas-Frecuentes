@@ -24,8 +24,8 @@ services:
       context: ./frontend/preguntas_frecuentes
       dockerfile: Containerfile
     container_name: vue_frontend
-    volumes:
-      - ./frontend/preguntas_frecuentes:/app 
+    #volumes:
+     # - ./frontend/preguntas_frecuentes:/app 
     ports:
       - "3000:80"
     depends_on: # Si tu frontend necesita del backend para correr (lo más probable)
