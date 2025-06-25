@@ -36,7 +36,7 @@ export default {
              {
               imagen: '<i class="fi fi-tr-language-learning-app"</i>',
               titulo: 'GDecorbot',
-              descripcion: 'Aquí podrás accder al chatbot para realizar diferentes tramites como descargar desprendibles de pagos entre otros.',
+              descripcion: 'Aquí podrás accder al chatbot para realizar diferentes tramites como descargar desprendibles de pagos entre otros',
               link: 'https://decorghnet.grupodecor.com:5450/chatbot_decor/'
             },
           ]
