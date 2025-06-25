@@ -51,6 +51,9 @@ export default {
 
         if (response.ok) { // Status 200-299
           const data = await response.json();
+          // Guardar el token si viene en la respuesta
+          if (data.access) localStorage.setItem('access', data.access);
+          if (data.refresh) localStorage.setItem('refresh', data.refresh);
           // Guardar la información del usuario en localStorage para mantener la sesión
           localStorage.setItem('user', JSON.stringify(data.user));
           // Redirigir a la página de inicio
