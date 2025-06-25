@@ -12,7 +12,8 @@
       </div>
       <!-- Columna de imagen -->
       <div class="col-md-6 text-center">
-        <img src="@/assets/robot_celular.png" alt="Robot y celular" class="img-fluid" style="max-height: 350px;" />
+        <img src="https://cdn.pixabay.com/photo/2017/01/31/13/14/robot-2027195_1280.png" alt="Robot moderno" class="img-fluid mb-3" style="max-height: 220px;" />
+        <img src="https://cdn.pixabay.com/photo/2017/01/10/19/05/smartphone-1976101_1280.png" alt="Celular moderno" class="img-fluid" style="max-height: 220px;" />
       </div>
     </div>
   </div>
