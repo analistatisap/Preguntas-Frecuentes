@@ -5,7 +5,19 @@
       <div class="portal-container">
         <div class="portal-card" v-for="(portal, portalIndex) in seccion.portales" :key="'portal-' + seccionIndex + '-' + portalIndex">
           <div class="portal-icon-wrapper">
-            <img :src="portal.imagen" :alt="portal.alt" class="portal-icon" />
+            <template v-if="portal.titulo.toLowerCase().includes('citas en bodega')">
+              <!-- Icono SVG de camión -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
+                <g>
+                  <rect x="4" y="18" width="22" height="12" rx="2" fill="#223046"/>
+                  <rect x="26" y="22" width="14" height="8" rx="2" fill="#223046"/>
+                  <rect x="34" y="18" width="6" height="4" rx="1" fill="#223046"/>
+                  <circle cx="12" cy="32" r="3" fill="#223046"/>
+                  <circle cx="34" cy="32" r="3" fill="#223046"/>
+                </g>
+              </svg>
+            </template>
+            <img v-else :src="portal.imagen" :alt="portal.alt" class="portal-icon" />
           </div>
           <h3>{{ portal.titulo }}</h3>
           <p>{{ portal.descripcion && portal.descripcion.length > 60 ? portal.descripcion.slice(0, 60) + '...' : portal.descripcion }}</p>
