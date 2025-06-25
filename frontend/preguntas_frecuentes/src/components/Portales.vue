@@ -5,8 +5,17 @@
       <div class="portal-container">
         <div class="portal-card" v-for="(portal, portalIndex) in seccion.portales" :key="'portal-' + seccionIndex + '-' + portalIndex">
           <div class="portal-icon-wrapper">
-            <template v-if="portal.titulo.toLowerCase().includes('citas en bodega')">
-              <!-- Icono SVG de camión elegante -->
+            <template v-if="portal.titulo.toLowerCase().includes('colaboradores')">
+              <!-- Icono grupo/personas -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
+                <circle cx="24" cy="18" r="5" fill="#223046"/>
+                <circle cx="14" cy="22" r="3" fill="#223046"/>
+                <circle cx="34" cy="22" r="3" fill="#223046"/>
+                <rect x="10" y="28" width="28" height="8" rx="4" fill="#223046"/>
+              </svg>
+            </template>
+            <template v-else-if="portal.titulo.toLowerCase().includes('citas en bodega')">
+              <!-- Icono camión elegante -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
                 <g>
                   <!-- Cabina del camión -->
@@ -21,6 +30,36 @@
                   <!-- Detalle de sombra bajo el camión -->
                   <ellipse cx="24" cy="38" rx="12" ry="2" fill="#223046" opacity="0.10"/>
                 </g>
+              </svg>
+            </template>
+            <template v-else-if="portal.titulo.toLowerCase().includes('movilidad') || portal.titulo.toLowerCase().includes('intiva')">
+              <!-- Icono candado -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
+                <rect x="14" y="22" width="20" height="14" rx="4" fill="#223046"/>
+                <rect x="18" y="16" width="12" height="8" rx="6" fill="none" stroke="#223046" stroke-width="2"/>
+                <circle cx="24" cy="30" r="2" fill="#fff"/>
+              </svg>
+            </template>
+            <template v-else-if="portal.titulo.toLowerCase().includes('crm')">
+              <!-- Icono persona/corbata -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
+                <circle cx="24" cy="16" r="6" fill="#223046"/>
+                <rect x="16" y="26" width="16" height="10" rx="5" fill="#223046"/>
+                <polygon points="24,22 22,32 26,32" fill="#fff"/>
+              </svg>
+            </template>
+            <template v-else-if="portal.titulo.toLowerCase().includes('bo')">
+              <!-- Icono gráfico circular -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
+                <circle cx="24" cy="24" r="12" fill="none" stroke="#223046" stroke-width="4"/>
+                <path d="M24 24 L24 12 A12 12 0 0 1 36 24 Z" fill="#223046"/>
+              </svg>
+            </template>
+            <template v-else-if="portal.titulo.toLowerCase().includes('gestor') || portal.titulo.toLowerCase().includes('cuentas')">
+              <!-- Icono billetera/tarjeta -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
+                <rect x="10" y="18" width="28" height="16" rx="4" fill="#223046"/>
+                <rect x="14" y="26" width="8" height="4" rx="2" fill="#fff" opacity="0.7"/>
               </svg>
             </template>
             <img v-else :src="portal.imagen" :alt="portal.alt" class="portal-icon" />
@@ -52,7 +91,7 @@ export default {
               link: 'https://entregabodega.grupodecor.com/'
             },
              {
-              imagen: '/imagen3.png', // Reemplaza con la ruta de tu imagen
+              imagen: '/imagen3.png',
               titulo: 'GDecorbot',
               descripcion: 'Aquí podrás accder al chatbot para realizar diferentes tramites como descargar desprendibles de pagos entre otros.',
               link: 'https://decorghnet.grupodecor.com:5450/chatbot_decor/'
@@ -63,10 +102,9 @@ export default {
         {
           titulo: 'PORTALES SAP',
           portales: [
-            // Añade aquí los datos de tus portales SAP
 
             {
-              imagen: '/imagen3.png', // Reemplaza con la ruta de tu imagen
+              imagen: '/imagen3.png', 
               titulo: 'Gestor claves',
               descripcion: 'Aquí podrás encontrar gestionar las claves del CRM y ERP logon.',
               link: 'https://gestionclavesap.grupodecor.com/'
