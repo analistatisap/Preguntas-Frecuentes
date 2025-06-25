@@ -34,7 +34,7 @@ export default {
               link: 'https://entregabodega.grupodecor.com/'
             },
              {
-              imagen: '/aplicacionchat"</i>',
+              imagen: '/aplicacionchat.png',
               titulo: 'GDecorbot',
               descripcion: 'Aquí podrás accder al chatbot para realizar diferentes tramites como descargar desprendibles de pagos entre otros',
               link: 'https://decorghnet.grupodecor.com:5450/chatbot_decor/'
@@ -46,7 +46,7 @@ export default {
           portales: [
 
             {
-              imagen: '/cerrar', 
+              imagen: '/cerrar.png', 
               titulo: 'Gestor claves',
               descripcion: 'Aquí podrás encontrar gestionar las claves del CRM y ERP logon.',
               link: 'https://gestionclavesap.grupodecor.com/'
@@ -69,13 +69,13 @@ export default {
           titulo: 'WEBS CORPORATIVAS',
           portales: [
             {
-              imagen: 'portal-clientes-cd',
+              imagen: 'portal-clientes-cd.png',
               titulo: 'Decorcerámica',
               descripcion: 'Portal de clientes Decorceramica.',
               link: 'https://www.decorceramica.com/'
             },
              {
-              imagen: 'portal-clientes-nv',
+              imagen: 'portal-clientes-nv.png',
               titulo: 'NovaCasa',
               descripcion: 'Acceso al portal de Novacasa.',
               link: 'https://www.novacasacenter.com/'
