@@ -6,14 +6,20 @@
         <div class="portal-card" v-for="(portal, portalIndex) in seccion.portales" :key="'portal-' + seccionIndex + '-' + portalIndex">
           <div class="portal-icon-wrapper">
             <template v-if="portal.titulo.toLowerCase().includes('citas en bodega')">
-              <!-- Icono SVG de camión -->
+              <!-- Icono SVG de camión elegante -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
                 <g>
-                  <rect x="4" y="18" width="22" height="12" rx="2" fill="#223046"/>
-                  <rect x="26" y="22" width="14" height="8" rx="2" fill="#223046"/>
-                  <rect x="34" y="18" width="6" height="4" rx="1" fill="#223046"/>
-                  <circle cx="12" cy="32" r="3" fill="#223046"/>
-                  <circle cx="34" cy="32" r="3" fill="#223046"/>
+                  <!-- Cabina del camión -->
+                  <rect x="6" y="20" width="18" height="10" rx="3" fill="#223046"/>
+                  <!-- Caja del camión -->
+                  <rect x="24" y="16" width="14" height="14" rx="3" fill="#223046"/>
+                  <!-- Ventana de la cabina -->
+                  <rect x="10" y="22" width="6" height="5" rx="1.5" fill="#fff" opacity="0.7"/>
+                  <!-- Ruedas -->
+                  <circle cx="14" cy="34" r="3" fill="#223046"/>
+                  <circle cx="32" cy="34" r="3" fill="#223046"/>
+                  <!-- Detalle de sombra bajo el camión -->
+                  <ellipse cx="24" cy="38" rx="12" ry="2" fill="#223046" opacity="0.10"/>
                 </g>
               </svg>
             </template>
