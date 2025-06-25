@@ -15,37 +15,30 @@
               </svg>
             </template>
             <template v-else-if="portal.titulo.toLowerCase().includes('citas en bodega')">
-              <!-- Icono camión elegante -->
+              <!-- Icono calendario -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
-                <g>
-                  <!-- Cabina del camión -->
-                  <rect x="6" y="20" width="18" height="10" rx="3" fill="#223046"/>
-                  <!-- Caja del camión -->
-                  <rect x="24" y="16" width="14" height="14" rx="3" fill="#223046"/>
-                  <!-- Ventana de la cabina -->
-                  <rect x="10" y="22" width="6" height="5" rx="1.5" fill="#fff" opacity="0.7"/>
-                  <!-- Ruedas -->
-                  <circle cx="14" cy="34" r="3" fill="#223046"/>
-                  <circle cx="32" cy="34" r="3" fill="#223046"/>
-                  <!-- Detalle de sombra bajo el camión -->
-                  <ellipse cx="24" cy="38" rx="12" ry="2" fill="#223046" opacity="0.10"/>
-                </g>
+                <rect x="8" y="14" width="32" height="26" rx="5" fill="#223046"/>
+                <rect x="8" y="20" width="32" height="4" fill="#fff" opacity="0.15"/>
+                <rect x="14" y="28" width="6" height="6" rx="2" fill="#fff" opacity="0.7"/>
+                <rect x="24" y="28" width="6" height="6" rx="2" fill="#fff" opacity="0.7"/>
+                <rect x="34" y="28" width="6" height="6" rx="2" fill="#fff" opacity="0.7"/>
               </svg>
             </template>
-            <template v-else-if="portal.titulo.toLowerCase().includes('movilidad') || portal.titulo.toLowerCase().includes('intiva')">
-              <!-- Icono candado -->
+            <template v-else-if="portal.titulo.toLowerCase().includes('gestor') || portal.titulo.toLowerCase().includes('claves') || portal.titulo.toLowerCase().includes('password')">
+              <!-- Icono llave -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
-                <rect x="14" y="22" width="20" height="14" rx="4" fill="#223046"/>
-                <rect x="18" y="16" width="12" height="8" rx="6" fill="none" stroke="#223046" stroke-width="2"/>
-                <circle cx="24" cy="30" r="2" fill="#fff"/>
+                <circle cx="16" cy="32" r="6" fill="#223046"/>
+                <rect x="22" y="30" width="14" height="4" rx="2" fill="#223046"/>
+                <rect x="34" y="28" width="6" height="4" rx="2" fill="#223046"/>
+                <circle cx="16" cy="32" r="2" fill="#fff"/>
               </svg>
             </template>
             <template v-else-if="portal.titulo.toLowerCase().includes('crm')">
-              <!-- Icono persona/corbata -->
+              <!-- Icono manos entrelazadas (apretón de manos) -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
-                <circle cx="24" cy="16" r="6" fill="#223046"/>
-                <rect x="16" y="26" width="16" height="10" rx="5" fill="#223046"/>
-                <polygon points="24,22 22,32 26,32" fill="#fff"/>
+                <path d="M12 30 Q18 36 24 30 Q30 24 36 30" stroke="#223046" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <ellipse cx="18" cy="36" rx="3" ry="2" fill="#223046"/>
+                <ellipse cx="30" cy="36" rx="3" ry="2" fill="#223046"/>
               </svg>
             </template>
             <template v-else-if="portal.titulo.toLowerCase().includes('bo')">
@@ -55,7 +48,7 @@
                 <path d="M24 24 L24 12 A12 12 0 0 1 36 24 Z" fill="#223046"/>
               </svg>
             </template>
-            <template v-else-if="portal.titulo.toLowerCase().includes('gestor') || portal.titulo.toLowerCase().includes('cuentas')">
+            <template v-else-if="portal.titulo.toLowerCase().includes('cuentas')">
               <!-- Icono billetera/tarjeta -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="portal-icon">
                 <rect x="10" y="18" width="28" height="16" rx="4" fill="#223046"/>
