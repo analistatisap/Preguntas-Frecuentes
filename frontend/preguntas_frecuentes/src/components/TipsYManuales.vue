@@ -77,7 +77,13 @@ export default {
     },
     async fetchManuales() {
       try {
-        const res = await fetch(`${this.backendUrl}/api/recursos/manuales/`);
+        const token = localStorage.getItem('access');
+        const res = await fetch(`${this.backendUrl}/api/recursos/manuales/`, {
+          headers: {
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+            'Content-Type': 'application/json'
+          }
+        });
         if (!res.ok) throw new Error('Error al obtener manuales');
         this.manuales = await res.json();
       } catch (e) {
@@ -86,7 +92,13 @@ export default {
     },
     async fetchTips() {
       try {
-        const res = await fetch(`${this.backendUrl}/api/recursos/tips/`);
+        const token = localStorage.getItem('access');
+        const res = await fetch(`${this.backendUrl}/api/recursos/tips/`, {
+          headers: {
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+            'Content-Type': 'application/json'
+          }
+        });
         if (!res.ok) throw new Error('Error al obtener tips');
         this.tips = await res.json();
       } catch (e) {
