@@ -1,26 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
   <g>
     <!-- Cabeza -->
-    <rect x="20" y="10" width="40" height="28" rx="14" fill="#3b4a5a"/>
+    <rect x="22" y="10" width="36" height="24" rx="12" fill="#2c3e50"/>
     <!-- Antena -->
-    <rect x="38" y="2" width="4" height="10" rx="2" fill="#41b883"/>
-    <circle cx="40" cy="2" r="3" fill="#41b883"/>
-    <!-- Ojos (con animación de parpadeo) -->
-    <ellipse id="eye-left" cx="32" cy="24" rx="4" ry="4" fill="#fff">
-      <animate attributeName="ry" values="4;1;4" keyTimes="0;0.5;1" dur="2s" repeatCount="indefinite"/>
+    <rect x="38" y="2" width="4" height="8" rx="2" fill="#222222"/>
+    <circle cx="40" cy="2" r="2.5" fill="#ffffff" stroke="#222222" stroke-width="1"/>
+    <!-- Ojos (animados) -->
+    <ellipse cx="32" cy="22" rx="3.5" ry="3.5" fill="#fff">
+      <animate attributeName="ry" values="3.5;1;3.5" keyTimes="0;0.5;1" dur="2s" repeatCount="indefinite"/>
     </ellipse>
-    <ellipse id="eye-right" cx="48" cy="24" rx="4" ry="4" fill="#fff">
-      <animate attributeName="ry" values="4;1;4" keyTimes="0;0.5;1" dur="2s" begin="1s" repeatCount="indefinite"/>
+    <ellipse cx="48" cy="22" rx="3.5" ry="3.5" fill="#fff">
+      <animate attributeName="ry" values="3.5;1;3.5" keyTimes="0;0.5;1" dur="2s" begin="1s" repeatCount="indefinite"/>
     </ellipse>
     <!-- Boca -->
-    <rect x="34" y="32" width="12" height="3" rx="1.5" fill="#41b883"/>
+    <rect x="35" y="28" width="10" height="2.5" rx="1.25" fill="#ffffff"/>
     <!-- Cuerpo -->
-    <rect x="28" y="38" width="24" height="22" rx="8" fill="#34495e"/>
+    <rect x="28" y="36" width="24" height="22" rx="8" fill="#222222"/>
     <!-- Brazos -->
-    <rect x="14" y="44" width="10" height="6" rx="3" fill="#41b883"/>
-    <rect x="56" y="44" width="10" height="6" rx="3" fill="#41b883"/>
+    <rect x="12" y="44" width="10" height="6" rx="3" fill="#2c3e50"/>
+    <rect x="58" y="44" width="10" height="6" rx="3" fill="#2c3e50"/>
     <!-- Piernas -->
-    <rect x="32" y="60" width="6" height="12" rx="3" fill="#3b4a5a"/>
-    <rect x="42" y="60" width="6" height="12" rx="3" fill="#3b4a5a"/>
+    <rect x="32" y="58" width="6" height="12" rx="3" fill="#181818"/>
+    <rect x="42" y="58" width="6" height="12" rx="3" fill="#181818"/>
+    <!-- Detalles -->
+    <circle cx="40" cy="48" r="4" fill="#fff" stroke="#2c3e50" stroke-width="1"/>
   </g>
 </svg>
