@@ -12,24 +12,14 @@
       </div>
       <!-- Columna de imagen -->
       <div class="col-md-6 text-center">
-        <div class="animated-gradient rounded-3 d-flex flex-column align-items-center justify-content-center" style="height: 220px;">
-          <!-- Icono Robot SVG -->
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4" y="8" width="16" height="10" rx="4" fill="#fff" stroke="#333" stroke-width="2"/>
-            <circle cx="8" cy="13" r="1.5" fill="#333"/>
-            <circle cx="16" cy="13" r="1.5" fill="#333"/>
-            <rect x="10" y="2" width="4" height="6" rx="2" fill="#333"/>
-            <rect x="2" y="10" width="2" height="4" rx="1" fill="#333"/>
-            <rect x="20" y="10" width="2" height="4" rx="1" fill="#333"/>
+        <div class="glass-animated d-flex flex-column align-items-center justify-content-center">
+          <!-- Icono SVG animado con pulso -->
+          <svg class="pulse-icon" width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" fill="#fff" fill-opacity="0.7"/>
+            <path d="M8 13l2-2 2 2 4-4" stroke="#4f8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="6" fill="#4f8cff" fill-opacity="0.15"/>
           </svg>
-          <!-- Espacio -->
-          <div style="height: 16px;"></div>
-          <!-- Icono Celular SVG -->
-          <svg width="50" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="6" y="2" width="12" height="20" rx="3" fill="#fff" stroke="#333" stroke-width="2"/>
-            <rect x="10" y="18" width="4" height="2" rx="1" fill="#333"/>
-            <rect x="9" y="4" width="6" height="10" rx="2" fill="#e0e0e0"/>
-          </svg>
+          <span class="glass-text mt-3">¡Bienvenido!</span>
         </div>
       </div>
     </div>
@@ -164,14 +154,39 @@ const entornos = [
   }
 }
 
-.animated-gradient {
-  background: linear-gradient(270deg, #e0eafc, #cfdef3, #e0eafc, #cfdef3);
-  background-size: 400% 400%;
-  animation: gradientMove 6s ease-in-out infinite;
+.glass-animated {
+  width: 100%;
+  max-width: 320px;
+  height: 220px;
+  margin: 0 auto;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  background: linear-gradient(135deg, rgba(79,140,255,0.25) 0%, rgba(255,255,255,0.35) 100%);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  position: relative;
+  overflow: hidden;
+  animation: glassGradientMove 8s ease-in-out infinite;
 }
-@keyframes gradientMove {
+@keyframes glassGradientMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+.pulse-icon {
+  animation: pulse 1.8s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+@keyframes pulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 #4f8cff44); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 16px #4f8cff88); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 0 #4f8cff44); }
+}
+.glass-text {
+  color: #4f8cff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #fff8;
 }
 </style>
