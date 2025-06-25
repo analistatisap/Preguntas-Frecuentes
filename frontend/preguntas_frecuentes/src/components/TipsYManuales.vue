@@ -13,17 +13,17 @@
         <div class="icono-manual">
           <!-- Si tiene archivo, muestra el botón de descarga -->
           <a v-if="manual.archivo" :href="getManualUrl(manual.archivo)" target="_blank" class="manual-icon-link">
-            <img src="/imgtipsymanuales/ofertas.png" :alt="manual.titulo">
+            <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
             <span>Descargar</span>
           </a>
           <!-- Si no tiene archivo pero la descripción parece un link, muestra el link -->
           <a v-else-if="isUrl(manual.descripcion)" :href="manual.descripcion" target="_blank" class="manual-icon-link">
-            <img src="/imgtipsymanuales/ofertas.png" :alt="manual.titulo">
+            <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
             <span>Ver Link</span>
           </a>
           <!-- Si no tiene archivo ni link, solo muestra el icono -->
           <div v-else>
-            <img src="/imgtipsymanuales/ofertas.png" :alt="manual.titulo">
+            <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
           </div>
         </div>
         <p v-if="manual.descripcion && !isUrl(manual.descripcion)" class="manual-desc">{{ manual.descripcion }}</p>
@@ -74,6 +74,31 @@ export default {
     },
     isUrl(text) {
       return /^https?:\/\//.test(text);
+    },
+    getManualIcon(titulo) {
+      const t = titulo.toLowerCase();
+      if (t.includes('pdf')) return '/imgtipsymanuales/libro.png';
+      if (t.includes('sap')) return '/imgtipsymanuales/engranaje.png';
+      if (t.includes('guía') || t.includes('guia')) return '/imgtipsymanuales/libro.png';
+      if (t.includes('política') || t.includes('politica')) return '/imgtipsymanuales/candado.png';
+      if (t.includes('factura')) return '/imgtipsymanuales/facturas.png';
+      if (t.includes('cliente')) return '/imgtipsymanuales/clientes.png';
+      if (t.includes('pedido')) return '/imgtipsymanuales/pedidos.png';
+      if (t.includes('entrega')) return '/imgtipsymanuales/entregas.png';
+      if (t.includes('movilidad')) return '/imgtipsymanuales/movilidad.png';
+      if (t.includes('caja')) return '/imgtipsymanuales/caja-general.png';
+      // ...agrega más casos según tus imágenes...
+      return '/imgtipsymanuales/libro.png'; // genérico
+    },
+    getPortalIcon(titulo, descripcion) {
+      const t = (titulo + ' ' + (descripcion || '')).toLowerCase();
+      if (t.includes('web')) return '/imgtipsymanuales/nube.png';
+      if (t.includes('seguro') || t.includes('privado')) return '/imgtipsymanuales/candado.png';
+      if (t.includes('clientes')) return '/imgtipsymanuales/clientes.png';
+      if (t.includes('exportación') || t.includes('exportacion')) return '/imgtipsymanuales/oferta-exportacion.png';
+      if (t.includes('portal')) return '/imgtipsymanuales/portal-clientes-cd.png';
+      // ...agrega más casos según tus imágenes...
+      return '/imgtipsymanuales/nube.png'; // genérico
     },
     async fetchManuales() {
       try {
