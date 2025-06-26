@@ -13,11 +13,9 @@
         <div class="icono-manual">
           <a v-if="manual.archivo" :href="getManualUrl(manual.archivo)" target="_blank" class="manual-icon-link">
             <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
-            <span>Descargar</span>
           </a>
           <a v-else-if="isUrl(manual.descripcion)" :href="manual.descripcion" target="_blank" class="manual-icon-link">
             <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
-            <span>Ver Link</span>
           </a>
           <div v-else>
             <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
