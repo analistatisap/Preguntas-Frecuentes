@@ -27,30 +27,30 @@
         </div>
         <div class="input-group">
           <label for="password" id="password-label">Contraseña</label>
-          <div class="password-container">
-            <input 
-              :type="showPassword ? 'text' : 'password'" 
-              id="password" 
-              v-model="password" 
-              @blur="validateField('password')"
-              @input="clearError('password')"
-              required 
-              placeholder="Tu contraseña"
-              aria-labelledby="password-label"
-              aria-describedby="password-error"
-              :aria-invalid="!!errors.password"
-              :class="{ 'error-input': errors.password }"
-              autocomplete="current-password"
-            >
-            <button 
-              type="button" 
-              class="password-toggle"
-              @click="togglePassword"
-              :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-            >
-              {{ showPassword ? '👁️' : '👁️‍🗨️' }}
-            </button>
-          </div>
+          <input 
+            :type="showPassword ? 'text' : 'password'" 
+            id="password" 
+            v-model="password" 
+            @blur="validateField('password')"
+            @input="clearError('password')"
+            required 
+            placeholder="Tu contraseña"
+            aria-labelledby="password-label"
+            aria-describedby="password-error"
+            :aria-invalid="!!errors.password"
+            :class="{ 'error-input': errors.password }"
+            autocomplete="current-password"
+            style="padding-right:2.5rem;"
+          >
+          <button 
+            type="button" 
+            class="password-toggle"
+            @click="togglePassword"
+            :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            style="position:absolute; right:20px; top:50%; transform:translateY(-50%);"
+          >
+            {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
           <span v-if="errors.password" id="password-error" class="error-text" role="alert">
             <span class="error-icon">⚠️</span> {{ errors.password }}
           </span>
@@ -337,6 +337,7 @@ export default {
 .input-group {
   margin-bottom: 1.5rem;
   text-align: left;
+  position: relative;
 }
 
 .input-group label {
