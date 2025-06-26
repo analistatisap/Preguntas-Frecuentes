@@ -9,7 +9,7 @@
               :src="portal.imagen"
               :alt="portal.titulo"
               class="portal-icon"
-              :class="{ 'crm-img': portal.titulo === 'CRM', 'sapbo-img': portal.titulo === 'SAP BO' }"
+              :class="{ 'crm-img': portal.titulo === 'CRM', 'sapbo-img': portal.titulo === 'SAP BO', 'decorceramica-img': portal.titulo === 'Decorcerámica' }"
             />
           </div>
           <h3>{{ portal.titulo }}</h3>
@@ -74,7 +74,7 @@ export default {
           titulo: 'WEBS CORPORATIVAS',
           portales: [
             {
-              imagen: '/portalclientescd.png',
+              imagen: '/decorceramica.png',
               titulo: 'Decorcerámica',
               descripcion: 'Portal de clientes Decorceramica.',
               link: 'https://www.decorceramica.com/'
@@ -172,6 +172,12 @@ h2 {
 }
 
 .sapbo-img {
+  width: 80px !important;
+  height: 80px !important;
+  filter: none !important;
+}
+
+.decorceramica-img {
   width: 80px !important;
   height: 80px !important;
   filter: none !important;
