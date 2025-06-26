@@ -58,7 +58,7 @@ export default {
           portales: [
 
             {
-              imagen: '/cerrar.png', 
+              imagen: '/citasenbodegas.png',
               titulo: 'Gestor claves',
               descripcion: 'Aquí podrás encontrar gestionar las claves del CRM y ERP logon.',
               link: 'https://gestionclavesap.grupodecor.com/'
