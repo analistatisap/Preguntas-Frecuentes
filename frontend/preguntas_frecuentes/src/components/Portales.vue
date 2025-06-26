@@ -40,7 +40,7 @@ export default {
           portales: [
 
             {
-              imagen: '/citasenbodega.png',
+              imagen: '/citasenbodegas.png',
               titulo: 'Citas en bodega',
               descripcion: 'Aquí podrás encontrar información del portal citas en bodega.',
               link: 'https://entregabodega.grupodecor.com/'
