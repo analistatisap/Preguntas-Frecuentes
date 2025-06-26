@@ -1,5 +1,9 @@
 from django.contrib import admin
 
+admin.site.site_header = "Grupo Decor"
+admin.site.site_title = "Grupo Decor"
+admin.site.index_title = "Administración del sitio"
+
 # Register your models here.
 from django.contrib import admin
 from .models import Tip, Manual
