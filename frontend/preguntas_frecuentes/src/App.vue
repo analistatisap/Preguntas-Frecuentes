@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       menuAbierto: false,
-      logoUrl: logoUrl,
+      logoUrl: '/logo_grupo.jpg',
       user: null,
     };
   },
