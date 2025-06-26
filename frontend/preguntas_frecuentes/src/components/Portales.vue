@@ -14,7 +14,8 @@
                 'sapbo-img': portal.titulo === 'SAP BO',
                 'decorceramica-img': portal.titulo === 'Decorcerámica',
                 'novacasa-img': portal.titulo === 'NovaCasa',
-                'gdecorbot-img': portal.titulo === 'GDecorbot'
+                'gdecorbot-img': portal.titulo === 'GDecorbot',
+                'citasbodega-img': portal.titulo === 'Citas en bodega'
               }"
             />
           </div>
@@ -39,7 +40,7 @@ export default {
           portales: [
 
             {
-              imagen: '/citabodega.png',
+              imagen: '/citasenbodega.png',
               titulo: 'Citas en bodega',
               descripcion: 'Aquí podrás encontrar información del portal citas en bodega.',
               link: 'https://entregabodega.grupodecor.com/'
@@ -196,6 +197,17 @@ h2 {
 }
 
 .gdecorbot-img {
+  width: 80px !important;
+  height: 80px !important;
+  filter: none !important;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+  padding: 10px;
+  object-fit: contain;
+}
+
+.citasbodega-img {
   width: 80px !important;
   height: 80px !important;
   filter: none !important;
