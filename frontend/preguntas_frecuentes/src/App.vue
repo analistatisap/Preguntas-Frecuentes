@@ -58,6 +58,9 @@
 <script>
 import logoUrl from '@/assets/logo.svg';
 
+let inactivityTimeoutId = null;
+const INACTIVITY_LIMIT = 15 * 60 * 1000; // 15 minutos
+
 export default {
   name: 'App',
   data() {
@@ -93,23 +96,59 @@ export default {
         this.user = null;
       }
     },
-    logout() {
+    logout(motivo) {
       localStorage.removeItem('user');
       this.user = null;
       this.$router.push('/login');
+      if (motivo === 'inactividad') {
+        if (this.$toast) {
+          this.$toast.info('Se finalizó su sesión por inactividad. Por favor, vuelva a iniciar sesión para continuar.');
+        } else {
+          alert('Se finalizó su sesión por inactividad. Por favor, vuelva a iniciar sesión para continuar.');
+        }
+      }
+    },
+    resetInactivityTimer() {
+      if (inactivityTimeoutId) clearTimeout(inactivityTimeoutId);
+      if (!this.user) return;
+      inactivityTimeoutId = setTimeout(() => {
+        this.logout('inactividad');
+      }, INACTIVITY_LIMIT);
+    },
+    setupInactivityListeners() {
+      ['mousemove', 'keydown', 'mousedown', 'scroll', 'touchstart'].forEach(event => {
+        window.addEventListener(event, this.resetInactivityTimer);
+      });
+      this.resetInactivityTimer();
+    },
+    removeInactivityListeners() {
+      ['mousemove', 'keydown', 'mousedown', 'scroll', 'touchstart'].forEach(event => {
+        window.removeEventListener(event, this.resetInactivityTimer);
+      });
+      if (inactivityTimeoutId) clearTimeout(inactivityTimeoutId);
     },
   },
   watch: {
     '$route'() {
-      // Cada vez que la ruta cambia, verificamos el estado de autenticación
-      // Esto asegura que el header se actualice correctamente después del login.
       this.loadUser();
-      this.closeMenu(); // Opcional: cierra el menú al navegar
+      this.closeMenu();
     },
+    user(newVal) {
+      if (newVal) {
+        this.setupInactivityListeners();
+      } else {
+        this.removeInactivityListeners();
+      }
+    }
   },
   created() {
-    // Cargar el estado del usuario cuando la aplicación se inicia
     this.loadUser();
+    if (this.user) {
+      this.setupInactivityListeners();
+    }
+  },
+  beforeUnmount() {
+    this.removeInactivityListeners();
   },
 };
 </script>

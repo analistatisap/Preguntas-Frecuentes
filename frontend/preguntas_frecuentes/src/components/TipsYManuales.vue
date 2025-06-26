@@ -7,23 +7,27 @@
       desarrollo de tu gestión a través de los diferentes sistemas de Información que la compañía
       ha dispuesto para ti.
     </p>
-    <div class="grid-manuales">
-      <div v-for="(manual, index) in manuales" :key="index" class="cuadro-manual">
-        <h3>{{ manual.titulo }}</h3>
-        <div class="icono-manual">
-          <a v-if="manual.archivo" :href="getManualUrl(manual.archivo)" target="_blank" class="manual-icon-link">
-            <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
-          </a>
-          <a v-else-if="isUrl(manual.descripcion)" :href="manual.descripcion" target="_blank" class="manual-icon-link">
-            <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
-          </a>
-          <div v-else>
-            <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
-          </div>
+    <section class="manuales-seccion">
+      <h2>Manuales</h2>
+      <div class="grid-manuales">
+        <div v-if="loading.manuales" class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Cargando manuales...</p>
         </div>
-        <p v-if="manual.descripcion && !isUrl(manual.descripcion)" class="manual-desc" v-html="manual.descripcion"></p>
+        <div v-else-if="manuales.length === 0" class="empty-state">
+          <p>No hay manuales disponibles en este momento.</p>
+        </div>
+        <div v-else v-for="manual in manuales" :key="manual.id" class="cuadro-manual">
+          <div class="icono-manual">
+            <a :href="getManualUrl(manual.archivo)" target="_blank" class="manual-icon-link">
+              <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo" class="manual-icon">
+            </a>
+          </div>
+          <h3>{{ manual.titulo }}</h3>
+          <div v-html="manual.descripcion" class="descripcion-manual"></div>
+        </div>
       </div>
-    </div>
+    </section>
 
     <hr class="section-divider">
 
@@ -32,22 +36,33 @@
     <p class="descripcion-pagina">
       Aquí encontrarás tips visuales y consejos rápidos para optimizar tu trabajo diario.
     </p>
-    <div class="grid-tips"> 
-      <div v-for="(tip, index) in tips" :key="index" class="cuadro-tip" @click="abrirModalTip(tip)">
-        <h3 v-if="tip.titulo">{{ tip.titulo }}</h3>
-        <div class="imagen-tip">
-          <template v-if="tip.video_url">
-            <iframe v-if="isUrl(tip.video_url) && (tip.video_url.includes('youtube') || tip.video_url.includes('vimeo'))"
-                    :src="getEmbedUrl(tip.video_url)" frameborder="0" allowfullscreen class="tip-video"></iframe>
-            <video v-else :src="getTipUrl(tip.video_url)" controls class="tip-video"></video>
-          </template>
-          <video v-else-if="tip.video" :src="getTipUrl(tip.video)" controls class="tip-video"></video>
-          <img v-else-if="tip.imagen" :src="getTipUrl(tip.imagen)" :alt="tip.titulo || 'Tip Image'">
-          <a v-else-if="tip.archivo" :href="getTipUrl(tip.archivo)" target="_blank">Descargar archivo</a>
+    <section class="tips-seccion">
+      <h2>Tips</h2>
+      <div class="grid-tips">
+        <div v-if="loading.tips" class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Cargando tips...</p>
         </div>
-        <p v-if="tip.descripcion" class="tip-desc">{{ tip.descripcion }}</p>
+        <div v-else-if="tips.length === 0" class="empty-state">
+          <p>No hay tips disponibles en este momento.</p>
+        </div>
+        <div v-else v-for="tip in tips" :key="tip.id" class="cuadro-tip" @click="abrirModalTip(tip)">
+          <div class="tip-content">
+            <h3>{{ tip.titulo }}</h3>
+            <p>{{ tip.descripcion }}</p>
+            <div v-if="tip.imagen" class="tip-image">
+              <img :src="getTipUrl(tip.imagen)" :alt="tip.titulo">
+            </div>
+            <div v-else-if="tip.video" class="tip-video">
+              <video :src="getTipUrl(tip.video)" controls></video>
+            </div>
+            <div v-else-if="tip.video_url" class="tip-video-url">
+              <iframe :src="getEmbedUrl(tip.video_url)" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
     <transition name="modal-fade">
       <div v-if="modalTip" class="modal-tip-overlay" @click.self="cerrarModalTip">
         <div class="modal-tip-card">
@@ -68,6 +83,9 @@
 </template>
 
 <script>
+import { fetchWithAuth } from '@/utils/authFetch';
+import { useToast } from 'vue-toastification';
+
 export default {
   name: 'TipsYManuales',
   data() {
@@ -76,6 +94,10 @@ export default {
       tips: [],
       backendUrl: 'http://172.16.29.5:8000', 
       modalTip: null,
+      loading: {
+        manuales: false,
+        tips: false
+      }
     };
   },
   methods: {
@@ -122,33 +144,43 @@ export default {
       return '/imgtipsymanuales/nube.png'; // genérico
     },
     async fetchManuales() {
+      this.loading.manuales = true;
+      const toast = useToast();
+      
       try {
-        const token = localStorage.getItem('access');
-        const res = await fetch(`${this.backendUrl}/api/recursos/manuales/`, {
+        const res = await fetchWithAuth(`${this.backendUrl}/api/recursos/manuales/`, {
           headers: {
-            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
             'Content-Type': 'application/json'
           }
         });
         if (!res.ok) throw new Error('Error al obtener manuales');
         this.manuales = await res.json();
       } catch (e) {
+        console.error('Error al cargar manuales:', e);
         this.manuales = [];
+        toast.error('No se pudieron cargar los manuales. Por favor, inténtalo más tarde.');
+      } finally {
+        this.loading.manuales = false;
       }
     },
     async fetchTips() {
+      this.loading.tips = true;
+      const toast = useToast();
+      
       try {
-        const token = localStorage.getItem('access');
-        const res = await fetch(`${this.backendUrl}/api/recursos/tips/`, {
+        const res = await fetchWithAuth(`${this.backendUrl}/api/recursos/tips/`, {
           headers: {
-            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
             'Content-Type': 'application/json'
           }
         });
         if (!res.ok) throw new Error('Error al obtener tips');
         this.tips = await res.json();
       } catch (e) {
+        console.error('Error al cargar tips:', e);
         this.tips = [];
+        toast.error('No se pudieron cargar los tips. Por favor, inténtalo más tarde.');
+      } finally {
+        this.loading.tips = false;
       }
     },
     abrirModalTip(tip) {
@@ -211,13 +243,16 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   text-align: center;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Añadir transición para box-shadow */
-  cursor: pointer; /* Añadir cursor pointer para indicar que es clickeable */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .cuadro-manual:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Efecto de sombra al pasar el mouse */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .icono-manual {
@@ -254,10 +289,16 @@ export default {
 }
 
 .cuadro-manual h3 {
+  margin: 1rem 0;
   color: #333;
-  margin-top: 0;
   font-size: 1.2rem;
-  margin-bottom: 1rem; /* Añadir margen debajo del título */
+}
+
+.descripcion-manual {
+  flex-grow: 1;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 /* Estilos para la nueva sección de Tips */
@@ -279,41 +320,36 @@ export default {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1.2rem 1rem 1.5rem 1rem;
-  text-align: center;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  padding: 1.5rem;
   cursor: pointer;
-  overflow: visible;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  min-height: 320px;
+  height: 100%;
 }
-.cuadro-tip h3 {
-  font-size: 1.15rem;
-  color: #222;
-  margin: 0 0 0.7rem 0;
-  font-weight: 600;
-  text-align: center;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.cuadro-tip:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
-.imagen-tip {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 120px;
+.tip-content h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+.tip-content p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+.tip-image img,
+.tip-video video,
+.tip-video-url iframe {
   width: 100%;
-  margin-bottom: 0.7rem;
-}
-.imagen-tip img {
-  max-width: 100%;
-  max-height: 110px;
-  object-fit: contain;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(44,62,80,0.08);
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 .tip-desc {
   color: #666;
@@ -445,5 +481,121 @@ export default {
   box-shadow: 0 2px 8px rgba(44,62,80,0.10);
   margin-bottom: 1.2rem;
   background: #000;
+}
+
+/* Estilos para indicadores de carga */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  grid-column: 1 / -1;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  grid-column: 1 / -1;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Mejoras en las secciones */
+.manuales-seccion,
+.tips-seccion {
+  margin-bottom: 3rem;
+}
+
+.manuales-seccion h2,
+.tips-seccion h2 {
+  color: #007bff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+/* Mejoras en los cuadros */
+.cuadro-manual {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cuadro-manual:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cuadro-manual h3 {
+  margin: 1rem 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.cuadro-tip {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cuadro-tip:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tip-content h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.tip-content p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.tip-image img,
+.tip-video video,
+.tip-video-url iframe {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 </style>
