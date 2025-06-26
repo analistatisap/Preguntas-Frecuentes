@@ -7,8 +7,34 @@
       desarrollo de tu gestión a través de los diferentes sistemas de Información que la compañía
       ha dispuesto para ti.
     </p>
-    <div class="grid-manuales">
-      <div v-for="(manual, index) in manuales" :key="index" class="cuadro-manual">
+
+    <!-- Barra de búsqueda para manuales -->
+    <div class="search-container">
+      <input 
+        v-model="searchManuales" 
+        type="text" 
+        placeholder="Buscar manuales..." 
+        class="search-input"
+        @input="filtrarManuales"
+      >
+      <div class="search-icon">🔍</div>
+    </div>
+
+    <!-- Indicador de carga para manuales -->
+    <div v-if="loadingManuales" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Cargando manuales...</p>
+    </div>
+
+    <!-- Estado vacío para manuales -->
+    <div v-else-if="manualesFiltrados.length === 0 && !loadingManuales" class="empty-state">
+      <div class="empty-icon">📚</div>
+      <p>{{ searchManuales ? 'No se encontraron manuales que coincidan con tu búsqueda' : 'No hay manuales disponibles' }}</p>
+    </div>
+
+    <!-- Grid de manuales -->
+    <div v-else class="grid-manuales">
+      <div v-for="(manual, index) in manualesFiltrados" :key="index" class="cuadro-manual">
         <h3>{{ manual.titulo }}</h3>
         <div class="icono-manual">
           <a v-if="manual.archivo" :href="getManualUrl(manual.archivo)" target="_blank" class="manual-icon-link">
@@ -32,8 +58,34 @@
     <p class="descripcion-pagina">
       Aquí encontrarás tips visuales y consejos rápidos para optimizar tu trabajo diario.
     </p>
-    <div class="grid-tips">
-      <div v-for="(tip, index) in tips" :key="index" class="cuadro-tip" @click="abrirModalTip(tip)">
+
+    <!-- Barra de búsqueda para tips -->
+    <div class="search-container">
+      <input 
+        v-model="searchTips" 
+        type="text" 
+        placeholder="Buscar tips..." 
+        class="search-input"
+        @input="filtrarTips"
+      >
+      <div class="search-icon">🔍</div>
+    </div>
+
+    <!-- Indicador de carga para tips -->
+    <div v-if="loadingTips" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Cargando tips...</p>
+    </div>
+
+    <!-- Estado vacío para tips -->
+    <div v-else-if="tipsFiltrados.length === 0 && !loadingTips" class="empty-state">
+      <div class="empty-icon">💡</div>
+      <p>{{ searchTips ? 'No se encontraron tips que coincidan con tu búsqueda' : 'No hay tips disponibles' }}</p>
+    </div>
+
+    <!-- Grid de tips -->
+    <div v-else class="grid-tips">
+      <div v-for="(tip, index) in tipsFiltrados" :key="index" class="cuadro-tip" @click="abrirModalTip(tip)">
         <h3 v-if="tip.titulo">{{ tip.titulo }}</h3>
         <div class="imagen-tip">
           <template v-if="tip.video_url">
@@ -48,6 +100,8 @@
         <p v-if="tip.descripcion" class="tip-desc">{{ tip.descripcion }}</p>
       </div>
     </div>
+
+    <!-- Modal de tip -->
     <transition name="modal-fade">
       <div v-if="modalTip" class="modal-tip-overlay" @click.self="cerrarModalTip">
         <div class="modal-tip-card">
@@ -74,8 +128,21 @@ export default {
     return {
       manuales: [],
       tips: [],
+      manualesFiltrados: [],
+      tipsFiltrados: [],
+      searchManuales: '',
+      searchTips: '',
+      loadingManuales: false,
+      loadingTips: false,
       backendUrl: 'http://172.16.29.5:8000', 
       modalTip: null,
+      // Cache de datos
+      cache: {
+        manuales: null,
+        tips: null,
+        lastFetch: null,
+        cacheDuration: 5 * 60 * 1000 // 5 minutos
+      }
     };
   },
   methods: {
@@ -121,7 +188,20 @@ export default {
       // ...agrega más casos según tus imágenes...
       return '/imgtipsymanuales/nube.png'; // genérico
     },
+    // Verificar si el cache es válido
+    isCacheValid() {
+      return this.cache.lastFetch && 
+             (Date.now() - this.cache.lastFetch) < this.cache.cacheDuration;
+    },
     async fetchManuales() {
+      // Verificar cache primero
+      if (this.isCacheValid() && this.cache.manuales) {
+        this.manuales = this.cache.manuales;
+        this.manualesFiltrados = [...this.manuales];
+        return;
+      }
+
+      this.loadingManuales = true;
       try {
         const res = await fetch(`${this.backendUrl}/api/recursos/manuales/`, {
           headers: {
@@ -130,11 +210,28 @@ export default {
         });
         if (!res.ok) throw new Error('Error al obtener manuales');
         this.manuales = await res.json();
+        this.manualesFiltrados = [...this.manuales];
+        
+        // Guardar en cache
+        this.cache.manuales = this.manuales;
+        this.cache.lastFetch = Date.now();
       } catch (e) {
         this.manuales = [];
+        this.manualesFiltrados = [];
+        console.error('Error fetching manuales:', e);
+      } finally {
+        this.loadingManuales = false;
       }
     },
     async fetchTips() {
+      // Verificar cache primero
+      if (this.isCacheValid() && this.cache.tips) {
+        this.tips = this.cache.tips;
+        this.tipsFiltrados = [...this.tips];
+        return;
+      }
+
+      this.loadingTips = true;
       try {
         const res = await fetch(`${this.backendUrl}/api/recursos/tips/`, {
           headers: {
@@ -143,9 +240,44 @@ export default {
         });
         if (!res.ok) throw new Error('Error al obtener tips');
         this.tips = await res.json();
+        this.tipsFiltrados = [...this.tips];
+        
+        // Guardar en cache
+        this.cache.tips = this.tips;
+        this.cache.lastFetch = Date.now();
       } catch (e) {
         this.tips = [];
+        this.tipsFiltrados = [];
+        console.error('Error fetching tips:', e);
+      } finally {
+        this.loadingTips = false;
       }
+    },
+    // Búsqueda en tiempo real para manuales
+    filtrarManuales() {
+      if (!this.searchManuales.trim()) {
+        this.manualesFiltrados = [...this.manuales];
+        return;
+      }
+      
+      const searchTerm = this.searchManuales.toLowerCase().trim();
+      this.manualesFiltrados = this.manuales.filter(manual => 
+        manual.titulo?.toLowerCase().includes(searchTerm) ||
+        manual.descripcion?.toLowerCase().includes(searchTerm)
+      );
+    },
+    // Búsqueda en tiempo real para tips
+    filtrarTips() {
+      if (!this.searchTips.trim()) {
+        this.tipsFiltrados = [...this.tips];
+        return;
+      }
+      
+      const searchTerm = this.searchTips.toLowerCase().trim();
+      this.tipsFiltrados = this.tips.filter(tip => 
+        tip.titulo?.toLowerCase().includes(searchTerm) ||
+        tip.descripcion?.toLowerCase().includes(searchTerm)
+      );
     },
     abrirModalTip(tip) {
       this.modalTip = tip;
@@ -193,6 +325,86 @@ export default {
   text-align: center;
   color: #555;
   margin-bottom: 2rem;
+}
+
+/* Estilos para la barra de búsqueda */
+.search-container {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto 2rem auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 25px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+/* Indicadores de carga */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estados vacíos */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #666;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  margin: 0;
 }
 
 .grid-manuales {
@@ -444,5 +656,26 @@ export default {
   width: 100%;
   height: 120px;
   border-radius: 6px;
+}
+
+/* Responsive design para móviles */
+@media (max-width: 768px) {
+  .pagina-tips-manuales {
+    padding: 1rem;
+  }
+  
+  .search-container {
+    max-width: 100%;
+  }
+  
+  .grid-manuales,
+  .grid-tips {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-tip-card {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
 }
 </style> 
