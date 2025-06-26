@@ -115,7 +115,6 @@
 
 <script>
 import { useToast } from 'vue-toastification';
-import { fetchWithAuth } from '@/utils/authFetch';
 
 export default {
   name: 'PaginaContacto',
@@ -236,8 +235,8 @@ export default {
       try {
         this.loading = true;
         
-        // Envia los datos al backend
-        const response = await fetchWithAuth(`${this.backendUrl}/api/contacto/enviar-correo/`, {
+        // Usar fetch normal en lugar de fetchWithAuth para evitar redirecciones
+        const response = await fetch(`${this.backendUrl}/api/contacto/enviar-correo/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -248,24 +247,52 @@ export default {
           }),
         });
 
+        console.log('Respuesta del servidor:', response.status, response.statusText);
+
         if (response.ok) {
+          const responseData = await response.json().catch(() => ({}));
+          console.log('Datos de respuesta:', responseData);
+          
           toast.success('¡Mensaje enviado con éxito! Te responderemos pronto.');
-          // Limpiar el formulario
-          this.resetForm();
+          
+          // Pequeño delay para que el usuario vea la notificación antes de limpiar el formulario
+          setTimeout(() => {
+            this.resetForm();
+          }, 1500);
         } else {
           const errorData = await response.json().catch(() => ({}));
-          const errorMessage = errorData.error || 
-                             errorData.message || 
-                             'Error al enviar el mensaje. Por favor, inténtalo de nuevo.';
+          console.log('Error del servidor:', errorData);
+          
+          let errorMessage = 'Error al enviar el mensaje. Por favor, inténtalo de nuevo.';
+          
+          if (errorData.error) {
+            errorMessage = errorData.error;
+          } else if (errorData.message) {
+            errorMessage = errorData.message;
+          } else if (errorData.detail) {
+            errorMessage = errorData.detail;
+          } else if (response.status === 400) {
+            errorMessage = 'Datos del formulario inválidos. Verifica la información ingresada.';
+          } else if (response.status === 500) {
+            errorMessage = 'Error interno del servidor. Por favor, inténtalo más tarde.';
+          } else if (response.status === 403) {
+            errorMessage = 'Acceso denegado. Verifica tus permisos.';
+          }
+          
           toast.error(errorMessage);
         }
       } catch (error) {
         console.error('Error al enviar el formulario:', error);
+        
+        let errorMessage = 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo más tarde.';
+        
         if (error.name === 'TypeError' && error.message.includes('fetch')) {
-          toast.error('Error de conexión. Verifica tu conexión a internet e inténtalo de nuevo.');
-        } else {
-          toast.error('Ocurrió un error inesperado. Por favor, inténtalo de nuevo más tarde.');
+          errorMessage = 'Error de conexión. Verifica tu conexión a internet e inténtalo de nuevo.';
+        } else if (error.name === 'AbortError') {
+          errorMessage = 'La petición fue cancelada. Inténtalo de nuevo.';
         }
+        
+        toast.error(errorMessage);
       } finally {
         this.loading = false;
       }
