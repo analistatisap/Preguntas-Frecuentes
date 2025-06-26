@@ -1,5 +1,15 @@
 <template>
   <div class="pagina-tips-manuales">
+    <!-- Debug info temporal -->
+    <div style="background: #f0f0f0; padding: 10px; margin: 10px; border-radius: 5px;">
+      <h4>Debug Info:</h4>
+      <p>Loading manuales: {{ loading.manuales }}</p>
+      <p>Loading tips: {{ loading.tips }}</p>
+      <p>Manuales count: {{ manuales.length }}</p>
+      <p>Tips count: {{ tips.length }}</p>
+      <p>Token: {{ localStorage.getItem('access') ? 'Presente' : 'Ausente' }}</p>
+    </div>
+
     <h1 class="titulo-pagina">Manuales SAP</h1>
     <!-- Descripción para la sección de Manuales -->
     <p class="descripcion-pagina">
@@ -218,6 +228,8 @@ export default {
     },
   },
   mounted() {
+    console.log('Componente TipsYManuales montado');
+    console.log('Estado inicial - manuales:', this.manuales.length, 'tips:', this.tips.length);
     this.fetchManuales();
     this.fetchTips();
   },
