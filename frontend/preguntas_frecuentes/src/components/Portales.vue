@@ -80,7 +80,7 @@ export default {
               link: 'https://www.decorceramica.com/'
             },
              {
-              imagen: '/portalclientesnv.png',
+              imagen: '/novacasafondoblanco.png',
               titulo: 'NovaCasa',
               descripcion: 'Acceso al portal de Novacasa.',
               link: 'https://www.novacasacenter.com/'
