@@ -371,17 +371,42 @@ export default {
   align-items: center;
 }
 
+.password-container input {
+  width: 100%;
+  padding: 0.8rem;
+  padding-right: 2.5rem; /* Espacio para el ícono del ojo */
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.password-container input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
 .password-toggle {
   position: absolute;
   right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
   font-size: 1.2rem;
   color: #666;
-  padding: 0.5rem;
+  padding: 0;
   border-radius: 4px;
   transition: all 0.3s ease;
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .password-toggle:hover {
