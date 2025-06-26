@@ -36,7 +36,13 @@
       <div v-for="(tip, index) in tips" :key="index" class="cuadro-tip" @click="abrirModalTip(tip)">
         <h3 v-if="tip.titulo">{{ tip.titulo }}</h3>
         <div class="imagen-tip">
-          <img v-if="tip.imagen" :src="getTipUrl(tip.imagen)" :alt="tip.titulo || 'Tip Image'">
+          <template v-if="tip.video_url">
+            <iframe v-if="isUrl(tip.video_url) && (tip.video_url.includes('youtube') || tip.video_url.includes('vimeo'))"
+                    :src="getEmbedUrl(tip.video_url)" frameborder="0" allowfullscreen class="tip-video"></iframe>
+            <video v-else :src="getTipUrl(tip.video_url)" controls class="tip-video"></video>
+          </template>
+          <video v-else-if="tip.video" :src="getTipUrl(tip.video)" controls class="tip-video"></video>
+          <img v-else-if="tip.imagen" :src="getTipUrl(tip.imagen)" :alt="tip.titulo || 'Tip Image'">
           <a v-else-if="tip.archivo" :href="getTipUrl(tip.archivo)" target="_blank">Descargar archivo</a>
         </div>
         <p v-if="tip.descripcion" class="tip-desc">{{ tip.descripcion }}</p>
@@ -47,7 +53,13 @@
         <div class="modal-tip-card">
           <button class="modal-tip-close" @click="cerrarModalTip">&times;</button>
           <h2 v-if="modalTip.titulo">{{ modalTip.titulo }}</h2>
-          <img v-if="modalTip.imagen" :src="getTipUrl(modalTip.imagen)" :alt="modalTip.titulo || 'Tip Image'">
+          <template v-if="modalTip.video_url">
+            <iframe v-if="isUrl(modalTip.video_url) && (modalTip.video_url.includes('youtube') || modalTip.video_url.includes('vimeo'))"
+                    :src="getEmbedUrl(modalTip.video_url)" frameborder="0" allowfullscreen class="tip-video-modal"></iframe>
+            <video v-else :src="getTipUrl(modalTip.video_url)" controls class="tip-video-modal"></video>
+          </template>
+          <video v-else-if="modalTip.video" :src="getTipUrl(modalTip.video)" controls class="tip-video-modal"></video>
+          <img v-else-if="modalTip.imagen" :src="getTipUrl(modalTip.imagen)" :alt="modalTip.titulo || 'Tip Image'">
           <p v-if="modalTip.descripcion" class="tip-desc-expandida">{{ modalTip.descripcion }}</p>
         </div>
       </div>
@@ -146,6 +158,19 @@ export default {
     cerrarModalTip() {
       this.modalTip = null;
       document.body.style.overflow = '';
+    },
+    getEmbedUrl(url) {
+      // Convierte enlaces de YouTube/Vimeo a formato embebido
+      if (url.includes('youtube.com/watch?v=')) {
+        return url.replace('watch?v=', 'embed/');
+      }
+      if (url.includes('youtu.be/')) {
+        return url.replace('youtu.be/', 'youtube.com/embed/');
+      }
+      if (url.includes('vimeo.com/')) {
+        return url.replace('vimeo.com/', 'player.vimeo.com/video/');
+      }
+      return url;
     },
   },
   mounted() {
@@ -402,5 +427,23 @@ export default {
 }
 .modal-fade-enter, .modal-fade-leave-to {
   opacity: 0;
+}
+.tip-video {
+  width: 100%;
+  max-width: 180px;
+  max-height: 110px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(44,62,80,0.08);
+  margin-bottom: 0.7rem;
+  background: #000;
+}
+.tip-video-modal {
+  width: 100%;
+  max-width: 480px;
+  max-height: 320px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+  margin-bottom: 1.2rem;
+  background: #000;
 }
 </style>
