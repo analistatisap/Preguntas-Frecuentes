@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { useToast } from 'vue-toastification';
+
 export default {
   name: 'PaginaContacto',
   data() {
@@ -76,7 +78,8 @@ export default {
         });
 
         if (response.ok) {
-          alert('¡Mensaje enviado con éxito!');
+          const toast = useToast();
+          toast.success('¡Mensaje enviado con éxito!');
           // Limpiar el formulario
           this.formData.nombre = '';
           this.formData.apellido = '';
