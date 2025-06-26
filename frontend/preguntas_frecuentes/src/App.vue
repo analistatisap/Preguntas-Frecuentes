@@ -51,6 +51,7 @@
     <!-- El footer solo se muestra si no estamos en la página de login -->
     <footer class="pie-pagina-corporativo" v-if="!isLoginPage">
       <p>&copy; 2025 GRUPO DECOR. Todos los derechos reservados.</p>
+      <img src="http://atlasqa.grupodecor.com:4587/pruebas_proyectos/Vista_Reset_User/cinta_grupo_decor.png" alt="Cinta Grupo Decor" style="margin-top: 1rem; max-width: 400px; width: 100%; display: block; margin-left: auto; margin-right: auto;" />
     </footer>
   </div>
 </template>
