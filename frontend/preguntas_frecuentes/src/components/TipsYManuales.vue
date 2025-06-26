@@ -11,26 +11,22 @@
       <div v-for="(manual, index) in manuales" :key="index" class="cuadro-manual">
         <h3>{{ manual.titulo }}</h3>
         <div class="icono-manual">
-          <!-- Si tiene archivo, muestra el botón de descarga -->
           <a v-if="manual.archivo" :href="getManualUrl(manual.archivo)" target="_blank" class="manual-icon-link">
             <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
             <span>Descargar</span>
           </a>
-          <!-- Si no tiene archivo pero la descripción parece un link, muestra el link -->
           <a v-else-if="isUrl(manual.descripcion)" :href="manual.descripcion" target="_blank" class="manual-icon-link">
             <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
             <span>Ver Link</span>
           </a>
-          <!-- Si no tiene archivo ni link, solo muestra el icono -->
           <div v-else>
             <img :src="getManualIcon(manual.titulo)" :alt="manual.titulo">
           </div>
         </div>
-        <p v-if="manual.descripcion && !isUrl(manual.descripcion)" class="manual-desc">{{ manual.descripcion }}</p>
+        <p v-if="manual.descripcion && !isUrl(manual.descripcion)" class="manual-desc" v-html="manual.descripcion"></p>
       </div>
     </div>
 
-    <!-- Separador opcional entre secciones -->
     <hr class="section-divider">
 
     <h1 class="titulo-pagina">Tips</h1>
@@ -38,7 +34,7 @@
     <p class="descripcion-pagina">
       Aquí encontrarás tips visuales y consejos rápidos para optimizar tu trabajo diario.
     </p>
-    <div class="grid-manuales"> <!-- Reutilizamos la clase grid para mantener el mismo layout -->
+    <div class="grid-manuales"> 
       <div v-for="(tip, index) in tips" :key="index" class="cuadro-tip">
         <h3 v-if="tip.titulo">{{ tip.titulo }}</h3>
         <div class="imagen-tip">
@@ -58,7 +54,7 @@ export default {
     return {
       manuales: [],
       tips: [],
-      backendUrl: 'http://172.16.29.5:8000', // Cambia esto si tu backend está en otra IP/puerto
+      backendUrl: 'http://172.16.29.5:8000', 
     };
   },
   methods: {
