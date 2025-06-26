@@ -83,6 +83,8 @@ export default {
       if (t.includes('entrega')) return '/imgtipsymanuales/entregas.png';
       if (t.includes('movilidad')) return '/imgtipsymanuales/movilidad.png';
       if (t.includes('caja')) return '/imgtipsymanuales/caja-general.png';
+      if(t.includes('afluencia')) return '/imgtipsymanuales/afluencia.png';
+      if(t.includes('citasenbodega')) return '/imgtipsymanuales/citasenbodega.png';
       // ...agrega más casos según tus imágenes...
       return '/imgtipsymanuales/libro.png'; // genérico
     },
