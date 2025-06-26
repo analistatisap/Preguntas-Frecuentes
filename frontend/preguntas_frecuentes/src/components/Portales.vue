@@ -9,7 +9,7 @@
               :src="portal.imagen"
               :alt="portal.titulo"
               class="portal-icon"
-              :class="{ 'crm-img': portal.titulo === 'CRM' }"
+              :class="{ 'crm-img': portal.titulo === 'CRM', 'sapbo-img': portal.titulo === 'SAP BO' }"
             />
           </div>
           <h3>{{ portal.titulo }}</h3>
@@ -166,6 +166,12 @@ h2 {
 }
 
 .crm-img {
+  width: 80px !important;
+  height: 80px !important;
+  filter: none !important;
+}
+
+.sapbo-img {
   width: 80px !important;
   height: 80px !important;
   filter: none !important;
