@@ -24,7 +24,6 @@
 
 <script>
 import { useToast } from 'vue-toastification';
-import { fetchWithAuth } from '@/utils/authFetch';
 
 export default {
   name: 'Login',
@@ -65,7 +64,7 @@ export default {
       }
       
       try {
-        const response = await fetchWithAuth('http://172.16.29.5:8000/api/login/', {
+        const response = await fetch('http://172.16.29.5:8000/api/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
