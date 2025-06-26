@@ -25,12 +25,17 @@
               id="nombre" 
               placeholder="Tu nombre" 
               v-model="formData.nombre" 
+              @blur="validateField('nombre')"
+              @input="clearError('nombre')"
               required
               aria-labelledby="nombre-label"
               aria-describedby="nombre-error"
               :aria-invalid="!!errors.nombre"
+              :class="{ 'error-input': errors.nombre }"
             >
-            <span v-if="errors.nombre" id="nombre-error" class="error-text" role="alert">{{ errors.nombre }}</span>
+            <span v-if="errors.nombre" id="nombre-error" class="error-text" role="alert">
+              <span class="error-icon">⚠️</span> {{ errors.nombre }}
+            </span>
           </div>
           <div class="campo">
             <label for="apellido" id="apellido-label">APELLIDO</label>
@@ -39,12 +44,17 @@
               id="apellido" 
               placeholder="Tu apellido" 
               v-model="formData.apellido" 
+              @blur="validateField('apellido')"
+              @input="clearError('apellido')"
               required
               aria-labelledby="apellido-label"
               aria-describedby="apellido-error"
               :aria-invalid="!!errors.apellido"
+              :class="{ 'error-input': errors.apellido }"
             >
-            <span v-if="errors.apellido" id="apellido-error" class="error-text" role="alert">{{ errors.apellido }}</span>
+            <span v-if="errors.apellido" id="apellido-error" class="error-text" role="alert">
+              <span class="error-icon">⚠️</span> {{ errors.apellido }}
+            </span>
           </div>
           <div class="campo">
             <label for="correo" id="correo-label">CORREO</label>
@@ -53,12 +63,17 @@
               id="correo" 
               placeholder="Tu correo electrónico" 
               v-model="formData.correo" 
+              @blur="validateField('correo')"
+              @input="clearError('correo')"
               required
               aria-labelledby="correo-label"
               aria-describedby="correo-error"
               :aria-invalid="!!errors.correo"
+              :class="{ 'error-input': errors.correo }"
             >
-            <span v-if="errors.correo" id="correo-error" class="error-text" role="alert">{{ errors.correo }}</span>
+            <span v-if="errors.correo" id="correo-error" class="error-text" role="alert">
+              <span class="error-icon">⚠️</span> {{ errors.correo }}
+            </span>
           </div>
           <div class="campo mensaje-campo">
             <label for="mensaje" id="mensaje-label">MENSAJE</label>
@@ -66,19 +81,30 @@
               id="mensaje" 
               placeholder="Escribe tu mensaje" 
               v-model="formData.mensaje" 
+              @blur="validateField('mensaje')"
+              @input="clearError('mensaje')"
               required
               aria-labelledby="mensaje-label"
               aria-describedby="mensaje-error"
               :aria-invalid="!!errors.mensaje"
+              :class="{ 'error-input': errors.mensaje }"
             ></textarea>
-            <span v-if="errors.mensaje" id="mensaje-error" class="error-text" role="alert">{{ errors.mensaje }}</span>
+            <div class="mensaje-counter">
+              <span :class="{ 'counter-warning': formData.mensaje.length > 800 }">
+                {{ formData.mensaje.length }}/1000
+              </span>
+            </div>
+            <span v-if="errors.mensaje" id="mensaje-error" class="error-text" role="alert">
+              <span class="error-icon">⚠️</span> {{ errors.mensaje }}
+            </span>
           </div>
           <button 
             type="submit" 
             class="boton-enviar"
-            :disabled="loading"
+            :disabled="loading || !isFormValid"
             :aria-busy="loading"
           >
+            <span v-if="loading" class="loading-spinner"></span>
             {{ loading ? 'Enviando...' : 'ENVIAR' }}
           </button>
         </form>
@@ -103,59 +129,113 @@ export default {
       },
       backendUrl: 'http://172.16.29.5:8000',
       errors: {},
-      loading: false
+      loading: false,
+      touched: {
+        nombre: false,
+        apellido: false,
+        correo: false,
+        mensaje: false
+      }
     };
   },
+  computed: {
+    isFormValid() {
+      return this.formData.nombre.trim() && 
+             this.formData.apellido.trim() && 
+             this.formData.correo.trim() && 
+             this.formData.mensaje.trim() &&
+             Object.keys(this.errors).length === 0;
+    }
+  },
   methods: {
+    validateField(fieldName) {
+      this.touched[fieldName] = true;
+      const value = this.formData[fieldName].trim();
+      
+      switch (fieldName) {
+        case 'nombre':
+          if (!value) {
+            this.errors.nombre = 'El nombre es obligatorio';
+          } else if (value.length < 2) {
+            this.errors.nombre = 'El nombre debe tener al menos 2 caracteres';
+          } else if (value.length > 50) {
+            this.errors.nombre = 'El nombre no puede exceder 50 caracteres';
+          } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) {
+            this.errors.nombre = 'El nombre solo puede contener letras y espacios';
+          } else {
+            delete this.errors.nombre;
+          }
+          break;
+          
+        case 'apellido':
+          if (!value) {
+            this.errors.apellido = 'El apellido es obligatorio';
+          } else if (value.length < 2) {
+            this.errors.apellido = 'El apellido debe tener al menos 2 caracteres';
+          } else if (value.length > 50) {
+            this.errors.apellido = 'El apellido no puede exceder 50 caracteres';
+          } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) {
+            this.errors.apellido = 'El apellido solo puede contener letras y espacios';
+          } else {
+            delete this.errors.apellido;
+          }
+          break;
+          
+        case 'correo':
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!value) {
+            this.errors.correo = 'El correo electrónico es obligatorio';
+          } else if (!emailRegex.test(value)) {
+            this.errors.correo = 'El correo electrónico no tiene un formato válido';
+          } else if (value.length > 100) {
+            this.errors.correo = 'El correo electrónico no puede exceder 100 caracteres';
+          } else {
+            delete this.errors.correo;
+          }
+          break;
+          
+        case 'mensaje':
+          if (!value) {
+            this.errors.mensaje = 'El mensaje es obligatorio';
+          } else if (value.length < 10) {
+            this.errors.mensaje = 'El mensaje debe tener al menos 10 caracteres';
+          } else if (value.length > 1000) {
+            this.errors.mensaje = 'El mensaje no puede exceder 1000 caracteres';
+          } else {
+            delete this.errors.mensaje;
+          }
+          break;
+      }
+    },
+    
+    clearError(fieldName) {
+      if (this.errors[fieldName]) {
+        delete this.errors[fieldName];
+      }
+    },
+    
     validateForm() {
-      const errors = {};
+      ['nombre', 'apellido', 'correo', 'mensaje'].forEach(field => {
+        this.validateField(field);
+      });
       
-      // Validar nombre
-      if (!this.formData.nombre.trim()) {
-        errors.nombre = 'El nombre es obligatorio';
-      } else if (this.formData.nombre.trim().length < 2) {
-        errors.nombre = 'El nombre debe tener al menos 2 caracteres';
-      }
-      
-      // Validar apellido
-      if (!this.formData.apellido.trim()) {
-        errors.apellido = 'El apellido es obligatorio';
-      } else if (this.formData.apellido.trim().length < 2) {
-        errors.apellido = 'El apellido debe tener al menos 2 caracteres';
-      }
-      
-      // Validar correo
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!this.formData.correo.trim()) {
-        errors.correo = 'El correo electrónico es obligatorio';
-      } else if (!emailRegex.test(this.formData.correo)) {
-        errors.correo = 'El correo electrónico no tiene un formato válido';
-      }
-      
-      // Validar mensaje
-      if (!this.formData.mensaje.trim()) {
-        errors.mensaje = 'El mensaje es obligatorio';
-      } else if (this.formData.mensaje.trim().length < 10) {
-        errors.mensaje = 'El mensaje debe tener al menos 10 caracteres';
-      } else if (this.formData.mensaje.trim().length > 1000) {
-        errors.mensaje = 'El mensaje no puede exceder 1000 caracteres';
-      }
-      
-      return errors;
+      return Object.keys(this.errors).length === 0;
     },
     
     async handleSubmit() {
       const toast = useToast();
       
-      // Validación mejorada
-      this.errors = this.validateForm();
-      if (Object.keys(this.errors).length > 0) {
-        Object.values(this.errors).forEach(error => toast.error(error));
+      // Validación completa del formulario
+      if (!this.validateForm()) {
+        // Mostrar el primer error encontrado
+        const firstError = Object.values(this.errors)[0];
+        toast.error(firstError);
         return;
       }
 
       try {
         this.loading = true;
+        
         // Envia los datos al backend
         const response = await fetchWithAuth(`${this.backendUrl}/api/contacto/enviar-correo/`, {
           method: 'POST',
@@ -169,22 +249,42 @@ export default {
         });
 
         if (response.ok) {
-          toast.success('¡Mensaje enviado con éxito!');
+          toast.success('¡Mensaje enviado con éxito! Te responderemos pronto.');
           // Limpiar el formulario
-          this.formData.nombre = '';
-          this.formData.apellido = '';
-          this.formData.correo = '';
-          this.formData.mensaje = '';
+          this.resetForm();
         } else {
           const errorData = await response.json().catch(() => ({}));
-          toast.error(errorData.error || 'Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
+          const errorMessage = errorData.error || 
+                             errorData.message || 
+                             'Error al enviar el mensaje. Por favor, inténtalo de nuevo.';
+          toast.error(errorMessage);
         }
       } catch (error) {
         console.error('Error al enviar el formulario:', error);
-        toast.error('Ocurrió un error de conexión. Por favor, inténtalo de nuevo más tarde.');
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
+          toast.error('Error de conexión. Verifica tu conexión a internet e inténtalo de nuevo.');
+        } else {
+          toast.error('Ocurrió un error inesperado. Por favor, inténtalo de nuevo más tarde.');
+        }
       } finally {
         this.loading = false;
       }
+    },
+    
+    resetForm() {
+      this.formData = {
+        nombre: '',
+        apellido: '',
+        correo: '',
+        mensaje: ''
+      };
+      this.errors = {};
+      this.touched = {
+        nombre: false,
+        apellido: false,
+        correo: false,
+        mensaje: false
+      };
     }
   },
 };
@@ -292,16 +392,27 @@ export default {
   font-size: 0.9rem;
   color: #555;
   margin-bottom: 0.3rem;
+  font-weight: 600;
 }
 
 .campo input[type="text"],
 .campo input[type="email"],
 .campo textarea {
   padding: 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
   font-size: 1rem;
   color: #333;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.campo input[type="text"]:focus,
+.campo input[type="email"]:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
 .campo textarea {
@@ -313,40 +424,63 @@ export default {
   flex-grow: 1; /* Para que el mensaje ocupe más espacio vertical */
 }
 
+.mensaje-counter {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.counter-warning {
+  color: #ffc107;
+  font-weight: 600;
+}
+
 .boton-enviar {
   background-color: #2c3e50; /* Un color oscuro para el botón */
   color: white;
   border: none;
   padding: 0.8rem 1.5rem;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  transition: all 0.3s ease;
   align-self: flex-end; /* Alinear el botón a la derecha */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.boton-enviar:hover {
+.boton-enviar:hover:not(:disabled) {
   background-color: #1a2530;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilos para mensajes de error */
+/* Estilos para mensajes de error mejorados */
 .error-text {
   color: #dc3545;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   margin-top: 0.25rem;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 500;
 }
 
-.campo input[aria-invalid="true"],
-.campo textarea[aria-invalid="true"] {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+.error-icon {
+  font-size: 0.75rem;
 }
 
-.campo input[aria-invalid="true"]:focus,
-.campo textarea[aria-invalid="true"]:focus {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+.error-input {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1) !important;
+}
+
+.error-input:focus {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1) !important;
 }
 
 /* Mejoras en el botón de envío */
@@ -354,18 +488,29 @@ export default {
   background-color: #6c757d;
   cursor: not-allowed;
   opacity: 0.6;
+  transform: none;
+  box-shadow: none;
 }
 
 .boton-enviar:disabled:hover {
   background-color: #6c757d;
+  transform: none;
+  box-shadow: none;
 }
 
-/* Mejoras en la accesibilidad */
-.campo input:focus,
-.campo textarea:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+/* Spinner de carga */
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Responsive adjustments */
@@ -380,13 +525,19 @@ export default {
     width: 100%;
     padding: 1rem;
   }
-   .boton-enviar {
-        align-self: stretch;
-    }
-     .correo-item {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
-    }
+  
+  .boton-enviar {
+    align-self: stretch;
+  }
+  
+  .correo-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .pagina-contacto {
+    padding: 1rem;
+  }
 }
 </style>
