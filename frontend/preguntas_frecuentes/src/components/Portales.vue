@@ -9,7 +9,13 @@
               :src="portal.imagen"
               :alt="portal.titulo"
               class="portal-icon"
-              :class="{ 'crm-img': portal.titulo === 'CRM', 'sapbo-img': portal.titulo === 'SAP BO', 'decorceramica-img': portal.titulo === 'Decorcerámica' }"
+              :class="{
+                'crm-img': portal.titulo === 'CRM',
+                'sapbo-img': portal.titulo === 'SAP BO',
+                'decorceramica-img': portal.titulo === 'Decorcerámica',
+                'novacasa-img': portal.titulo === 'NovaCasa',
+                'gdecorbot-img': portal.titulo === 'GDecorbot'
+              }"
             />
           </div>
           <h3>{{ portal.titulo }}</h3>
@@ -39,7 +45,7 @@ export default {
               link: 'https://entregabodega.grupodecor.com/'
             },
              {
-              imagen: '/aplicacionchat.png',
+              imagen: '/logochatbot.png',
               titulo: 'GDecorbot',
               descripcion: 'Aquí podrás acceder al chatbot para realizar diferentes tramites como descargar desprendibles de pagos entre otros',
               link: 'https://decorghnet.grupodecor.com:5450/chatbot_decor/'
@@ -181,6 +187,23 @@ h2 {
   width: 80px !important;
   height: 80px !important;
   filter: none !important;
+}
+
+.novacasa-img {
+  width: 80px !important;
+  height: 80px !important;
+  filter: none !important;
+}
+
+.gdecorbot-img {
+  width: 80px !important;
+  height: 80px !important;
+  filter: none !important;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+  padding: 10px;
+  object-fit: contain;
 }
 
 .portal-card h3 {
