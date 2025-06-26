@@ -254,15 +254,57 @@ export default {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
+  padding: 1.2rem 1rem 1.5rem 1rem;
   text-align: center;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   cursor: pointer;
   overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 320px;
 }
-.cuadro-tip:hover {
-  transform: scale(1.03);
-  box-shadow: 0 4px 12px rgba(41,128,217,0.10);
+.cuadro-tip h3 {
+  font-size: 1.15rem;
+  color: #222;
+  margin: 0 0 0.7rem 0;
+  font-weight: 600;
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.imagen-tip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 100%;
+  margin-bottom: 0.7rem;
+}
+.imagen-tip img {
+  max-width: 100%;
+  max-height: 110px;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(44,62,80,0.08);
+}
+.tip-desc {
+  color: #666;
+  font-size: 0.97rem;
+  margin-top: 0.3rem;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 3.5em;
+  max-width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .tip-card-expandida {
   position: absolute;
@@ -303,11 +345,6 @@ export default {
   transform: scale(0.9);
 }
 .manual-desc {
-  color: #666;
-  font-size: 0.95rem;
-  margin-top: 0.5rem;
-}
-.tip-desc {
   color: #666;
   font-size: 0.95rem;
   margin-top: 0.5rem;
