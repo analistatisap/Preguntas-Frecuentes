@@ -5,7 +5,12 @@
       <div class="portal-container">
         <div class="portal-card" v-for="(portal, portalIndex) in seccion.portales" :key="'portal-' + seccionIndex + '-' + portalIndex">
           <div class="portal-icon-wrapper">
-            <img :src="portal.imagen" :alt="portal.titulo" class="portal-icon" />
+            <img
+              :src="portal.imagen"
+              :alt="portal.titulo"
+              class="portal-icon"
+              :class="{ 'crm-img': portal.titulo === 'CRM' }"
+            />
           </div>
           <h3>{{ portal.titulo }}</h3>
           <p>{{ portal.descripcion && portal.descripcion.length > 60 ? portal.descripcion.slice(0, 60) + '...' : portal.descripcion }}</p>
@@ -158,6 +163,12 @@ h2 {
   height: 48px;
   object-fit: contain;
   filter: grayscale(100%) brightness(0.3) sepia(1) hue-rotate(-20deg) saturate(4);
+}
+
+.crm-img {
+  width: 80px !important;
+  height: 80px !important;
+  filter: none !important;
 }
 
 .portal-card h3 {
