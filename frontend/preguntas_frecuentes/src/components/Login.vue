@@ -23,6 +23,9 @@
 </template>
 
 <script>
+import { useToast } from 'vue-toastification';
+import { fetchWithAuth } from '@/utils/authFetch';
+
 export default {
   name: 'Login',
   data() {
@@ -34,48 +37,80 @@ export default {
     };
   },
   methods: {
+    validateForm() {
+      const errors = [];
+      
+      if (!this.username.trim()) {
+        errors.push('El usuario es obligatorio');
+      }
+      
+      if (!this.password.trim()) {
+        errors.push('La contraseña es obligatoria');
+      }
+      
+      return errors;
+    },
+    
     async handleLogin() {
       this.loading = true;
       this.error = null;
+      const toast = useToast();
+      
+      // Validación del formulario
+      const errors = this.validateForm();
+      if (errors.length > 0) {
+        errors.forEach(error => toast.error(error));
+        this.loading = false;
+        return;
+      }
+      
       try {
-        const response = await fetch('http://172.16.29.5:8000/api/login/', {
+        const response = await fetchWithAuth('http://172.16.29.5:8000/api/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            username: this.username,
+            username: this.username.trim(),
             password: this.password,
           }),
         });
 
-        if (response.ok) { // Status 200-299
+        if (response.ok) {
           const data = await response.json();
           // Guardar el token si viene en la respuesta
           if (data.access) localStorage.setItem('access', data.access);
           if (data.refresh) localStorage.setItem('refresh', data.refresh);
           // Guardar la información del usuario en localStorage para mantener la sesión
           localStorage.setItem('user', JSON.stringify(data.user));
+          
+          toast.success('¡Inicio de sesión exitoso!');
           // Redirigir a la página de inicio
           this.$router.push('/');
-        } else { // Status 4xx, 5xx
-          // Revisa si la respuesta es JSON antes de intentar parsearla
+        } else {
+          // Manejo específico de errores HTTP
           const contentType = response.headers.get("content-type");
           if (contentType && contentType.includes("application/json")) {
               const errorData = await response.json();
-              this.error = errorData.error || `Error: ${response.statusText}`;
+              this.error = errorData.error || errorData.detail || `Error: ${response.statusText}`;
+              toast.error(this.error);
           } else {
-              // La respuesta no es JSON (probablemente una página de error HTML para el error 500)
               if (response.status === 500) {
                   this.error = 'Error interno del servidor. Por favor, contacte al administrador.';
+              } else if (response.status === 401) {
+                  this.error = 'Usuario o contraseña incorrectos.';
+              } else if (response.status === 403) {
+                  this.error = 'Acceso denegado. Contacte al administrador.';
               } else {
-                  this.error = `Error inesperado del servidor (Código: ${response.status}).`;
+                  this.error = `Error del servidor (Código: ${response.status}).`;
               }
+              toast.error(this.error);
           }
         }
       } catch (err) {
         console.error('Error de red durante el login:', err);
         this.error = 'No se pudo conectar con el servidor. Revisa tu conexión de red.';
+        toast.error(this.error);
       } finally {
         this.loading = false;
       }

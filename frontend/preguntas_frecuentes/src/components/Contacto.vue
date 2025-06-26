@@ -17,24 +17,70 @@
       </div>
       <div class="contacto-derecha">
         <h2>CONTACTO</h2>
-        <form class="formulario-contacto" @submit.prevent="handleSubmit">
+        <form class="formulario-contacto" @submit.prevent="handleSubmit" role="form" aria-label="Formulario de contacto">
           <div class="campo">
-            <label for="nombre">NOMBRE</label>
-            <input type="text" id="nombre" placeholder="Tu nombre" v-model="formData.nombre" required>
+            <label for="nombre" id="nombre-label">NOMBRE</label>
+            <input 
+              type="text" 
+              id="nombre" 
+              placeholder="Tu nombre" 
+              v-model="formData.nombre" 
+              required
+              aria-labelledby="nombre-label"
+              aria-describedby="nombre-error"
+              :aria-invalid="!!errors.nombre"
+            >
+            <span v-if="errors.nombre" id="nombre-error" class="error-text" role="alert">{{ errors.nombre }}</span>
           </div>
           <div class="campo">
-            <label for="apellido">APELLIDO</label>
-            <input type="text" id="apellido" placeholder="Tu apellido" v-model="formData.apellido" required>
+            <label for="apellido" id="apellido-label">APELLIDO</label>
+            <input 
+              type="text" 
+              id="apellido" 
+              placeholder="Tu apellido" 
+              v-model="formData.apellido" 
+              required
+              aria-labelledby="apellido-label"
+              aria-describedby="apellido-error"
+              :aria-invalid="!!errors.apellido"
+            >
+            <span v-if="errors.apellido" id="apellido-error" class="error-text" role="alert">{{ errors.apellido }}</span>
           </div>
           <div class="campo">
-            <label for="correo">CORREO</label>
-            <input type="email" id="correo" placeholder="Tu correo electrónico" v-model="formData.correo" required>
+            <label for="correo" id="correo-label">CORREO</label>
+            <input 
+              type="email" 
+              id="correo" 
+              placeholder="Tu correo electrónico" 
+              v-model="formData.correo" 
+              required
+              aria-labelledby="correo-label"
+              aria-describedby="correo-error"
+              :aria-invalid="!!errors.correo"
+            >
+            <span v-if="errors.correo" id="correo-error" class="error-text" role="alert">{{ errors.correo }}</span>
           </div>
           <div class="campo mensaje-campo">
-            <label for="mensaje">MENSAJE</label>
-            <textarea id="mensaje" placeholder="Escribe tu mensaje" v-model="formData.mensaje" required></textarea>
+            <label for="mensaje" id="mensaje-label">MENSAJE</label>
+            <textarea 
+              id="mensaje" 
+              placeholder="Escribe tu mensaje" 
+              v-model="formData.mensaje" 
+              required
+              aria-labelledby="mensaje-label"
+              aria-describedby="mensaje-error"
+              :aria-invalid="!!errors.mensaje"
+            ></textarea>
+            <span v-if="errors.mensaje" id="mensaje-error" class="error-text" role="alert">{{ errors.mensaje }}</span>
           </div>
-          <button type="submit" class="boton-enviar">ENVIAR</button>
+          <button 
+            type="submit" 
+            class="boton-enviar"
+            :disabled="loading"
+            :aria-busy="loading"
+          >
+            {{ loading ? 'Enviando...' : 'ENVIAR' }}
+          </button>
         </form>
       </div>
     </section>
@@ -43,6 +89,7 @@
 
 <script>
 import { useToast } from 'vue-toastification';
+import { fetchWithAuth } from '@/utils/authFetch';
 
 export default {
   name: 'PaginaContacto',
@@ -53,32 +100,75 @@ export default {
         apellido: '',
         correo: '',
         mensaje: ''
-      }
+      },
+      backendUrl: 'http://172.16.29.5:8000',
+      errors: {},
+      loading: false
     };
   },
   methods: {
+    validateForm() {
+      const errors = {};
+      
+      // Validar nombre
+      if (!this.formData.nombre.trim()) {
+        errors.nombre = 'El nombre es obligatorio';
+      } else if (this.formData.nombre.trim().length < 2) {
+        errors.nombre = 'El nombre debe tener al menos 2 caracteres';
+      }
+      
+      // Validar apellido
+      if (!this.formData.apellido.trim()) {
+        errors.apellido = 'El apellido es obligatorio';
+      } else if (this.formData.apellido.trim().length < 2) {
+        errors.apellido = 'El apellido debe tener al menos 2 caracteres';
+      }
+      
+      // Validar correo
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!this.formData.correo.trim()) {
+        errors.correo = 'El correo electrónico es obligatorio';
+      } else if (!emailRegex.test(this.formData.correo)) {
+        errors.correo = 'El correo electrónico no tiene un formato válido';
+      }
+      
+      // Validar mensaje
+      if (!this.formData.mensaje.trim()) {
+        errors.mensaje = 'El mensaje es obligatorio';
+      } else if (this.formData.mensaje.trim().length < 10) {
+        errors.mensaje = 'El mensaje debe tener al menos 10 caracteres';
+      } else if (this.formData.mensaje.trim().length > 1000) {
+        errors.mensaje = 'El mensaje no puede exceder 1000 caracteres';
+      }
+      
+      return errors;
+    },
+    
     async handleSubmit() {
-      // Validación básica (puedes añadir más si es necesario)
-      if (!this.formData.nombre || !this.formData.apellido || !this.formData.correo || !this.formData.mensaje) {
-        alert('Por favor, completa todos los campos.');
+      const toast = useToast();
+      
+      // Validación mejorada
+      this.errors = this.validateForm();
+      if (Object.keys(this.errors).length > 0) {
+        Object.values(this.errors).forEach(error => toast.error(error));
         return;
       }
 
       try {
+        this.loading = true;
         // Envia los datos al backend
-        const response = await fetch('/api/contacto/enviar-correo/', { // URL del backend
+        const response = await fetchWithAuth(`${this.backendUrl}/api/contacto/enviar-correo/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             ...this.formData,
-            destinatario: 'jagrajales@grupodecor.com' // El correo al que se enviará
+            destinatario: 'jagrajales@grupodecor.com'
           }),
         });
 
         if (response.ok) {
-          const toast = useToast();
           toast.success('¡Mensaje enviado con éxito!');
           // Limpiar el formulario
           this.formData.nombre = '';
@@ -86,11 +176,14 @@ export default {
           this.formData.correo = '';
           this.formData.mensaje = '';
         } else {
-          alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
+          const errorData = await response.json().catch(() => ({}));
+          toast.error(errorData.error || 'Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
         }
       } catch (error) {
         console.error('Error al enviar el formulario:', error);
-        alert('Ocurrió un error de conexión. Por favor, inténtalo de nuevo más tarde.');
+        toast.error('Ocurrió un error de conexión. Por favor, inténtalo de nuevo más tarde.');
+      } finally {
+        this.loading = false;
       }
     }
   },
@@ -236,6 +329,45 @@ export default {
   background-color: #1a2530;
 }
 
+/* Estilos para mensajes de error */
+.error-text {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.campo input[aria-invalid="true"],
+.campo textarea[aria-invalid="true"] {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.campo input[aria-invalid="true"]:focus,
+.campo textarea[aria-invalid="true"]:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Mejoras en el botón de envío */
+.boton-enviar:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.boton-enviar:disabled:hover {
+  background-color: #6c757d;
+}
+
+/* Mejoras en la accesibilidad */
+.campo input:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .contacto-seccion {
@@ -244,20 +376,17 @@ export default {
 
   .contacto-izquierda,
   .contacto-derecha {
-    flex: none; /* Remove flex grow on smaller screens */
-    width: 100%; /* Make them take full width */
-    padding: 1rem; /* Adjust padding */
+    flex: none;
+    width: 100%;
+    padding: 1rem;
   }
    .boton-enviar {
-        align-self: stretch; /* Estirar el botón ENVIAR en pantallas pequeñas */
+        align-self: stretch;
     }
      .correo-item {
-        flex-direction: column; /* Apilar correo y botón en pantallas pequeñas */
-        align-items: stretch; /* Estirar elementos */
-        gap: 0.5rem; /* Espacio entre span y botón */
-    }
-    .correo-item span {
-        text-align: center; /* Centrar texto del correo */
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
     }
 }
 </style>
