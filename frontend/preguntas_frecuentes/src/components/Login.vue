@@ -77,11 +77,20 @@ export default {
 
         if (response.ok) {
           const data = await response.json();
+          console.log('Respuesta del login:', data);
+          
           // Guardar el token si viene en la respuesta
-          if (data.access) localStorage.setItem('access', data.access);
-          if (data.refresh) localStorage.setItem('refresh', data.refresh);
+          if (data.access) {
+            localStorage.setItem('access', data.access);
+            console.log('Token de acceso guardado');
+          }
+          if (data.refresh) {
+            localStorage.setItem('refresh', data.refresh);
+            console.log('Token de refresh guardado');
+          }
           // Guardar la información del usuario en localStorage para mantener la sesión
           localStorage.setItem('user', JSON.stringify(data.user));
+          console.log('Usuario guardado:', data.user);
           
           toast.success('¡Inicio de sesión exitoso!');
           // Redirigir a la página de inicio

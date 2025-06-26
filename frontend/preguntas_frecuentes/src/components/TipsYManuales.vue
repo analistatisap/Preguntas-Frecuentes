@@ -147,14 +147,20 @@ export default {
       this.loading.manuales = true;
       const toast = useToast();
       
+      console.log('Iniciando carga de manuales...');
+      console.log('Token de acceso:', localStorage.getItem('access'));
+      
       try {
         const res = await fetchWithAuth(`${this.backendUrl}/api/recursos/manuales/`, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
-        if (!res.ok) throw new Error('Error al obtener manuales');
+        console.log('Respuesta de manuales:', res.status, res.statusText);
+        
+        if (!res.ok) throw new Error(`Error al obtener manuales: ${res.status}`);
         this.manuales = await res.json();
+        console.log('Manuales cargados:', this.manuales);
       } catch (e) {
         console.error('Error al cargar manuales:', e);
         this.manuales = [];
@@ -167,14 +173,20 @@ export default {
       this.loading.tips = true;
       const toast = useToast();
       
+      console.log('Iniciando carga de tips...');
+      console.log('Token de acceso:', localStorage.getItem('access'));
+      
       try {
         const res = await fetchWithAuth(`${this.backendUrl}/api/recursos/tips/`, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
-        if (!res.ok) throw new Error('Error al obtener tips');
+        console.log('Respuesta de tips:', res.status, res.statusText);
+        
+        if (!res.ok) throw new Error(`Error al obtener tips: ${res.status}`);
         this.tips = await res.json();
+        console.log('Tips cargados:', this.tips);
       } catch (e) {
         console.error('Error al cargar tips:', e);
         this.tips = [];
