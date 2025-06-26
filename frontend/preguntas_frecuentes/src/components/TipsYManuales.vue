@@ -72,6 +72,7 @@ export default {
     getManualIcon(titulo) {
       const t = titulo.toLowerCase();
       if (t.includes('oferta')) return '/imgtipsymanuales/ofertas.png';
+      if (t.includes('atp')) return '/imgtipsymanuales/atp.png';
       if (t.includes('pdf')) return '/imgtipsymanuales/libro.png';
       if (t.includes('sap')) return '/imgtipsymanuales/engranaje.png';
       if (t.includes('guía') || t.includes('guia')) return '/imgtipsymanuales/libro.png';
