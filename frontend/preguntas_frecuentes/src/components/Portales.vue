@@ -63,7 +63,7 @@ export default {
               link: 'https://decorcrmprd.decorceramica.com:41212/sap(bD1lcyZjPTMwMCZkPW1pbg==)/bc/bsp/sap/crm_ui_start/default.htm?sap-client=300&sap-language=ES'
             },
              {
-              imagen: 'datos.png',
+              imagen: '/sapbo.png',
               titulo: 'SAP BO',
               descripcion: 'Podras ingresar a Sap BO.',
               link: 'http://bo.decorceramica.com:8080/BOE/BI'
