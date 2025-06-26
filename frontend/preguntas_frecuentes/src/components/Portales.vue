@@ -36,7 +36,7 @@ export default {
              {
               imagen: '/aplicacionchat.png',
               titulo: 'GDecorbot',
-              descripcion: 'Aquí podrás accder al chatbot para realizar diferentes tramites como descargar desprendibles de pagos entre otros',
+              descripcion: 'Aquí podrás acceder al chatbot para realizar diferentes tramites como descargar desprendibles de pagos entre otros',
               link: 'https://decorghnet.grupodecor.com:5450/chatbot_decor/'
             },
           ]

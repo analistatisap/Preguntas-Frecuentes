@@ -32,14 +32,20 @@
     <p class="descripcion-pagina">
       Aquí encontrarás tips visuales y consejos rápidos para optimizar tu trabajo diario.
     </p>
-    <div class="grid-manuales"> 
-      <div v-for="(tip, index) in tips" :key="index" class="cuadro-tip">
+    <div class="grid-tips"> 
+      <div v-for="(tip, index) in tips" :key="index" class="cuadro-tip" @mouseenter="tip.hover = true" @mouseleave="tip.hover = false">
         <h3 v-if="tip.titulo">{{ tip.titulo }}</h3>
         <div class="imagen-tip">
           <img v-if="tip.imagen" :src="getTipUrl(tip.imagen)" :alt="tip.titulo || 'Tip Image'">
           <a v-else-if="tip.archivo" :href="getTipUrl(tip.archivo)" target="_blank">Descargar archivo</a>
         </div>
         <p v-if="tip.descripcion" class="tip-desc">{{ tip.descripcion }}</p>
+        <transition name="expand-card">
+          <div v-if="tip.hover" class="tip-card-expandida">
+            <img v-if="tip.imagen" :src="getTipUrl(tip.imagen)" :alt="tip.titulo || 'Tip Image'">
+            <p v-if="tip.descripcion" class="tip-desc-expandida">{{ tip.descripcion }}</p>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -226,46 +232,63 @@ export default {
 }
 
 /* Estilos para los cuadros de tips (similares a los manuales) */
+.grid-tips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
 .cuadro-tip {
+  position: relative;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   text-align: center;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  cursor: pointer; /* Indicar que es clickeable/interactivo */
+  cursor: pointer;
+  overflow: visible;
 }
-
 .cuadro-tip:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
 }
-
-/* Contenedor de la imagen del tip */
-.imagen-tip {
+.tip-card-expandida {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.2);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(41,128,217,0.18), 0 1.5px 6px rgba(44,62,80,0.10);
+  padding: 2rem 2rem 1.5rem 2rem;
+  min-width: 320px;
+  min-height: 320px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 150px; /* Altura ajustada para imágenes de tips */
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1);
+  z-index: 20;
+}
+.tip-card-expandida img {
+  max-width: 90%;
+  max-height: 220px;
   margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.10);
 }
-
-.imagen-tip img {
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-  object-fit: contain;
-  transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1), border 0.3s cubic-bezier(.4,0,.2,1);
+.tip-desc-expandida {
+  color: #333;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  text-align: center;
 }
-
-/* Efecto de escala en la imagen del tip al pasar el mouse sobre el cuadro */
-.cuadro-tip:hover .imagen-tip img {
-  transform: scale(1.25);
-  box-shadow: 0 8px 24px rgba(41,128,217,0.18), 0 1.5px 6px rgba(44,62,80,0.10);
-  border: 2.5px solid #2980d9;
-  z-index: 2;
+.expand-card-enter-active, .expand-card-leave-active {
+  transition: opacity 0.2s, transform 0.2s;
 }
-
+.expand-card-enter, .expand-card-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
 .manual-desc {
   color: #666;
   font-size: 0.95rem;
