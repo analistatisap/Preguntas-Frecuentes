@@ -33,21 +33,25 @@
       Aquí encontrarás tips visuales y consejos rápidos para optimizar tu trabajo diario.
     </p>
     <div class="grid-tips"> 
-      <div v-for="(tip, index) in tips" :key="index" class="cuadro-tip" @mouseenter="tip.hover = true" @mouseleave="tip.hover = false">
+      <div v-for="(tip, index) in tips" :key="index" class="cuadro-tip" @click="abrirModalTip(tip)">
         <h3 v-if="tip.titulo">{{ tip.titulo }}</h3>
         <div class="imagen-tip">
           <img v-if="tip.imagen" :src="getTipUrl(tip.imagen)" :alt="tip.titulo || 'Tip Image'">
           <a v-else-if="tip.archivo" :href="getTipUrl(tip.archivo)" target="_blank">Descargar archivo</a>
         </div>
         <p v-if="tip.descripcion" class="tip-desc">{{ tip.descripcion }}</p>
-        <transition name="expand-card">
-          <div v-if="tip.hover" class="tip-card-expandida">
-            <img v-if="tip.imagen" :src="getTipUrl(tip.imagen)" :alt="tip.titulo || 'Tip Image'">
-            <p v-if="tip.descripcion" class="tip-desc-expandida">{{ tip.descripcion }}</p>
-          </div>
-        </transition>
       </div>
     </div>
+    <transition name="modal-fade">
+      <div v-if="modalTip" class="modal-tip-overlay" @click.self="cerrarModalTip">
+        <div class="modal-tip-card">
+          <button class="modal-tip-close" @click="cerrarModalTip">&times;</button>
+          <h2 v-if="modalTip.titulo">{{ modalTip.titulo }}</h2>
+          <img v-if="modalTip.imagen" :src="getTipUrl(modalTip.imagen)" :alt="modalTip.titulo || 'Tip Image'">
+          <p v-if="modalTip.descripcion" class="tip-desc-expandida">{{ modalTip.descripcion }}</p>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -59,6 +63,7 @@ export default {
       manuales: [],
       tips: [],
       backendUrl: 'http://172.16.29.5:8000', 
+      modalTip: null,
     };
   },
   methods: {
@@ -133,6 +138,14 @@ export default {
       } catch (e) {
         this.tips = [];
       }
+    },
+    abrirModalTip(tip) {
+      this.modalTip = tip;
+      document.body.style.overflow = 'hidden';
+    },
+    cerrarModalTip() {
+      this.modalTip = null;
+      document.body.style.overflow = '';
     },
   },
   mounted() {
@@ -238,7 +251,6 @@ export default {
   gap: 1.5rem;
 }
 .cuadro-tip {
-  position: relative;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -249,7 +261,8 @@ export default {
   overflow: visible;
 }
 .cuadro-tip:hover {
-  z-index: 10;
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(41,128,217,0.10);
 }
 .tip-card-expandida {
   position: absolute;
@@ -298,5 +311,59 @@ export default {
   color: #666;
   font-size: 0.95rem;
   margin-top: 0.5rem;
+}
+
+/* MODAL TIP */
+.modal-tip-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(44,62,80,0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-tip-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(41,128,217,0.18), 0 1.5px 6px rgba(44,62,80,0.10);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  min-width: 340px;
+  max-width: 95vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow-y: auto;
+}
+.modal-tip-card img {
+  max-width: 90%;
+  max-height: 320px;
+  margin-bottom: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+}
+.modal-tip-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 2.2rem;
+  color: #007bff;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.2s;
+}
+.modal-tip-close:hover {
+  color: #d32f2f;
+}
+.modal-fade-enter-active, .modal-fade-leave-active {
+  transition: opacity 0.2s;
+}
+.modal-fade-enter, .modal-fade-leave-to {
+  opacity: 0;
 }
 </style>
