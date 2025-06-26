@@ -52,10 +52,10 @@ export default {
               link: 'https://gestionclavesap.grupodecor.com/'
             },
              {
-              imagen: '/crm.png', 
+              imagen: '/sapcrm.jpg',
               titulo: 'CRM',
               descripcion: 'Podras ingresar al CRM.',
-              link: 'https://decorcrmprd.decorceramica.com:41212/sap(bD1lcyZjPTMwMCZkPW1pbg==)/bc/bsp/sap/crm_ui_start/default.htm?sap-client=300&sap-language=ES' // <-- Pega la URL (quizás un manual) para SAP GUI aquí
+              link: 'https://decorcrmprd.decorceramica.com:41212/sap(bD1lcyZjPTMwMCZkPW1pbg==)/bc/bsp/sap/crm_ui_start/default.htm?sap-client=300&sap-language=ES'
             },
              {
               imagen: 'datos.png',
