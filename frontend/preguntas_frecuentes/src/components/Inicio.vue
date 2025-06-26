@@ -19,7 +19,7 @@
             <path d="M8 13l2-2 2 2 4-4" stroke="#4f8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="12" cy="12" r="6" fill="#4f8cff" fill-opacity="0.15"/>
           </svg>
-          <span class="glass-text mt-3">¡Bienvenido!</span>
+          <span class="glass-text mt-3">¡Bienvenido{{ nombreUsuario ? ' ' + nombreUsuario : '' }}!</span>
         </div>
       </div>
     </div>
@@ -27,6 +27,31 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+
+const nombreUsuario = ref('');
+
+onMounted(() => {
+  const userData = localStorage.getItem('user');
+  if (userData) {
+    try {
+      const user = JSON.parse(userData);
+      // Intenta obtener el primer nombre de fullName, first_name o username
+      let nombre = '';
+      if (user.fullName) {
+        nombre = user.fullName.split(' ')[0];
+      } else if (user.first_name) {
+        nombre = user.first_name;
+      } else if (user.username) {
+        nombre = user.username;
+      }
+      nombreUsuario.value = nombre;
+    } catch (e) {
+      nombreUsuario.value = '';
+    }
+  }
+});
+
 const entornos = [
   {
     titulo: 'Entorno SAP',
