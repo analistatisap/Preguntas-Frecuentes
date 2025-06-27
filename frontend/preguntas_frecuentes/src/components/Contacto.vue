@@ -3,7 +3,7 @@
     <section class="contacto-seccion">
       <div class="contacto-izquierda">
         <h2>ÁREA DE TECNOLOGÍA DE LA INFORMACIÓN</h2>
-        <img :src="`${import.meta.env.BASE_URL}imgarbol.png`" alt="Árbol" class="img-arbol-contacto" />
+        <img :src="imgArbolSrc" alt="Árbol" class="img-arbol-contacto" />
         <p>CORREO</p>
         <div class="correos">
           <div class="correo-item">
@@ -146,6 +146,9 @@ export default {
              this.formData.correo.trim() && 
              this.formData.mensaje.trim() &&
              Object.keys(this.errors).length === 0;
+    },
+    imgArbolSrc() {
+      return `${import.meta.env.BASE_URL}imgarbol.png`;
     }
   },
   methods: {
