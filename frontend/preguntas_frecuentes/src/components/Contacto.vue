@@ -261,7 +261,7 @@ export default {
           },
           body: JSON.stringify({
             ...this.formData,
-            destinatario: 'jagrajales@grupodecor.com'
+            destinatario: 'decorsap@grupodecor.com'
           }),
         });
 
