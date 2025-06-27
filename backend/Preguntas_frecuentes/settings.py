@@ -14,8 +14,7 @@ import os
 from dotenv import load_dotenv
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType # Necesitamos GroupOfNamesType ahora
 import logging
-from ldap3 import SUBTREE, LEVEL, ALL_ATTRIBUTES
-from ldap3.core.exceptions import LDAPException
+from ldap3 import SUBTREE
 
 load_dotenv()
 
@@ -158,16 +157,9 @@ EMAIL_USE_TLS = True
 
 # --- CONFIGURACIÓN PARA AUTENTICACIÓN LDAP con verificación de actividad ---
 
-AUTH_LDAP_SERVER_URI = f"ldap://{os.getenv('LDAP_SERVER')}:{int(os.getenv('LDAP_PORT', '389'))}"
+AUTH_LDAP_SERVER_URI = f"ldap://{os.getenv('LDAP_SERVER')}:{os.getenv('LDAP_PORT', '389')}"
 AUTH_LDAP_BIND_DN = os.getenv('LDAP_BIND_USER_DN')
 AUTH_LDAP_BIND_PASSWORD = os.getenv('LDAP_BIND_PASSWORD')
-
-# Configuración de opciones de conexión LDAP con valores por defecto seguros
-AUTH_LDAP_CONNECTION_OPTIONS = {
-    'OPT_NETWORK_TIMEOUT': 10,
-    'OPT_TIMEOUT': 10,
-    'OPT_REFERRALS': 0,
-}
 
 AUTH_LDAP_USER_SEARCH = LDAPSearch(
     os.getenv('LDAP_BASE_DN'),
