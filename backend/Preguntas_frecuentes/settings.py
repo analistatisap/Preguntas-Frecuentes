@@ -164,7 +164,7 @@ AUTH_LDAP_BIND_PASSWORD = os.getenv('LDAP_BIND_PASSWORD')
 AUTH_LDAP_USER_SEARCH = LDAPSearch(
     os.getenv('LDAP_BASE_DN'),
     2,  # 2 es el valor entero para SCOPE_SUBTREE
-    '(sAMAccountName=%(user)s)'
+    '(&(objectClass=user)(objectCategory=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(sAMAccountName=%(user)s))'
 )
 
 AUTH_LDAP_USER_ATTR_MAP = {

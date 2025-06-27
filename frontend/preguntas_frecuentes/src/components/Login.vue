@@ -194,7 +194,6 @@ export default {
       this.loading = true;
       this.error = null;
       const toast = useToast();
-      
       // Validación del formulario
       if (!this.validateForm()) {
         const firstError = Object.values(this.errors)[0];
@@ -202,7 +201,6 @@ export default {
         this.loading = false;
         return;
       }
-      
       try {
         const response = await fetch('http://172.16.29.5:8000/api/login/', {
           method: 'POST',
@@ -214,56 +212,36 @@ export default {
             password: this.password,
           }),
         });
-
         if (response.ok) {
           const data = await response.json();
-          console.log('Respuesta del login:', data);
-          
-          // Guardar el token si viene en la respuesta
           if (data.access) {
             localStorage.setItem('access', data.access);
-            console.log('Token de acceso guardado');
           }
           if (data.refresh) {
             localStorage.setItem('refresh', data.refresh);
-            console.log('Token de refresh guardado');
           }
-          // Guardar la información del usuario en localStorage para mantener la sesión
-          localStorage.setItem('user', JSON.stringify(data.user));
-          console.log('Usuario guardado:', data.user);
-          
+          if (data.user) {
+            localStorage.setItem('user', JSON.stringify(data.user));
+          }
           toast.success('¡Inicio de sesión exitoso! Bienvenido.');
-          // Redirigir a la página de inicio
           this.$router.push('/');
         } else {
-          // Manejo específico de errores HTTP
-          const contentType = response.headers.get("content-type");
-          if (contentType && contentType.includes("application/json")) {
-              const errorData = await response.json();
-              this.error = errorData.error || errorData.detail || `Error: ${response.statusText}`;
-              toast.error(this.error);
+          let errorMessage = 'Usuario o contraseña incorrectos.';
+          if (response.status === 403) {
+            errorMessage = 'La cuenta está inactiva o bloqueada.';
+          } else if (response.status === 401) {
+            errorMessage = 'Credenciales inválidas.';
+          } else if (response.status === 500) {
+            errorMessage = 'Error interno del servidor. Por favor, contacte al administrador.';
           } else {
-              if (response.status === 500) {
-                  this.error = 'Error interno del servidor. Por favor, contacte al administrador.';
-              } else if (response.status === 401) {
-                  this.error = 'Usuario o contraseña incorrectos. Verifique sus credenciales.';
-              } else if (response.status === 403) {
-                  this.error = 'Acceso denegado. Su cuenta puede estar bloqueada.';
-              } else if (response.status === 429) {
-                  this.error = 'Demasiados intentos de inicio de sesión. Intente más tarde.';
-              } else {
-                  this.error = `Error del servidor (Código: ${response.status}).`;
-              }
-              toast.error(this.error);
+            const errorData = await response.json().catch(() => ({}));
+            if (errorData.detail) errorMessage = errorData.detail;
           }
+          this.error = errorMessage;
+          toast.error(this.error);
         }
       } catch (err) {
-        console.error('Error de red durante el login:', err);
-        if (err.name === 'TypeError' && err.message.includes('fetch')) {
-          this.error = 'No se pudo conectar con el servidor. Verifique su conexión de red.';
-        } else {
-          this.error = 'Error inesperado. Por favor, intente de nuevo.';
-        }
+        this.error = 'No se pudo conectar con el servidor. Verifique su conexión de red.';
         toast.error(this.error);
       } finally {
         this.loading = false;
