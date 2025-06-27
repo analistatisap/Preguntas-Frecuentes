@@ -320,6 +320,8 @@ export default {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.email) {
       this.formData.correo = user.email;
+      console.log('Correo autocompletado:', this.formData.correo);
+      
     }
   },
 };
