@@ -15,7 +15,8 @@
                 'decorceramica-img': portal.titulo === 'Decorcerámica',
                 'novacasa-img': portal.titulo === 'NovaCasa',
                 'gdecorbot-img': portal.titulo === 'GDecorbot',
-                'citasbodega-img': portal.titulo === 'Citas en bodega'
+                'citasbodega-img': portal.titulo === 'Citas en bodega',
+                'gestorclaves-img': portal.titulo === 'Gestor claves'
               }"
             />
           </div>
@@ -58,7 +59,7 @@ export default {
           portales: [
 
             {
-              imagen: '/cerrar.png', 
+              imagen: '/citasenbodegas.png',
               titulo: 'Gestor claves',
               descripcion: 'Aquí podrás encontrar gestionar las claves del CRM y ERP logon.',
               link: 'https://gestionclavesap.grupodecor.com/'
@@ -208,6 +209,17 @@ h2 {
 }
 
 .citasbodega-img {
+  width: 80px !important;
+  height: 80px !important;
+  filter: none !important;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+  padding: 10px;
+  object-fit: contain;
+}
+
+.gestorclaves-img {
   width: 80px !important;
   height: 80px !important;
   filter: none !important;
