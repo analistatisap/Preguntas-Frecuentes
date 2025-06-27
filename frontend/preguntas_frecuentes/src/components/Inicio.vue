@@ -4,9 +4,9 @@
       <!-- Columna de texto -->
       <div class="col-md-6 mb-4 mb-md-0">
         <div class="p-4 rounded-3 bg-white shadow-sm">
-          <h2 class="mb-3">¿Sabías que…</h2>
+          <h2 class="mb-3">Bienvenido</h2>
           <p class="lead">
-            A través de este portal podrás obtener material de utilidad para el óptimo desarrollo de tus procesos?
+            Al Portal de Preguntas Frecuentes del Área de Tecnología Este espacio fue creado para resolver tus dudas sobre el uso de nuestras plataformas (SAP, CRM, VTEX, etc.). . Aquí encontrarás manuales, tutoriales, videos, tips y respuestas a las preguntas más frecuentes realizadas por tus compañeros.                     Si no encuentras lo que estás buscando, el equipo de Tecnología está disponible para brindarte soporte.
           </p>
         </div>
       </div>
@@ -219,14 +219,14 @@ onMounted(() => {
   text-shadow: 0 2px 16px rgba(0,0,0,0.25);
 }
 .welcome-content h1 {
-  font-size: 2.1rem;
-  font-weight: 700;
+  font-size: 3rem !important;
+  font-weight: 800;
   letter-spacing: 1px;
   margin: 0;
   padding: 0.5em 0;
-  background: linear-gradient(90deg, #7f7fd5, #86a8e7, #91eac9);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  background: none !important;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.25);
 }
 </style>
