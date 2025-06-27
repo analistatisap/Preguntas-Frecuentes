@@ -319,7 +319,7 @@ export default {
     fetch('http://172.16.29.5:8000/api/user/', {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+        'Authorization': `Bearer ${localStorage.getItem('access')}`,
         'Content-Type': 'application/json',
       },
       credentials: 'include',
