@@ -12,25 +12,67 @@
       </div>
       <!-- Columna de imagen -->
       <div class="col-md-6 text-center">
-        <div class="glass-animated dark-wireframe d-flex flex-column align-items-center justify-content-center">
+        <div class="glass-animated light-wireframe d-flex flex-column align-items-center justify-content-center">
           <!-- SVG wireframe animado -->
           <svg class="wireframe-bg" viewBox="0 0 400 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g stroke="#4f8cff" stroke-width="0.7" opacity="0.35">
-              <path d="M10 10 Q200 60 390 10"/>
-              <path d="M10 30 Q200 80 390 30"/>
-              <path d="M10 60 Q200 120 390 60"/>
-              <path d="M10 100 Q200 180 390 100"/>
-              <path d="M10 180 Q200 40 390 180"/>
-              <path d="M10 200 Q200 160 390 200"/>
-              <path d="M10 210 Q200 200 390 210"/>
-              <path d="M60 10 Q200 110 340 10" opacity="0.18"/>
-              <path d="M60 210 Q200 110 340 210" opacity="0.18"/>
+            <g stroke="#4f8cff" stroke-width="1.2" opacity="0.55">
+              <path>
+                <animate attributeName="d" dur="7s" repeatCount="indefinite"
+                  values="M10 10 Q200 60 390 10;M10 20 Q200 40 390 20;M10 10 Q200 60 390 10"/>
+              </path>
+              <path>
+                <animate attributeName="d" dur="8s" repeatCount="indefinite"
+                  values="M10 30 Q200 80 390 30;M10 50 Q200 100 390 50;M10 30 Q200 80 390 30"/>
+              </path>
+              <path>
+                <animate attributeName="d" dur="9s" repeatCount="indefinite"
+                  values="M10 60 Q200 120 390 60;M10 80 Q200 140 390 80;M10 60 Q200 120 390 60"/>
+              </path>
+              <path>
+                <animate attributeName="d" dur="10s" repeatCount="indefinite"
+                  values="M10 100 Q200 180 390 100;M10 120 Q200 200 390 120;M10 100 Q200 180 390 100"/>
+              </path>
+              <path>
+                <animate attributeName="d" dur="11s" repeatCount="indefinite"
+                  values="M10 180 Q200 40 390 180;M10 160 Q200 60 390 160;M10 180 Q200 40 390 180"/>
+              </path>
+              <path>
+                <animate attributeName="d" dur="12s" repeatCount="indefinite"
+                  values="M10 200 Q200 160 390 200;M10 180 Q200 140 390 180;M10 200 Q200 160 390 200"/>
+              </path>
+              <path>
+                <animate attributeName="d" dur="13s" repeatCount="indefinite"
+                  values="M10 210 Q200 200 390 210;M10 190 Q200 180 390 190;M10 210 Q200 200 390 210"/>
+              </path>
+              <path opacity="0.35">
+                <animate attributeName="d" dur="10s" repeatCount="indefinite"
+                  values="M60 10 Q200 110 340 10;M60 30 Q200 130 340 30;M60 10 Q200 110 340 10"/>
+              </path>
+              <path opacity="0.35">
+                <animate attributeName="d" dur="11s" repeatCount="indefinite"
+                  values="M60 210 Q200 110 340 210;M60 190 Q200 90 340 190;M60 210 Q200 110 340 210"/>
+              </path>
             </g>
-            <g stroke="#fff" stroke-width="0.5" opacity="0.13">
-              <path d="M10 110 Q200 10 390 110"/>
-              <path d="M10 160 Q200 210 390 160"/>
+            <g stroke="#1a237e" stroke-width="0.8" opacity="0.25">
+              <path>
+                <animate attributeName="d" dur="8s" repeatCount="indefinite"
+                  values="M10 110 Q200 10 390 110;M10 130 Q200 30 390 130;M10 110 Q200 10 390 110"/>
+              </path>
+              <path>
+                <animate attributeName="d" dur="9s" repeatCount="indefinite"
+                  values="M10 160 Q200 210 390 160;M10 140 Q200 190 390 140;M10 160 Q200 210 390 160"/>
+              </path>
             </g>
-            <animateTransform attributeName="transform" type="skewX" from="0" to="10" dur="6s" repeatCount="indefinite" direction="alternate"/>
+            <g stroke="#fff" stroke-width="0.7" opacity="0.22">
+              <path>
+                <animate attributeName="d" dur="12s" repeatCount="indefinite"
+                  values="M0 0 Q200 220 400 0;M0 20 Q200 200 400 20;M0 0 Q200 220 400 0"/>
+              </path>
+              <path>
+                <animate attributeName="d" dur="13s" repeatCount="indefinite"
+                  values="M0 220 Q200 0 400 220;M0 200 Q200 20 400 200;M0 220 Q200 0 400 220"/>
+              </path>
+            </g>
           </svg>
           <!-- Icono SVG animado con pulso -->
           <svg class="pulse-icon" width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -254,36 +296,36 @@ const entornos = [
   position: relative;
   z-index: 1;
 }
-.dark-wireframe {
-  background: linear-gradient(135deg, #181f2a 60%, #25304a 100%);
-  border: 1.5px solid #26334d;
-  box-shadow: 0 8px 32px 0 rgba(24, 31, 42, 0.28);
+.light-wireframe {
+  background: linear-gradient(135deg, #eaf2ff 60%, #fafdff 100%);
+  border: 1.5px solid #b3c6e6;
+  box-shadow: 0 8px 32px 0 rgba(79, 140, 255, 0.13);
   position: relative;
   overflow: hidden;
 }
 .wireframe-bg {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
+  top: -10px; left: -10px;
+  width: 120%;
+  height: 120%;
   z-index: 0;
   pointer-events: none;
   animation: wireframeMove 12s linear infinite alternate;
 }
 @keyframes wireframeMove {
-  0% { filter: blur(0.5px) brightness(1.1); opacity: 0.7; }
-  50% { filter: blur(2px) brightness(1.2); opacity: 0.9; }
-  100% { filter: blur(0.5px) brightness(1.1); opacity: 0.7; }
+  0% { filter: blur(0.5px) brightness(1.1); opacity: 0.9; }
+  50% { filter: blur(2px) brightness(1.2); opacity: 1; }
+  100% { filter: blur(0.5px) brightness(1.1); opacity: 0.9; }
 }
 .wireframe-text {
-  color: #eaf2ff;
+  color: #1a237e;
   font-size: 2.1rem;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-shadow: 0 2px 16px #4f8cff44, 0 1px 0 #fff8;
   position: relative;
   z-index: 2;
-  background: linear-gradient(90deg, #eaf2ff 80%, #4f8cff 100%);
+  background: linear-gradient(90deg, #1a237e 60%, #4f8cff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
