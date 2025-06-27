@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
-import Particles from 'vue3-particles'
+import Particles from '@tsparticles/vue3'
+import { loadFull } from 'tsparticles'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -14,7 +15,14 @@ import router from './router'
 const app = createApp(App)
 
 app.use(createPinia())
-app.use(Particles)
+app.use(Particles, [
+  {
+    init: async (engine) => {
+      await loadFull(engine)
+    }
+  }
+])
+app.use(router)
 
 // Configuración mejorada de toast notifications
 app.use(Toast, {
@@ -34,7 +42,5 @@ app.use(Toast, {
   maxToasts: 5,
   newestOnTop: true
 })
-
-app.use(router)
 
 app.mount('#app')

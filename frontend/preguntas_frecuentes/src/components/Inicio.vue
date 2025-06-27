@@ -56,6 +56,7 @@
               },
               detectRetina: true
             }"
+            :init="particlesInit"
           />
           <!-- Icono SVG animado con pulso -->
           <svg class="pulse-icon" width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,7 +75,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import Particles from 'vue3-particles';
+import Particles from '@tsparticles/vue3';
+import { loadFull } from 'tsparticles';
 
 const nombreUsuario = ref('');
 
@@ -98,6 +100,10 @@ onMounted(() => {
     }
   }
 });
+
+const particlesInit = async (engine) => {
+  await loadFull(engine);
+};
 
 const entornos = [
   {
