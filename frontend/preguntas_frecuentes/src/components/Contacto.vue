@@ -70,6 +70,7 @@
               aria-describedby="correo-error"
               :aria-invalid="!!errors.correo"
               :class="{ 'error-input': errors.correo }"
+              readonly
             >
             <span v-if="errors.correo" id="correo-error" class="error-text" role="alert">
               <span class="error-icon">⚠️</span> {{ errors.correo }}
@@ -315,31 +316,11 @@ export default {
     }
   },
   mounted() {
-    // Obtener solo el correo del usuario autenticado
-    fetch('http://172.16.29.5:8000/api/user/', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('access')}`,
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    })
-      .then(response => {
-        if (!response.ok) throw new Error('No autenticado');
-        return response.json();
-      })
-      .then(data => {
-        if (data.email) {
-          this.formData.correo = data.email;
-          console.log('Correo autollenado:', data.email);
-        } else {
-          console.warn('No se recibió el correo del usuario autenticado:', data);
-        }
-      })
-      .catch(error => {
-        // Si no está autenticado, no hace nada
-        console.log('No se pudo obtener el usuario autenticado:', error);
-      });
+    // Autocompletar el correo con el email del usuario autenticado
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.email) {
+      this.formData.correo = user.email;
+    }
   },
 };
 </script>
