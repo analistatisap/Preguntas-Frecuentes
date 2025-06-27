@@ -3,138 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Nuevo mensaje de contacto</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #f8f8f8;
-            font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
-        }
-        .franja-azul {
-            background: #e3ecf7;
-            height: 48px;
-            width: 100%;
-        }
-        .main-table {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 2px 12px rgba(44,62,80,0.10);
-            border: 1px solid #f2f2f2;
-            overflow: hidden;
-        }
-        .img-header {
-            width: 100%;
-            display: block;
-            max-height: 180px;
-            object-fit: cover;
-        }
-        .superpuesto {
-            margin: -120px auto 0 auto;
-            background: rgba(255,255,255,0.97);
-            border-radius: 14px;
-            box-shadow: 0 2px 12px rgba(44,62,80,0.10);
-            padding: 28px 24px 18px 24px;
-            width: 85%;
-            z-index: 2;
-            position: relative;
-        }
-        .superpuesto h2 {
-            color: #2c3e50;
-            margin-top: 0;
-            font-size: 1.15rem;
-            font-weight: 700;
-            text-align: center;
-        }
-        .datos {
-            margin-top: 12px;
-        }
-        .dato {
-            margin-bottom: 10px;
-            font-size: 1rem;
-            border-bottom: 1px solid #e3e8f0;
-            display: flex;
-            align-items: flex-start;
-        }
-        .dato:last-child {
-            border-bottom: none;
-        }
-        .dato strong {
-            color: #2c3e50;
-            font-weight: 600;
-            min-width: 90px;
-            display: inline-block;
-        }
-        .dato .dato-valor {
-            color: #222;
-            word-break: break-all;
-        }
-        .dato .dato-valor a {
-            color: #2c3e50;
-            text-decoration: underline;
-        }
-        .mensaje-bloque {
-            background: #f7f7f7;
-            border-radius: 6px;
-            padding: 14px 12px;
-            margin-top: 8px;
-            color: #222;
-            font-size: 1rem;
-            line-height: 1.6;
-            border: 1px solid #ececec;
-        }
-        .footer {
-            background: #e3ecf7;
-            color: #222;
-            text-align: center;
-            padding: 18px 8px 8px 8px;
-            font-size: 0.93rem;
-            border-top: 1px solid #eee;
-        }
-        .footer-logos {
-            width: 100%;
-            text-align: center;
-            margin: 18px 0 0 0;
-        }
-        .footer-logos img {
-            max-width: 95%;
-            width: 420px;
-            height: auto;
-            margin: 0 auto;
-            display: block;
-        }
-        @media (max-width: 600px) {
-            .main-table { border-radius: 0; }
-            .superpuesto { width: 97%; padding: 12px 4px; }
-        }
-    </style>
 </head>
-<body>
-    <div class="franja-azul"></div>
-    <table class="main-table" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+<body style="margin:0; padding:0; background:#f8f8f8; font-family:'Segoe UI', 'Inter', Arial, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f8f8f8">
         <tr>
-            <td style="padding:0; position:relative;">
-                <img class="img-header" src="https://decorceramica.wpengine.com/portalcliente/archivosmariana/CORREONOTIFICACIONPLANTILLA.png" alt="Notificación Grupo Decor" />
-                <div class="superpuesto">
-                    <h2>Detalles del mensaje</h2>
-                    <div class="datos">
-                        <div class="dato"><strong>Nombre:</strong> <span class="dato-valor">{{ nombre }} {{ apellido }}</span></div>
-                        <div class="dato"><strong>Correo:</strong> <span class="dato-valor"><a href="mailto:{{ correo }}">{{ correo }}</a></span></div>
-                        <div class="dato"><strong>Mensaje:</strong></div>
-                        <div class="mensaje-bloque">{{ mensaje }}</div>
-                    </div>
-                </div>
+            <td align="center">
+                <!-- Tabla principal -->
+                <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; min-width:320px; background:#fff; border-radius:14px; box-shadow:0 2px 12px rgba(44,62,80,0.10); border:1px solid #f2f2f2; overflow:hidden;">
+                    <!-- Franja azul claro superior -->
+                    <tr>
+                        <td bgcolor="#e3ecf7" style="height:48px; padding:0;"></td>
+                    </tr>
+                    <!-- Imagen de cabecera -->
+                    <tr>
+                        <td align="center" style="padding:0;">
+                            <img src="https://decorceramica.wpengine.com/portalcliente/archivosmariana/CORREONOTIFICACIONPLANTILLA.png" alt="Notificación Grupo Decor" width="100%" style="display:block; max-width:600px; width:100%; height:auto; border:none; outline:none;">
+                        </td>
+                    </tr>
+                    <!-- Tarjeta blanca con datos -->
+                    <tr>
+                        <td align="center" style="padding:0 0 24px 0;">
+                            <table width="90%" cellpadding="0" cellspacing="0" border="0" style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(44,62,80,0.10); margin-top:-40px;">
+                                <tr>
+                                    <td style="padding:28px 20px 18px 20px;">
+                                        <h2 style="color:#2c3e50; margin:0 0 18px 0; font-size:1.15rem; font-weight:700; text-align:center;">Detalles del mensaje</h2>
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td style="color:#2c3e50; font-weight:600; min-width:90px; padding:6px 0 6px 0; border-bottom:1px solid #e3e8f0;">Nombre:</td>
+                                                <td style="color:#222; padding:6px 0 6px 12px; border-bottom:1px solid #e3e8f0;">{{ nombre }} {{ apellido }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="color:#2c3e50; font-weight:600; min-width:90px; padding:6px 0 6px 0; border-bottom:1px solid #e3e8f0;">Correo:</td>
+                                                <td style="color:#222; padding:6px 0 6px 12px; border-bottom:1px solid #e3e8f0;"><a href="mailto:{{ correo }}" style="color:#2c3e50; text-decoration:underline;">{{ correo }}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="color:#2c3e50; font-weight:600; min-width:90px; padding:6px 0 6px 0; vertical-align:top;">Mensaje:</td>
+                                                <td style="padding:10px 0 0 12px;">
+                                                    <div style="background:#f7f7f7; border-radius:6px; padding:14px 12px; color:#222; font-size:1rem; line-height:1.6; border:1px solid #ececec;">{{ mensaje }}</div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Franja azul claro inferior -->
+                    <tr>
+                        <td bgcolor="#e3ecf7" style="height:48px; padding:0;"></td>
+                    </tr>
+                    <!-- Footer con imagen de marcas -->
+                    <tr>
+                        <td align="center" style="padding:18px 8px 8px 8px; background:#e3ecf7; border-top:1px solid #eee;">
+                            <div style="color:#222; font-size:0.93rem; margin-bottom:12px;">Este correo fue generado automáticamente por el sistema de contacto de Grupo Decor.<br>&copy; {{ year }} Grupo Decor</div>
+                            <img src="http://atlasqa.grupodecor.com:4587/pruebas_proyectos/Vista_Reset_User/cinta_grupo_decor.png" alt="Marcas Grupo Decor" style="max-width:95%; width:420px; height:auto; margin:0 auto; display:block;">
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
-    <div class="franja-azul"></div>
-    <div class="footer">
-        Este correo fue generado automáticamente por el sistema de contacto de Grupo Decor.<br>
-        &copy; {{ year }} Grupo Decor
-        <div class="footer-logos">
-            <img src="http://atlasqa.grupodecor.com:4587/pruebas_proyectos/Vista_Reset_User/cinta_grupo_decor.png" alt="Marcas Grupo Decor" />
-        </div>
-    </div>
 </body>
 </html>
