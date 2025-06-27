@@ -12,68 +12,51 @@
       </div>
       <!-- Columna de imagen -->
       <div class="col-md-6 text-center">
-        <div class="glass-animated light-wireframe d-flex flex-column align-items-center justify-content-center">
-          <!-- SVG wireframe animado -->
-          <svg class="wireframe-bg" viewBox="0 0 400 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g stroke="#4f8cff" stroke-width="1.2" opacity="0.55">
-              <path>
-                <animate attributeName="d" dur="7s" repeatCount="indefinite"
-                  values="M10 10 Q200 60 390 10;M10 20 Q200 40 390 20;M10 10 Q200 60 390 10"/>
-              </path>
-              <path>
-                <animate attributeName="d" dur="8s" repeatCount="indefinite"
-                  values="M10 30 Q200 80 390 30;M10 50 Q200 100 390 50;M10 30 Q200 80 390 30"/>
-              </path>
-              <path>
-                <animate attributeName="d" dur="9s" repeatCount="indefinite"
-                  values="M10 60 Q200 120 390 60;M10 80 Q200 140 390 80;M10 60 Q200 120 390 60"/>
-              </path>
-              <path>
-                <animate attributeName="d" dur="10s" repeatCount="indefinite"
-                  values="M10 100 Q200 180 390 100;M10 120 Q200 200 390 120;M10 100 Q200 180 390 100"/>
-              </path>
-              <path>
-                <animate attributeName="d" dur="11s" repeatCount="indefinite"
-                  values="M10 180 Q200 40 390 180;M10 160 Q200 60 390 160;M10 180 Q200 40 390 180"/>
-              </path>
-              <path>
-                <animate attributeName="d" dur="12s" repeatCount="indefinite"
-                  values="M10 200 Q200 160 390 200;M10 180 Q200 140 390 180;M10 200 Q200 160 390 200"/>
-              </path>
-              <path>
-                <animate attributeName="d" dur="13s" repeatCount="indefinite"
-                  values="M10 210 Q200 200 390 210;M10 190 Q200 180 390 190;M10 210 Q200 200 390 210"/>
-              </path>
-              <path opacity="0.35">
-                <animate attributeName="d" dur="10s" repeatCount="indefinite"
-                  values="M60 10 Q200 110 340 10;M60 30 Q200 130 340 30;M60 10 Q200 110 340 10"/>
-              </path>
-              <path opacity="0.35">
-                <animate attributeName="d" dur="11s" repeatCount="indefinite"
-                  values="M60 210 Q200 110 340 210;M60 190 Q200 90 340 190;M60 210 Q200 110 340 210"/>
-              </path>
-            </g>
-            <g stroke="#1a237e" stroke-width="0.8" opacity="0.25">
-              <path>
-                <animate attributeName="d" dur="8s" repeatCount="indefinite"
-                  values="M10 110 Q200 10 390 110;M10 130 Q200 30 390 130;M10 110 Q200 10 390 110"/>
-              </path>
-              <path>
-                <animate attributeName="d" dur="9s" repeatCount="indefinite"
-                  values="M10 160 Q200 210 390 160;M10 140 Q200 190 390 140;M10 160 Q200 210 390 160"/>
-              </path>
-            </g>
-            <g stroke="#fff" stroke-width="0.7" opacity="0.22">
-              <path>
-                <animate attributeName="d" dur="12s" repeatCount="indefinite"
-                  values="M0 0 Q200 220 400 0;M0 20 Q200 200 400 20;M0 0 Q200 220 400 0"/>
-              </path>
-              <path>
-                <animate attributeName="d" dur="13s" repeatCount="indefinite"
-                  values="M0 220 Q200 0 400 220;M0 200 Q200 20 400 200;M0 220 Q200 0 400 220"/>
-              </path>
-            </g>
-          </svg>
+        <div class="glass-animated light-wireframe d-flex flex-column align-items-center justify-content-center position-relative">
+          <!-- Partículas animadas tipo tecnología -->
+          <Particles
+            id="tsparticles-welcome"
+            class="particles-bg"
+            :options="{
+              background: { color: 'transparent' },
+              fpsLimit: 60,
+              particles: {
+                number: { value: 40, density: { enable: true, area: 600 } },
+                color: { value: ['#4f8cff', '#1a237e', '#fff'] },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3, random: true },
+                links: {
+                  enable: true,
+                  color: '#4f8cff',
+                  opacity: 0.3,
+                  width: 1.2,
+                  distance: 120
+                },
+                move: {
+                  enable: true,
+                  speed: 1.2,
+                  direction: 'none',
+                  random: false,
+                  straight: false,
+                  outModes: { default: 'out' },
+                  attract: { enable: false }
+                }
+              },
+              interactivity: {
+                events: {
+                  onHover: { enable: true, mode: 'repulse' },
+                  onClick: { enable: true, mode: 'push' },
+                  resize: true
+                },
+                modes: {
+                  repulse: { distance: 90, duration: 0.4 },
+                  push: { quantity: 3 }
+                }
+              },
+              detectRetina: true
+            }"
+          />
           <!-- Icono SVG animado con pulso -->
           <svg class="pulse-icon" width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="10" fill="#fff" fill-opacity="0.7"/>
@@ -91,6 +74,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import Particles from 'vue3-particles';
 
 const nombreUsuario = ref('');
 
@@ -340,5 +324,11 @@ const entornos = [
   opacity: 0.18;
   transform: scaleY(-1);
   filter: blur(2px);
+}
+.particles-bg {
+  position: absolute !important;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
 </style>
