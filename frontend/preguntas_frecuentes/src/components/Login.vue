@@ -194,7 +194,6 @@ export default {
       this.loading = true;
       this.error = null;
       const toast = useToast();
-      
       // Validación del formulario
       if (!this.validateForm()) {
         const firstError = Object.values(this.errors)[0];
@@ -202,10 +201,8 @@ export default {
         this.loading = false;
         return;
       }
-      
-      // Función auxiliar para obtener el JWT
-      const obtenerJWT = async () => {
-        const response = await fetch('http://172.16.29.5:8000/api/token/', {
+      try {
+        const response = await fetch('http://172.16.29.5:8000/api/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -215,11 +212,6 @@ export default {
             password: this.password,
           }),
         });
-        return response;
-      };
-      
-      try {
-        let response = await obtenerJWT();
         if (response.ok) {
           const data = await response.json();
           if (data.access) {
@@ -228,61 +220,22 @@ export default {
           if (data.refresh) {
             localStorage.setItem('refresh', data.refresh);
           }
-          localStorage.setItem('user', JSON.stringify({ username: this.username.trim() }));
+          if (data.user) {
+            localStorage.setItem('user', JSON.stringify(data.user));
+          }
           toast.success('¡Inicio de sesión exitoso! Bienvenido.');
           this.$router.push('/');
         } else {
           let errorMessage = 'Usuario o contraseña incorrectos.';
-          let debeIntentarLDAP = false;
-          if (response.status === 500) {
+          if (response.status === 403) {
+            errorMessage = 'La cuenta está inactiva o bloqueada.';
+          } else if (response.status === 401) {
+            errorMessage = 'Credenciales inválidas.';
+          } else if (response.status === 500) {
             errorMessage = 'Error interno del servidor. Por favor, contacte al administrador.';
-          } else if (response.status === 403) {
-            errorMessage = 'Acceso denegado. Su cuenta puede estar bloqueada.';
-          } else if (response.status === 429) {
-            errorMessage = 'Demasiados intentos de inicio de sesión. Intente más tarde.';
           } else {
             const errorData = await response.json().catch(() => ({}));
-            if (errorData.detail && errorData.detail.includes('no tiene una cuenta activa')) {
-              debeIntentarLDAP = true;
-            } else if (errorData.detail) {
-              errorMessage = errorData.detail;
-            }
-          }
-          // Si debe intentar LDAP
-          if (debeIntentarLDAP) {
-            // Intentar login por LDAP
-            const ldapResponse = await fetch('http://172.16.29.5:8000/api/login/', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                username: this.username.trim(),
-                password: this.password,
-              }),
-            });
-            if (ldapResponse.ok) {
-              // Si el login LDAP fue exitoso, reintentar obtener el JWT
-              response = await obtenerJWT();
-              if (response.ok) {
-                const data = await response.json();
-                if (data.access) {
-                  localStorage.setItem('access', data.access);
-                }
-                if (data.refresh) {
-                  localStorage.setItem('refresh', data.refresh);
-                }
-                localStorage.setItem('user', JSON.stringify({ username: this.username.trim() }));
-                toast.success('¡Inicio de sesión exitoso! Bienvenido.');
-                this.$router.push('/');
-                this.loading = false;
-                return;
-              } else {
-                errorMessage = 'No se pudo obtener el token después de sincronizar con LDAP.';
-              }
-            } else {
-              errorMessage = 'No se pudo autenticar con el Directorio Activo. Verifica tus credenciales.';
-            }
+            if (errorData.detail) errorMessage = errorData.detail;
           }
           this.error = errorMessage;
           toast.error(this.error);
