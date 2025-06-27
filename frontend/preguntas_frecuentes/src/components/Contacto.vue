@@ -4,16 +4,6 @@
       <div class="contacto-izquierda">
         <h2>ÁREA DE TECNOLOGÍA DE LA INFORMACIÓN</h2>
         <img :src="imgArbolSrc" alt="Árbol" class="img-arbol-contacto" />
-        <div style="background:#f3f3f3; border-radius:8px; padding:1rem 1.2rem; margin-bottom:1.2rem; color:#333; font-size:0.98rem; text-align:left; box-shadow:0 2px 8px rgba(44,62,80,0.06); border:1px solid #e0e0e0;">
-          Los correos dirigidos a <b>soportemas@itaas.net.co</b> son exclusivamente para solicitudes relacionadas con:<br>
-          <ul style="margin:0.5rem 0 0.5rem 1.2rem; padding:0; color:#222;">
-            <li>Soporte técnico general</li>
-            <li>Impresoras</li>
-            <li>Licencias</li>
-          </ul>
-          Para temas relacionados con <b>SAP</b>, por favor incluyan además a <b>decorsap@grupodecor.com</b> en copia.<br>
-          <span style="color:#1976d2; font-weight:500;">Esto nos permite canalizar correctamente cada tipo de gestión y brindar una atención más eficiente.</span>
-        </div>
         <p>CORREO</p>
         <div class="correos">
           <div class="correo-item">
@@ -24,7 +14,20 @@
             <span>DECORSAP@GRUPODECOR.COM</span>
             <a href="mailto:DECORSAP@GRUPODECOR.COM" class="boton-ir">IR</a>
           </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; margin-top:1.5rem;">
+          <span style="font-size:2rem; color:#1976d2; margin-right:0.7rem; margin-top:0.1rem;">ℹ️</span>
+          <div style="background:#fff; border-radius:14px; padding:1.2rem 1.3rem; color:#222; font-size:1.04rem; text-align:left; box-shadow:0 2px 12px rgba(44,62,80,0.08); border-left:6px solid #1976d2; border:1px solid #e0e0e0; max-width:420px;">
+            <span style="font-weight:500; color:#222;">Los correos dirigidos a <b>soportemas@itaas.net.co</b> son exclusivamente para solicitudes relacionadas con:</span>
+            <ul style="margin:0.5rem 0 0.5rem 1.2rem; padding:0; color:#222;">
+              <li>Soporte técnico general</li>
+              <li>Impresoras</li>
+              <li>Licencias</li>
+            </ul>
+            <span style="color:#222;">Para temas relacionados con <b>SAP</b>, por favor incluyan además a <b>decorsap@grupodecor.com</b> en copia.</span>
+            <div style="color:#1976d2; font-weight:600; margin-top:0.7rem; font-size:0.98rem;">Esto nos permite canalizar correctamente cada tipo de gestión y brindar una atención más eficiente.</div>
           </div>
+        </div>
       </div>
       <div class="contacto-derecha">
         <h2>CONTACTO</h2>
