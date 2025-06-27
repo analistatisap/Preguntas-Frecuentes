@@ -315,7 +315,7 @@ export default {
     }
   },
   mounted() {
-    // Obtener el correo del usuario autenticado
+    // Obtener solo el correo del usuario autenticado
     fetch('http://172.16.29.5:8000/api/user/', {
       method: 'GET',
       headers: {
@@ -331,12 +331,9 @@ export default {
       .then(data => {
         if (data.email) {
           this.formData.correo = data.email;
-        }
-        if (data.first_name) {
-          this.formData.nombre = data.first_name;
-        }
-        if (data.last_name) {
-          this.formData.apellido = data.last_name;
+          console.log('Correo autollenado:', data.email);
+        } else {
+          console.warn('No se recibió el correo del usuario autenticado:', data);
         }
       })
       .catch(error => {
