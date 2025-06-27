@@ -323,16 +323,18 @@ const entornos = [
   height: 100%;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 12px #4f8cff44);
 }
 .tech-line {
   stroke: #4f8cff;
-  stroke-width: 2;
+  stroke-width: 3.5;
   fill: none;
-  opacity: 0.5;
+  opacity: 0.85;
   stroke-dasharray: 400;
   stroke-dashoffset: 400;
   animation: lineDraw 2.5s forwards;
+  filter: drop-shadow(0 0 8px #4f8cff88);
 }
 .tech-line.delay1 { animation-delay: 0.5s; }
 .tech-line.delay2 { animation-delay: 1s; }
@@ -342,10 +344,10 @@ const entornos = [
 }
 .tech-dot {
   fill: #00eaff;
-  filter: drop-shadow(0 0 6px #00eaff88);
-  opacity: 0.7;
-  transform: scale(0.7);
-  animation: dotPulse 1.8s infinite alternate;
+  filter: drop-shadow(0 0 12px #00eaffcc);
+  opacity: 1;
+  transform: scale(1.2);
+  animation: dotPulse 1.2s infinite alternate;
 }
 .tech-dot.delay1 { animation-delay: 0.3s; }
 .tech-dot.delay2 { animation-delay: 0.6s; }
@@ -353,20 +355,20 @@ const entornos = [
 .tech-dot.delay4 { animation-delay: 1.2s; }
 .tech-dot.delay5 { animation-delay: 1.5s; }
 @keyframes dotPulse {
-  to { opacity: 1; transform: scale(1.2); }
+  to { opacity: 0.6; transform: scale(1.5); }
 }
 .tech-wave {
   stroke: #4f8cff;
-  stroke-width: 2.5;
+  stroke-width: 4.5;
   fill: none;
-  opacity: 0.18;
-  filter: blur(1.5px);
-  stroke-dasharray: 8 6;
-  animation: waveMove 3.5s infinite alternate ease-in-out;
+  opacity: 0.35;
+  filter: blur(2.5px) drop-shadow(0 0 16px #4f8cffcc);
+  stroke-dasharray: 12 10;
+  animation: waveMove 2.2s infinite alternate ease-in-out;
 }
 .tech-wave.delay1 { animation-delay: 1.2s; }
 @keyframes waveMove {
-  0% { transform: translateY(0); opacity: 0.18; }
-  100% { transform: translateY(-10px) scaleX(1.04); opacity: 0.32; }
+  0% { transform: translateY(0); opacity: 0.35; }
+  100% { transform: translateY(-18px) scaleX(1.08); opacity: 0.7; }
 }
 </style>
