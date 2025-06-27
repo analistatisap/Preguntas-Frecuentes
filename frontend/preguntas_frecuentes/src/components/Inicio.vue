@@ -26,26 +26,37 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-const nombre = 'Usuario'; // Puedes reemplazar esto por una prop si lo deseas
+const nombre = ref('Usuario');
 const bgCanvas = ref(null);
 let animationId = null;
 
-function randomBetween(a, b) {
-  return a + Math.random() * (b - a);
-}
-
-function lerp(a, b, t) {
-  return a + (b - a) * t;
-}
-
+// Obtener el nombre del usuario logueado
 onMounted(() => {
+  const userData = localStorage.getItem('user');
+  if (userData) {
+    try {
+      const user = JSON.parse(userData);
+      let nombreExtraido = '';
+      if (user.fullName) {
+        nombreExtraido = user.fullName.split(' ')[0];
+      } else if (user.first_name) {
+        nombreExtraido = user.first_name;
+      } else if (user.username) {
+        nombreExtraido = user.username;
+      }
+      if (nombreExtraido) nombre.value = nombreExtraido;
+    } catch (e) {
+      nombre.value = 'Usuario';
+    }
+  }
+
+  // --- Animación canvas (igual que antes) ---
   const canvas = bgCanvas.value;
   const ctx = canvas.getContext('2d');
   let width = canvas.width = canvas.offsetWidth;
   let height = canvas.height = canvas.offsetHeight;
   let mouse = { x: width / 2, y: height / 2 };
 
-  // Paleta de colores suaves y gradientes
   const gradients = [
     ['#7f7fd5', '#86a8e7', '#91eac9'],
     ['#f7971e', '#ffd200', '#21d4fd'],
@@ -58,9 +69,10 @@ onMounted(() => {
   grad.addColorStop(0.5, palette[1]);
   grad.addColorStop(1, palette[2]);
 
-  // Configuración de puntos
   const POINTS = 60;
   const points = [];
+  function randomBetween(a, b) { return a + Math.random() * (b - a); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
   for (let i = 0; i < POINTS; i++) {
     points.push({
       x: Math.random() * width,
@@ -76,14 +88,11 @@ onMounted(() => {
 
   function draw() {
     ctx.clearRect(0, 0, width, height);
-    // Fondo translúcido y oscuro
     ctx.save();
     ctx.globalAlpha = 0.85;
     ctx.fillStyle = '#181c2f';
     ctx.fillRect(0, 0, width, height);
     ctx.restore();
-
-    // Líneas entre puntos cercanos
     for (let i = 0; i < POINTS; i++) {
       for (let j = i + 1; j < POINTS; j++) {
         const p1 = points[i];
@@ -105,11 +114,8 @@ onMounted(() => {
         }
       }
     }
-
-    // Puntos
     for (let i = 0; i < POINTS; i++) {
       const p = points[i];
-      // Efecto de interacción con el mouse
       const dx = p.x - mouse.x;
       const dy = p.y - mouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -129,7 +135,6 @@ onMounted(() => {
       }
       ctx.fill();
       ctx.restore();
-      // Destellos aleatorios
       if (p.glow && Math.random() > 0.98) {
         ctx.save();
         ctx.globalAlpha = 0.25;
@@ -149,7 +154,6 @@ onMounted(() => {
       const p = points[i];
       p.x += p.vx;
       p.y += p.vy;
-      // Rebote en los bordes
       if (p.x < 0 || p.x > width) p.vx *= -1;
       if (p.y < 0 || p.y > height) p.vy *= -1;
     }
@@ -160,7 +164,6 @@ onMounted(() => {
   function handleResize() {
     width = canvas.width = canvas.offsetWidth;
     height = canvas.height = canvas.offsetHeight;
-    // Reubicar puntos proporcionalmente
     for (let i = 0; i < POINTS; i++) {
       points[i].x = Math.random() * width;
       points[i].y = Math.random() * height;
