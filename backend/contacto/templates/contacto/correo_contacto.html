@@ -10,55 +10,53 @@
             padding: 0;
             font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
         }
+        .franja-azul {
+            background: #2c3e50;
+            height: 32px;
+            width: 100%;
+        }
         .container {
-            max-width: 520px;
-            margin: 40px auto;
+            max-width: 540px;
+            margin: 0 auto 32px auto;
             background: #fff;
-            border-radius: 10px;
+            border-radius: 14px;
             overflow: hidden;
             box-shadow: 0 2px 12px rgba(44,62,80,0.10);
             border: 1px solid #f2f2f2;
-        }
-        .header {
-            background: #2c3e50;
-            color: #fff;
-            padding: 18px 0 18px 0;
-            text-align: left;
             position: relative;
         }
-        .header-logo {
+        .img-header {
+            width: 100%;
+            display: block;
+            max-height: 180px;
+            object-fit: cover;
+        }
+        .superpuesto {
             position: absolute;
-            top: 16px;
-            right: 24px;
-            height: 44px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -60%);
+            background: rgba(255,255,255,0.97);
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(44,62,80,0.10);
+            padding: 28px 24px 18px 24px;
+            width: 85%;
+            z-index: 2;
         }
-        .header h1 {
-            margin: 0;
-            font-size: 1.3rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            padding-left: 28px;
-        }
-        .content {
-            padding: 32px 28px 24px 28px;
-            color: #222;
-        }
-        .content h2 {
+        .superpuesto h2 {
             color: #2c3e50;
             margin-top: 0;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-align: center;
         }
         .datos {
-            margin-top: 18px;
+            margin-top: 12px;
         }
         .dato {
-            margin-bottom: 12px;
-            padding: 0;
-            background: none;
-            border-radius: 0;
+            margin-bottom: 10px;
             font-size: 1rem;
-            border-bottom: 1px solid #f2f2f2;
+            border-bottom: 1px solid #e3e8f0;
             display: flex;
             align-items: flex-start;
         }
@@ -82,7 +80,7 @@
         .mensaje-bloque {
             background: #f7f7f7;
             border-radius: 6px;
-            padding: 16px 14px;
+            padding: 14px 12px;
             margin-top: 8px;
             color: #222;
             font-size: 1rem;
@@ -93,23 +91,33 @@
             background: #f8f8f8;
             color: #888;
             text-align: center;
-            padding: 16px;
+            padding: 16px 8px 8px 8px;
             font-size: 0.93rem;
             border-top: 1px solid #eee;
         }
+        .footer-logos {
+            width: 100%;
+            text-align: center;
+            margin: 18px 0 0 0;
+        }
+        .footer-logos img {
+            max-width: 95%;
+            width: 420px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
         @media (max-width: 600px) {
             .container { margin: 0; border-radius: 0; }
-            .content { padding: 18px 8px; }
+            .superpuesto { width: 97%; padding: 12px 4px; }
         }
     </style>
 </head>
 <body>
+    <div class="franja-azul"></div>
     <div class="container">
-        <div class="header">
-            <h1>Nuevo mensaje de contacto</h1>
-            <img src="https://decorceramica.wpengine.com/portalcliente/archivosmariana/CORREONOTIFICACIONPLANTILLA.png" alt="Notificación Grupo Decor" class="header-logo" />
-        </div>
-        <div class="content">
+        <img class="img-header" src="https://decorceramica.wpengine.com/portalcliente/archivosmariana/CORREONOTIFICACIONPLANTILLA.png" alt="Notificación Grupo Decor" />
+        <div class="superpuesto">
             <h2>Detalles del mensaje</h2>
             <div class="datos">
                 <div class="dato"><strong>Nombre:</strong> <span class="dato-valor">{{ nombre }} {{ apellido }}</span></div>
@@ -118,9 +126,13 @@
                 <div class="mensaje-bloque">{{ mensaje }}</div>
             </div>
         </div>
-        <div class="footer">
-            Este correo fue generado automáticamente por el sistema de contacto de Grupo Decor.<br>
-            &copy; {{ year }} Grupo Decor
+    </div>
+    <div class="franja-azul"></div>
+    <div class="footer">
+        Este correo fue generado automáticamente por el sistema de contacto de Grupo Decor.<br>
+        &copy; {{ year }} Grupo Decor
+        <div class="footer-logos">
+            <img src="http://atlasqa.grupodecor.com:4587/pruebas_proyectos/Vista_Reset_User/cinta_grupo_decor.png" alt="Marcas Grupo Decor" />
         </div>
     </div>
 </body>
