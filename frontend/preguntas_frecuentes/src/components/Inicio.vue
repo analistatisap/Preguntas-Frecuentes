@@ -12,18 +12,20 @@
       </div>
       <!-- Columna de imagen -->
       <div class="col-md-6 text-center">
-        <div ref="cardRef" class="glass-animated light-wireframe d-flex flex-column align-items-center justify-content-center position-relative">
+        <div ref="cardRef" class="glass-animated light-wireframe tarjeta-bienvenida d-flex flex-column align-items-center justify-content-center position-relative">
           <!-- Canvas animado de red tecnológica -->
           <canvas ref="techCanvas" class="bg-tech-canvas"></canvas>
-          <!-- Icono SVG animado con pulso -->
-          <svg class="pulse-icon" width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="#fff" fill-opacity="0.7"/>
-            <path d="M8 13l2-2 2 2 4-4" stroke="#4f8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="12" cy="12" r="6" fill="#4f8cff" fill-opacity="0.15"/>
-          </svg>
-          <span class="glass-text mt-3 wireframe-text">¡Bienvenido{{ nombreUsuario ? ' ' + nombreUsuario : '' }}!
-            <span class="wireframe-reflection"></span>
-          </span>
+          <div class="contenido-bienvenida position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+            <!-- Icono SVG animado con pulso -->
+            <svg class="pulse-icon" width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" fill="#fff" fill-opacity="0.7"/>
+              <path d="M8 13l2-2 2 2 4-4" stroke="#4f8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="6" fill="#4f8cff" fill-opacity="0.15"/>
+            </svg>
+            <span class="glass-text mt-3 wireframe-text">¡Bienvenido{{ nombreUsuario ? ' ' + nombreUsuario : '' }}!
+              <span class="wireframe-reflection"></span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -422,5 +424,22 @@ const entornos = [
   z-index: 1;
   pointer-events: auto;
   background: transparent;
+}
+.tarjeta-bienvenida {
+  padding-top: 48px;
+  padding-bottom: 48px;
+  min-height: 320px;
+  box-sizing: border-box;
+}
+.contenido-bienvenida {
+  z-index: 2;
+  pointer-events: none;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>
