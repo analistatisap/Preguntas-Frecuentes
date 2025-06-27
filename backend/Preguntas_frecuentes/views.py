@@ -7,6 +7,7 @@ from rest_framework.authtoken.models import Token
 from .serializers import LoginSerializer # Importa el nuevo serializer
 import logging
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import AllowAny
 
 # Obtener una instancia del logger
 logger = logging.getLogger(__name__)
@@ -16,6 +17,7 @@ def home(request):
     return HttpResponse("<h1>Bienvenido a la página de inicio</h1>".encode("utf-8"))
 
 class LoginAPIView(APIView):
+    permission_classes = [AllowAny]
     """
     API para el inicio de sesión de usuarios.
     Recibe username y password, y devuelve un JWT si el usuario es válido y activo.
