@@ -148,7 +148,7 @@ export default {
              Object.keys(this.errors).length === 0;
     },
     imgArbolSrc() {
-      return `${import.meta.env.BASE_URL}imgarbol.png`;
+      return `${import.meta.env.BASE_URL}imgarbol.jpg`;
     }
   },
   methods: {
