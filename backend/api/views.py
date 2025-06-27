@@ -4,6 +4,9 @@ from django.views.decorators.http import require_POST
 import json
 import os
 import logging
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 # Asegúrate de que 'ldap3' esté en tu archivo requirements.txt
 from ldap3 import Server, Connection, ALL, Tls
@@ -130,3 +133,15 @@ def obtener_manuales_view(request):
 
 def obtener_tips_view(request):
     return JsonResponse({'message': 'Endpoint de tips (por implementar)'})
+
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            'username': user.username,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name
+        })

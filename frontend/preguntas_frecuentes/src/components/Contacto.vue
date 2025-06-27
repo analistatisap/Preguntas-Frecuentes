@@ -314,6 +314,36 @@ export default {
       };
     }
   },
+  mounted() {
+    // Obtener el correo del usuario autenticado
+    fetch('http://172.16.29.5:8000/api/user/', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+      .then(response => {
+        if (!response.ok) throw new Error('No autenticado');
+        return response.json();
+      })
+      .then(data => {
+        if (data.email) {
+          this.formData.correo = data.email;
+        }
+        if (data.first_name) {
+          this.formData.nombre = data.first_name;
+        }
+        if (data.last_name) {
+          this.formData.apellido = data.last_name;
+        }
+      })
+      .catch(error => {
+        // Si no está autenticado, no hace nada
+        console.log('No se pudo obtener el usuario autenticado:', error);
+      });
+  },
 };
 </script>
 
