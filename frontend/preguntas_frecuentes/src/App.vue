@@ -48,6 +48,14 @@
       <router-view />
     </main>
 
+    <!-- Modal de notificación de inactividad -->
+    <ModalNotificacion
+      :visible="modalInactividadVisible"
+      titulo="Sesión finalizada"
+      mensaje="Se finalizó su sesión por inactividad. Por favor, vuelva a iniciar sesión para continuar."
+      @aceptar="cerrarModalInactividad"
+    />
+
     <!-- El footer solo se muestra si no estamos en la página de login -->
     <footer class="pie-pagina-corporativo" v-if="!isLoginPage">
       <p>&copy; 2025 GRUPO DECOR. Todos los derechos reservados.</p>
@@ -58,17 +66,20 @@
 
 <script>
 import logoUrl from '@/assets/logo.svg';
+import ModalNotificacion from './components/ModalNotificacion.vue';
 
 let inactivityTimeoutId = null;
 const INACTIVITY_LIMIT = 15 * 60 * 1000; // 15 minutos
 
 export default {
   name: 'App',
+  components: { ModalNotificacion },
   data() {
     return {
       menuAbierto: false,
       logoUrl: '/logo_grupo.jpg',
       user: null,
+      modalInactividadVisible: false,
     };
   },
   computed: {
@@ -100,14 +111,15 @@ export default {
     logout(motivo) {
       localStorage.removeItem('user');
       this.user = null;
-      this.$router.push('/login');
       if (motivo === 'inactividad') {
-        if (this.$toast) {
-          this.$toast.info('Se finalizó su sesión por inactividad. Por favor, vuelva a iniciar sesión para continuar.');
-        } else {
-          alert('Se finalizó su sesión por inactividad. Por favor, vuelva a iniciar sesión para continuar.');
-        }
+        this.modalInactividadVisible = true;
+      } else {
+        this.$router.push('/login');
       }
+    },
+    cerrarModalInactividad() {
+      this.modalInactividadVisible = false;
+      this.$router.push('/login');
     },
     resetInactivityTimer() {
       if (inactivityTimeoutId) clearTimeout(inactivityTimeoutId);
