@@ -2,45 +2,126 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plantilla para envio de correo</title>
-    <!-- Incluyendo Tailwind CSS para un diseño rápido y responsivo -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Nuevo mensaje de contacto</title>
     <style>
-        /* Fuentes personalizadas (opcional) */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-        
         body {
-            font-family: 'Inter', sans-serif;
+            background: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
+        }
+        .container {
+            max-width: 520px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(44,62,80,0.10);
+            border: 1px solid #f2f2f2;
+        }
+        .header {
+            background: #2c3e50;
+            color: #fff;
+            padding: 18px 0 18px 0;
+            text-align: left;
+            position: relative;
+        }
+        .header-logo {
+            position: absolute;
+            top: 16px;
+            right: 24px;
+            height: 44px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            padding-left: 28px;
+        }
+        .content {
+            padding: 32px 28px 24px 28px;
+            color: #222;
+        }
+        .content h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .datos {
+            margin-top: 18px;
+        }
+        .dato {
+            margin-bottom: 12px;
+            padding: 0;
+            background: none;
+            border-radius: 0;
+            font-size: 1rem;
+            border-bottom: 1px solid #f2f2f2;
+            display: flex;
+            align-items: flex-start;
+        }
+        .dato:last-child {
+            border-bottom: none;
+        }
+        .dato strong {
+            color: #2c3e50;
+            font-weight: 600;
+            min-width: 90px;
+            display: inline-block;
+        }
+        .dato .dato-valor {
+            color: #222;
+            word-break: break-all;
+        }
+        .dato .dato-valor a {
+            color: #2c3e50;
+            text-decoration: underline;
+        }
+        .mensaje-bloque {
+            background: #f7f7f7;
+            border-radius: 6px;
+            padding: 16px 14px;
+            margin-top: 8px;
+            color: #222;
+            font-size: 1rem;
+            line-height: 1.6;
+            border: 1px solid #ececec;
+        }
+        .footer {
+            background: #f8f8f8;
+            color: #888;
+            text-align: center;
+            padding: 16px;
+            font-size: 0.93rem;
+            border-top: 1px solid #eee;
+        }
+        @media (max-width: 600px) {
+            .container { margin: 0; border-radius: 0; }
+            .content { padding: 18px 8px; }
         }
     </style>
 </head>
-<body class="bg-gray-100">
-
-    <!-- Estructura principal que ocupa toda la altura de la pantalla -->
-    <div class="flex flex-col min-h-screen">
-        
-        <!-- 1. Cabecera Azul Claro -->
-        <header class="bg-blue-300 shadow-md p-4">
-        </header>
-
-        <!-- 2. Contenido Principal (con espacio para la imagen) -->
-        <main class="flex-grow container mx-auto p-4 md:p-8">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Tu Imagen Aquí</h2>
-
-                <img src="http://172.16.29.5:3000/public/CORREONOTIFICACIONES.PNG" 
-                     alt="Descripción de la imagen" 
-                     class="w-full h-auto rounded-md object-cover border-2 border-gray-200">
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Nuevo mensaje de contacto</h1>
+            <img src="https://decorceramica.wpengine.com/portalcliente/archivosmariana/CORREONOTIFICACIONPLANTILLA.png" alt="Notificación Grupo Decor" class="header-logo" />
+        </div>
+        <div class="content">
+            <h2>Detalles del mensaje</h2>
+            <div class="datos">
+                <div class="dato"><strong>Nombre:</strong> <span class="dato-valor">{{ nombre }} {{ apellido }}</span></div>
+                <div class="dato"><strong>Correo:</strong> <span class="dato-valor"><a href="mailto:{{ correo }}">{{ correo }}</a></span></div>
+                <div class="dato"><strong>Mensaje:</strong></div>
+                <div class="mensaje-bloque">{{ mensaje }}</div>
             </div>
-        </main>
-
-        <!-- 3. Pie de Página Azul Claro -->
-        <footer class="bg-blue-300 p-4 mt-8">
-            <p class="text-white text-center text-sm">© 2025 - Todos los derechos reservados</p>
-        </footer>
-        
+        </div>
+        <div class="footer">
+            Este correo fue generado automáticamente por el sistema de contacto de Grupo Decor.<br>
+            &copy; {{ year }} Grupo Decor
+        </div>
     </div>
-
 </body>
 </html>
