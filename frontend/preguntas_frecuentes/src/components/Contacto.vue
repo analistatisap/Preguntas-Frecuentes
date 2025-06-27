@@ -3,6 +3,7 @@
     <section class="contacto-seccion">
       <div class="contacto-izquierda">
         <h2>ÁREA DE TECNOLOGÍA DE LA INFORMACIÓN</h2>
+        <img src="/imgarbol.png" alt="Árbol" class="img-arbol-contacto" />
         <p>CORREO</p>
         <div class="correos">
           <div class="correo-item">
@@ -576,5 +577,15 @@ export default {
   .pagina-contacto {
     padding: 1rem;
   }
+}
+
+.img-arbol-contacto {
+  display: block;
+  margin: 1.5rem auto 1rem auto;
+  max-width: 90px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 </style>
