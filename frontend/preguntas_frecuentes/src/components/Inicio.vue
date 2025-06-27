@@ -12,21 +12,35 @@
       </div>
       <!-- Columna de imagen -->
       <div class="col-md-6 text-center">
-        <div class="glass-animated d-flex flex-column align-items-center justify-content-center">
-          <!-- Fondo decorativo de tecnología -->
-          <img 
-            src="/tecnologia.png" 
-            alt="Tecnología decorativa" 
-            class="bg-tecnologia" 
-            aria-hidden="true"
-          />
+        <div class="glass-animated dark-wireframe d-flex flex-column align-items-center justify-content-center">
+          <!-- SVG wireframe animado -->
+          <svg class="wireframe-bg" viewBox="0 0 400 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#4f8cff" stroke-width="0.7" opacity="0.35">
+              <path d="M10 10 Q200 60 390 10"/>
+              <path d="M10 30 Q200 80 390 30"/>
+              <path d="M10 60 Q200 120 390 60"/>
+              <path d="M10 100 Q200 180 390 100"/>
+              <path d="M10 180 Q200 40 390 180"/>
+              <path d="M10 200 Q200 160 390 200"/>
+              <path d="M10 210 Q200 200 390 210"/>
+              <path d="M60 10 Q200 110 340 10" opacity="0.18"/>
+              <path d="M60 210 Q200 110 340 210" opacity="0.18"/>
+            </g>
+            <g stroke="#fff" stroke-width="0.5" opacity="0.13">
+              <path d="M10 110 Q200 10 390 110"/>
+              <path d="M10 160 Q200 210 390 160"/>
+            </g>
+            <animateTransform attributeName="transform" type="skewX" from="0" to="10" dur="6s" repeatCount="indefinite" direction="alternate"/>
+          </svg>
           <!-- Icono SVG animado con pulso -->
           <svg class="pulse-icon" width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="10" fill="#fff" fill-opacity="0.7"/>
             <path d="M8 13l2-2 2 2 4-4" stroke="#4f8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="12" cy="12" r="6" fill="#4f8cff" fill-opacity="0.15"/>
           </svg>
-          <span class="glass-text mt-3">¡Bienvenido{{ nombreUsuario ? ' ' + nombreUsuario : '' }}!</span>
+          <span class="glass-text mt-3 wireframe-text">¡Bienvenido{{ nombreUsuario ? ' ' + nombreUsuario : '' }}!
+            <span class="wireframe-reflection"></span>
+          </span>
         </div>
       </div>
     </div>
@@ -239,5 +253,50 @@ const entornos = [
 .glass-animated > *:not(.bg-tecnologia) {
   position: relative;
   z-index: 1;
+}
+.dark-wireframe {
+  background: linear-gradient(135deg, #181f2a 60%, #25304a 100%);
+  border: 1.5px solid #26334d;
+  box-shadow: 0 8px 32px 0 rgba(24, 31, 42, 0.28);
+  position: relative;
+  overflow: hidden;
+}
+.wireframe-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  animation: wireframeMove 12s linear infinite alternate;
+}
+@keyframes wireframeMove {
+  0% { filter: blur(0.5px) brightness(1.1); opacity: 0.7; }
+  50% { filter: blur(2px) brightness(1.2); opacity: 0.9; }
+  100% { filter: blur(0.5px) brightness(1.1); opacity: 0.7; }
+}
+.wireframe-text {
+  color: #eaf2ff;
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 16px #4f8cff44, 0 1px 0 #fff8;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(90deg, #eaf2ff 80%, #4f8cff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.wireframe-reflection {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 0.7em;
+  margin-top: -0.2em;
+  background: linear-gradient(180deg, #fff6 0%, transparent 100%);
+  opacity: 0.18;
+  transform: scaleY(-1);
+  filter: blur(2px);
 }
 </style>
