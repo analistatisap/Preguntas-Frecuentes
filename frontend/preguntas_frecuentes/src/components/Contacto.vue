@@ -4,6 +4,16 @@
       <div class="contacto-izquierda">
         <h2>ÁREA DE TECNOLOGÍA DE LA INFORMACIÓN</h2>
         <img :src="imgArbolSrc" alt="Árbol" class="img-arbol-contacto" />
+        <div style="background:#f3f3f3; border-radius:8px; padding:1rem 1.2rem; margin-bottom:1.2rem; color:#333; font-size:0.98rem; text-align:left; box-shadow:0 2px 8px rgba(44,62,80,0.06); border:1px solid #e0e0e0;">
+          Los correos dirigidos a <b>soportemas@itaas.net.co</b> son exclusivamente para solicitudes relacionadas con:<br>
+          <ul style="margin:0.5rem 0 0.5rem 1.2rem; padding:0; color:#222;">
+            <li>Soporte técnico general</li>
+            <li>Impresoras</li>
+            <li>Licencias</li>
+          </ul>
+          Para temas relacionados con <b>SAP</b>, por favor incluyan además a <b>decorsap@grupodecor.com</b> en copia.<br>
+          <span style="color:#1976d2; font-weight:500;">Esto nos permite canalizar correctamente cada tipo de gestión y brindar una atención más eficiente.</span>
+        </div>
         <p>CORREO</p>
         <div class="correos">
           <div class="correo-item">
