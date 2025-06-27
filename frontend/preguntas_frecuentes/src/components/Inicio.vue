@@ -13,51 +13,30 @@
       <!-- Columna de imagen -->
       <div class="col-md-6 text-center">
         <div class="glass-animated light-wireframe d-flex flex-column align-items-center justify-content-center position-relative">
-          <!-- Partículas animadas tipo tecnología -->
-          <Particles
-            id="tsparticles-welcome"
-            class="particles-bg"
-            :options="{
-              background: { color: 'transparent' },
-              fpsLimit: 60,
-              particles: {
-                number: { value: 40, density: { enable: true, area: 600 } },
-                color: { value: ['#4f8cff', '#1a237e', '#fff'] },
-                shape: { type: 'circle' },
-                opacity: { value: 0.5 },
-                size: { value: 3, random: true },
-                links: {
-                  enable: true,
-                  color: '#4f8cff',
-                  opacity: 0.3,
-                  width: 1.2,
-                  distance: 120
-                },
-                move: {
-                  enable: true,
-                  speed: 1.2,
-                  direction: 'none',
-                  random: false,
-                  straight: false,
-                  outModes: { default: 'out' },
-                  attract: { enable: false }
-                }
-              },
-              interactivity: {
-                events: {
-                  onHover: { enable: true, mode: 'repulse' },
-                  onClick: { enable: true, mode: 'push' },
-                  resize: true
-                },
-                modes: {
-                  repulse: { distance: 90, duration: 0.4 },
-                  push: { quantity: 3 }
-                }
-              },
-              detectRetina: true
-            }"
-            :init="particlesInit"
-          />
+          <!-- Fondo SVG animado: red de puntos y líneas + ondas de luz -->
+          <svg class="bg-tech-svg" viewBox="0 0 400 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Líneas animadas -->
+            <g class="lines-group">
+              <polyline points="20,40 100,60 200,30 300,80 380,40" class="tech-line" />
+              <polyline points="30,180 120,120 200,200 280,140 370,180" class="tech-line delay1" />
+              <polyline points="60,60 180,100 320,60" class="tech-line delay2" />
+              <polyline points="80,200 200,160 320,200" class="tech-line delay3" />
+            </g>
+            <!-- Puntos animados -->
+            <g class="points-group">
+              <circle cx="100" cy="60" r="3" class="tech-dot" />
+              <circle cx="200" cy="30" r="3" class="tech-dot delay1" />
+              <circle cx="300" cy="80" r="3" class="tech-dot delay2" />
+              <circle cx="120" cy="120" r="3" class="tech-dot delay3" />
+              <circle cx="200" cy="200" r="3" class="tech-dot delay4" />
+              <circle cx="280" cy="140" r="3" class="tech-dot delay5" />
+            </g>
+            <!-- Ondas animadas -->
+            <g class="waves-group">
+              <path class="tech-wave" d="M0 110 Q100 90 200 110 T400 110" />
+              <path class="tech-wave delay1" d="M0 130 Q100 150 200 130 T400 130" />
+            </g>
+          </svg>
           <!-- Icono SVG animado con pulso -->
           <svg class="pulse-icon" width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="10" fill="#fff" fill-opacity="0.7"/>
@@ -336,5 +315,58 @@ const entornos = [
   top: 0; left: 0; width: 100%; height: 100%;
   z-index: 1;
   pointer-events: none;
+}
+.bg-tech-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.55;
+}
+.tech-line {
+  stroke: #4f8cff;
+  stroke-width: 2;
+  fill: none;
+  opacity: 0.5;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: lineDraw 2.5s forwards;
+}
+.tech-line.delay1 { animation-delay: 0.5s; }
+.tech-line.delay2 { animation-delay: 1s; }
+.tech-line.delay3 { animation-delay: 1.5s; }
+@keyframes lineDraw {
+  to { stroke-dashoffset: 0; }
+}
+.tech-dot {
+  fill: #00eaff;
+  filter: drop-shadow(0 0 6px #00eaff88);
+  opacity: 0.7;
+  transform: scale(0.7);
+  animation: dotPulse 1.8s infinite alternate;
+}
+.tech-dot.delay1 { animation-delay: 0.3s; }
+.tech-dot.delay2 { animation-delay: 0.6s; }
+.tech-dot.delay3 { animation-delay: 0.9s; }
+.tech-dot.delay4 { animation-delay: 1.2s; }
+.tech-dot.delay5 { animation-delay: 1.5s; }
+@keyframes dotPulse {
+  to { opacity: 1; transform: scale(1.2); }
+}
+.tech-wave {
+  stroke: #4f8cff;
+  stroke-width: 2.5;
+  fill: none;
+  opacity: 0.18;
+  filter: blur(1.5px);
+  stroke-dasharray: 8 6;
+  animation: waveMove 3.5s infinite alternate ease-in-out;
+}
+.tech-wave.delay1 { animation-delay: 1.2s; }
+@keyframes waveMove {
+  0% { transform: translateY(0); opacity: 0.18; }
+  100% { transform: translateY(-10px) scaleX(1.04); opacity: 0.32; }
 }
 </style>
