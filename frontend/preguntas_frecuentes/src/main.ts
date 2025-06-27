@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import Particles from 'vue3-particles'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -13,6 +14,7 @@ import router from './router'
 const app = createApp(App)
 
 app.use(createPinia())
+app.use(Particles)
 
 // Configuración mejorada de toast notifications
 app.use(Toast, {
