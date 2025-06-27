@@ -13,6 +13,13 @@
       <!-- Columna de imagen -->
       <div class="col-md-6 text-center">
         <div class="glass-animated d-flex flex-column align-items-center justify-content-center">
+          <!-- Fondo decorativo de tecnología -->
+          <img 
+            src="/tecnologia.png" 
+            alt="Tecnología decorativa" 
+            class="bg-tecnologia" 
+            aria-hidden="true"
+          />
           <!-- Icono SVG animado con pulso -->
           <svg class="pulse-icon" width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="10" fill="#fff" fill-opacity="0.7"/>
@@ -213,5 +220,24 @@ const entornos = [
   font-weight: 600;
   letter-spacing: 1px;
   text-shadow: 0 2px 8px #fff8;
+}
+.bg-tecnologia {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 220px;
+  max-width: 90%;
+  max-height: 90%;
+  transform: translate(-50%, -50%);
+  opacity: 0.18;
+  filter: blur(2px) brightness(1.1);
+  pointer-events: none;
+  z-index: 0;
+  object-fit: contain;
+}
+.glass-animated > *:not(.bg-tecnologia) {
+  position: relative;
+  z-index: 1;
 }
 </style>
