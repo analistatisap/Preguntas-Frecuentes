@@ -33,7 +33,17 @@ class LoginAPIView(APIView):
             if user is not None:
                 # El usuario es autenticado, obtener o crear el token
                 token, created = Token.objects.get_or_create(user=user)  # type: ignore
-                return Response({'token': token.key}, status=status.HTTP_200_OK)
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
+                    'user': {
+                        'username': user.username,
+                        'email': user.email,
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                    }
+                }, status=status.HTTP_200_OK)
             else:
                 logger.warning(f"Intento de login fallido para el usuario: {username}")
                 return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
