@@ -157,19 +157,13 @@ EMAIL_USE_TLS = True
 
 # --- CONFIGURACIÓN PARA AUTENTICACIÓN LDAP con verificación de actividad ---
 
-#LDAPS (seguro): 'ldaps://10.10.10.4:636'
-AUTH_LDAP_SERVER_URI = 'ldap://10.10.10.4:389'
-
-# Credenciales del usuario de servicio para el bind (lectura del AD)
-AUTH_LDAP_BIND_DN = 'CN=jagrajales,OU=Usuarios,DC=grupodecor,DC=local'
-AUTH_LDAP_BIND_PASSWORD = 'contraseña de servicio' 
-
-# Base DN (Distinguished Name) donde buscar usuarios
-# Asegúrate de que esta ruta sea 100% correcta y contenga a tus usuarios.
+AUTH_LDAP_SERVER_URI = f"ldap://{os.getenv('LDAP_SERVER')}:{os.getenv('LDAP_PORT', '389')}"
+AUTH_LDAP_BIND_DN = os.getenv('LDAP_BIND_USER_DN')
+AUTH_LDAP_BIND_PASSWORD = os.getenv('LDAP_BIND_PASSWORD')
 AUTH_LDAP_USER_SEARCH = LDAPSearch(
-    'OU=Usuarios,OU=01 - GRUPODECOR,DC=grupodecor,DC=local',
+    os.getenv('LDAP_BASE_DN'),
     SUBTREE,
-    '(sAMAccountName=%(user)s)'
+    '(&(objectClass=user)(objectCategory=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(sAMAccountName=%(user)s))'
 )
 
 # Mapea atributos de AD a campos del modelo de usuario de Django (opcional, pero recomendado)
