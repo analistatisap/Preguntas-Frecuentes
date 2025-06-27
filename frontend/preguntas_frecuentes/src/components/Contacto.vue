@@ -3,7 +3,7 @@
     <section class="contacto-seccion">
       <div class="contacto-izquierda">
         <h2>ÁREA DE TECNOLOGÍA DE LA INFORMACIÓN</h2>
-        <img src="/imgarbol.png" alt="Árbol" class="img-arbol-contacto" />
+        <img :src="`${import.meta.env.BASE_URL}imgarbol.png`" alt="Árbol" class="img-arbol-contacto" />
         <p>CORREO</p>
         <div class="correos">
           <div class="correo-item">
