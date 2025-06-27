@@ -5,25 +5,24 @@
     <title>Nuevo mensaje de contacto</title>
     <style>
         body {
-            background: #f8f8f8;
             margin: 0;
             padding: 0;
+            background: #f8f8f8;
             font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
         }
         .franja-azul {
-            background: #2c3e50;
-            height: 32px;
+            background: #e3ecf7;
+            height: 48px;
             width: 100%;
         }
-        .container {
-            max-width: 540px;
-            margin: 0 auto 32px auto;
+        .main-table {
+            max-width: 600px;
+            margin: 0 auto;
             background: #fff;
             border-radius: 14px;
-            overflow: hidden;
             box-shadow: 0 2px 12px rgba(44,62,80,0.10);
             border: 1px solid #f2f2f2;
-            position: relative;
+            overflow: hidden;
         }
         .img-header {
             width: 100%;
@@ -32,16 +31,14 @@
             object-fit: cover;
         }
         .superpuesto {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -60%);
+            margin: -120px auto 0 auto;
             background: rgba(255,255,255,0.97);
             border-radius: 14px;
             box-shadow: 0 2px 12px rgba(44,62,80,0.10);
             padding: 28px 24px 18px 24px;
             width: 85%;
             z-index: 2;
+            position: relative;
         }
         .superpuesto h2 {
             color: #2c3e50;
@@ -88,10 +85,10 @@
             border: 1px solid #ececec;
         }
         .footer {
-            background: #f8f8f8;
-            color: #888;
+            background: #e3ecf7;
+            color: #222;
             text-align: center;
-            padding: 16px 8px 8px 8px;
+            padding: 18px 8px 8px 8px;
             font-size: 0.93rem;
             border-top: 1px solid #eee;
         }
@@ -108,25 +105,29 @@
             display: block;
         }
         @media (max-width: 600px) {
-            .container { margin: 0; border-radius: 0; }
+            .main-table { border-radius: 0; }
             .superpuesto { width: 97%; padding: 12px 4px; }
         }
     </style>
 </head>
 <body>
     <div class="franja-azul"></div>
-    <div class="container">
-        <img class="img-header" src="https://decorceramica.wpengine.com/portalcliente/archivosmariana/CORREONOTIFICACIONPLANTILLA.png" alt="Notificación Grupo Decor" />
-        <div class="superpuesto">
-            <h2>Detalles del mensaje</h2>
-            <div class="datos">
-                <div class="dato"><strong>Nombre:</strong> <span class="dato-valor">{{ nombre }} {{ apellido }}</span></div>
-                <div class="dato"><strong>Correo:</strong> <span class="dato-valor"><a href="mailto:{{ correo }}">{{ correo }}</a></span></div>
-                <div class="dato"><strong>Mensaje:</strong></div>
-                <div class="mensaje-bloque">{{ mensaje }}</div>
-            </div>
-        </div>
-    </div>
+    <table class="main-table" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+            <td style="padding:0; position:relative;">
+                <img class="img-header" src="https://decorceramica.wpengine.com/portalcliente/archivosmariana/CORREONOTIFICACIONPLANTILLA.png" alt="Notificación Grupo Decor" />
+                <div class="superpuesto">
+                    <h2>Detalles del mensaje</h2>
+                    <div class="datos">
+                        <div class="dato"><strong>Nombre:</strong> <span class="dato-valor">{{ nombre }} {{ apellido }}</span></div>
+                        <div class="dato"><strong>Correo:</strong> <span class="dato-valor"><a href="mailto:{{ correo }}">{{ correo }}</a></span></div>
+                        <div class="dato"><strong>Mensaje:</strong></div>
+                        <div class="mensaje-bloque">{{ mensaje }}</div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
     <div class="franja-azul"></div>
     <div class="footer">
         Este correo fue generado automáticamente por el sistema de contacto de Grupo Decor.<br>
