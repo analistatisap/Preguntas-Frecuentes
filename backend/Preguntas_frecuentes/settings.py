@@ -14,7 +14,7 @@ import os
 from dotenv import load_dotenv
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType # Necesitamos GroupOfNamesType ahora
 import logging
-from ldap3 import SUBTREE
+import ldap
 
 load_dotenv()
 
@@ -163,41 +163,29 @@ AUTH_LDAP_BIND_PASSWORD = os.getenv('LDAP_BIND_PASSWORD')
 
 AUTH_LDAP_USER_SEARCH = LDAPSearch(
     os.getenv('LDAP_BASE_DN'),
-    SUBTREE,
+    2,  # 2 es el valor entero para SCOPE_SUBTREE
     '(&(objectClass=user)(objectCategory=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(sAMAccountName=%(user)s))'
 )
 
-# Mapea atributos de AD a campos del modelo de usuario de Django (opcional, pero recomendado)
 AUTH_LDAP_USER_ATTR_MAP = {
     "first_name": "givenName",
     "last_name": "sn",
     "email": "mail",
 }
 
-# --- Configuración de Grupos para verificar actividad ---
-
-# Base DN donde se encuentran tus grupos.
-# ¡REEMPLAZA con el DN que te dé el equipo de AD donde están los grupos relevantes!
-# Este es necesario para que Django pueda evaluar la membresía del grupo de "usuarios activos".
 AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
-    'OU=Usuarios,OU=01 - GRUPODECOR,DC=grupodecor,DC=local', #falta por confirmar
-    SUBTREE,
+    os.getenv('LDAP_BASE_DN'),  # Puedes cambiar esto si tienes un DN específico para grupos
+    2,
     '(objectClass=group)'
 )
 AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
 
-# Aquí es donde se define qué grupo de AD indica que el usuario está "activo".
-# Si el usuario NO pertenece a este grupo, django.contrib.auth.authenticate()
-# establecerá user.is_active = False, impidiendo el login.
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    "is_active": 'CN=Usuarios,OU=Usuarios,OU=01 - GRUPODECOR,DC=grupodecor,DC=local', # DN DE GRUPO DE USUARIOS ACTIVOS
+    # Cambia este DN por el del grupo de usuarios activos si es diferente
+    "is_active": 'CN=Usuarios,OU=Usuarios,OU=01 - GRUPODECOR,DC=grupodecor,DC=local',
 }
 
-# Estas opciones controlan la actualización y el reflejo de grupos.
-# AUTH_LDAP_MIRROR_GROUPS = False # No reflejar todos los grupos en Django si no se necesita permisos.
-# AUTH_LDAP_FIND_GROUP_PERMS = False # No busqa permisos granulares de grupo.
-
-AUTH_LDAP_ALWAYS_UPDATE_USER = True # Actualiza el perfil del usuario en Django en cada login
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
 AUTHENTICATION_BACKENDS = [
     'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
