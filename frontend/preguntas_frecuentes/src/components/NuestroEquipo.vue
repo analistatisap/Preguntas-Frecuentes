@@ -91,14 +91,14 @@
               <img src="/fotosNE/RubenDario.avif" alt="Ruben Dario Tobon Cardona">
             </div>
             <h3>Ruben Dario Tobon Cardona</h3>
-            <p class="rol">Infraestructura</p>
+            <p class="rol">Cordinador de Infraestructura</p>
           </div>
           <div class="tarjeta-miembro">
             <div class="imagen-container">
               <img src="/fotosNE/ValentinaCastaño.avif" alt="Valentina Echeverry Castaño">
             </div>
             <h3>Valentina Echeverry Castaño</h3>
-            <p class="rol">Infraestructura</p>
+            <p class="rol">Analista Senior de Dispositivos y Endpoint</p>
           </div>
           <div class="tarjeta-miembro">
             <div class="imagen-container">
@@ -126,7 +126,7 @@
               <img src="/fotosNE/robinson.png" alt="Julian Alberto Piña Garcia">
             </div>
             <h3>Robinson David Becoche</h3>
-            <p class="rol">Soporte tecnico</p>
+            <p class="rol">Analista de Soporte TI</p>
           </div>
           <div class="tarjeta-miembro">
             <div class="imagen-container">
