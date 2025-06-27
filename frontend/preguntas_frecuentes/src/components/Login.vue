@@ -203,8 +203,8 @@ export default {
         return;
       }
       
-      try {
-        // Usar el endpoint estándar de JWT
+      // Función auxiliar para obtener el JWT
+      const obtenerJWT = async () => {
         const response = await fetch('http://172.16.29.5:8000/api/token/', {
           method: 'POST',
           headers: {
@@ -215,21 +215,25 @@ export default {
             password: this.password,
           }),
         });
+        return response;
+      };
+      
+      try {
+        let response = await obtenerJWT();
         if (response.ok) {
           const data = await response.json();
-          // Guardar el token si viene en la respuesta
           if (data.access) {
             localStorage.setItem('access', data.access);
           }
           if (data.refresh) {
             localStorage.setItem('refresh', data.refresh);
           }
-          // Guardar el usuario solo con el username (sin datos sensibles)
           localStorage.setItem('user', JSON.stringify({ username: this.username.trim() }));
           toast.success('¡Inicio de sesión exitoso! Bienvenido.');
           this.$router.push('/');
         } else {
           let errorMessage = 'Usuario o contraseña incorrectos.';
+          let debeIntentarLDAP = false;
           if (response.status === 500) {
             errorMessage = 'Error interno del servidor. Por favor, contacte al administrador.';
           } else if (response.status === 403) {
@@ -238,7 +242,47 @@ export default {
             errorMessage = 'Demasiados intentos de inicio de sesión. Intente más tarde.';
           } else {
             const errorData = await response.json().catch(() => ({}));
-            if (errorData.detail) errorMessage = errorData.detail;
+            if (errorData.detail && errorData.detail.includes('no tiene una cuenta activa')) {
+              debeIntentarLDAP = true;
+            } else if (errorData.detail) {
+              errorMessage = errorData.detail;
+            }
+          }
+          // Si debe intentar LDAP
+          if (debeIntentarLDAP) {
+            // Intentar login por LDAP
+            const ldapResponse = await fetch('http://172.16.29.5:8000/api/login/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                username: this.username.trim(),
+                password: this.password,
+              }),
+            });
+            if (ldapResponse.ok) {
+              // Si el login LDAP fue exitoso, reintentar obtener el JWT
+              response = await obtenerJWT();
+              if (response.ok) {
+                const data = await response.json();
+                if (data.access) {
+                  localStorage.setItem('access', data.access);
+                }
+                if (data.refresh) {
+                  localStorage.setItem('refresh', data.refresh);
+                }
+                localStorage.setItem('user', JSON.stringify({ username: this.username.trim() }));
+                toast.success('¡Inicio de sesión exitoso! Bienvenido.');
+                this.$router.push('/');
+                this.loading = false;
+                return;
+              } else {
+                errorMessage = 'No se pudo obtener el token después de sincronizar con LDAP.';
+              }
+            } else {
+              errorMessage = 'No se pudo autenticar con el Directorio Activo. Verifica tus credenciales.';
+            }
           }
           this.error = errorMessage;
           toast.error(this.error);
