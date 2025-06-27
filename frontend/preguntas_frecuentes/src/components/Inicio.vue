@@ -276,12 +276,12 @@ const entornos = [
   z-index: 0;
   object-fit: contain;
 }
-.glass-animated > *:not(.bg-tecnologia) {
+.glass-animated > *:not(.particles-bg) {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 .light-wireframe {
-  background: linear-gradient(135deg, #eaf2ff 60%, #fafdff 100%);
+  background: linear-gradient(135deg, rgba(234,242,255,0.82) 60%, rgba(250,253,255,0.82) 100%);
   border: 1.5px solid #b3c6e6;
   box-shadow: 0 8px 32px 0 rgba(79, 140, 255, 0.13);
   position: relative;
@@ -328,7 +328,7 @@ const entornos = [
 .particles-bg {
   position: absolute !important;
   top: 0; left: 0; width: 100%; height: 100%;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 }
 </style>
