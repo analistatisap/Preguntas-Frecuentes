@@ -15,7 +15,7 @@
         <div class="welcome-card">
           <canvas ref="bgCanvas" class="bg-canvas"></canvas>
           <div class="welcome-content">
-            <h1>¡Bienvenido {{ nombre }}!</h1>
+            <h1>¡Hola {{ nombre }}!</h1>
           </div>
         </div>
       </div>
