@@ -1,14 +1,30 @@
 <template>
-  <div class="welcome-container">
-    <canvas ref="bgCanvas" class="bg-canvas"></canvas>
-    <div class="welcome-content">
-      <h1>¡Bienvenido {{ nombre }}!</h1>
+  <div class="container my-5">
+    <div class="row align-items-center justify-content-center">
+      <!-- Columna de texto -->
+      <div class="col-md-6 mb-4 mb-md-0">
+        <div class="p-4 rounded-3 bg-white shadow-sm">
+          <h2 class="mb-3">¿Sabías que…</h2>
+          <p class="lead">
+            A través de este portal podrás obtener material de utilidad para el óptimo desarrollo de tus procesos?
+          </p>
+        </div>
+      </div>
+      <!-- Columna de tarjeta de bienvenida -->
+      <div class="col-md-6 text-center">
+        <div class="welcome-card">
+          <canvas ref="bgCanvas" class="bg-canvas"></canvas>
+          <div class="welcome-content">
+            <h1>¡Bienvenido {{ nombre }}!</h1>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const nombre = 'Usuario'; // Puedes reemplazar esto por una prop si lo deseas
 const bgCanvas = ref(null);
@@ -170,11 +186,11 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.welcome-container {
+.welcome-card {
   position: relative;
   width: 100%;
-  min-height: 350px;
-  height: 60vh;
+  min-height: 320px;
+  height: 320px;
   border-radius: 2rem;
   overflow: hidden;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -200,7 +216,7 @@ onMounted(() => {
   text-shadow: 0 2px 16px rgba(0,0,0,0.25);
 }
 .welcome-content h1 {
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   font-weight: 700;
   letter-spacing: 1px;
   margin: 0;
