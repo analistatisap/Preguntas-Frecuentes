@@ -255,9 +255,10 @@ h2 {
 
  .imagen-container img {
   display: block;
-  width: 100%; /* La imagen llena el contenedor */
-  height: 100%; /* La imagen llena el contenedor */
-  object-fit: cover; /* Cubrir el área sin distorsionar la relación de aspecto */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%; /* Centra la imagen un poco más arriba */
  }
 
  h3 {
