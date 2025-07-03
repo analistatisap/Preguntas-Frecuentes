@@ -45,7 +45,10 @@ def login_ldap_view(request):
             logging.critical("CRITICAL: La variable de entorno LDAP_BIND_PASSWORD no está configurada.")
             return JsonResponse({'error': 'Error de configuración del servidor.'}, status=500)
 
-        search_filter = f'(&(sAMAccountName={username})(&(objectClass=user)(objectCategory=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2))))'
+        logging.info(f"Intentando autenticar username recibido: {username}")
+
+        # Filtro de búsqueda más estricto: solo usuarios habilitados y con sAMAccountName exacto
+        search_filter = f'(&(objectClass=user)(objectCategory=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(sAMAccountName={username}))'
 
         # --- Configuración de Servidor y TLS para LDAPS ---
         tls_config = None
@@ -84,7 +87,7 @@ def login_ldap_view(request):
 
         user_entry = conn.entries[0]
         user_dn = user_entry.distinguishedName.value
-        logging.info(f"Usuario '{username}' encontrado con DN: {user_dn}")
+        logging.info(f"DN encontrado para {username}: {user_dn}")
         
         # 3. Intentar una nueva conexión con las credenciales del usuario para validar la contraseña
         logging.info(f"Intentando autenticar al usuario con DN: {user_dn}")

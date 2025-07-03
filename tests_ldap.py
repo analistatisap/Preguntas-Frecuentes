@@ -43,7 +43,7 @@ try:
     if conn.bound:
         print("¡Bind (autenticación) del usuario de servicio exitoso!")
 
-        test_user_samaccountname = 'jagrajales'
+        test_user_samaccountname = 'automatización'
         search_filter = f'(sAMAccountName={test_user_samaccountname})'
         
         print(f"\nIntentando buscar al usuario '{test_user_samaccountname}'...")
@@ -64,7 +64,7 @@ try:
             
             # Intentar autenticar el usuario final con su propia contraseña
             print(f"\n--- Intentando autenticar al usuario final '{test_user_samaccountname}' ---")
-            TEST_USER_PASSWORD = 'Decor2026*'
+            TEST_USER_PASSWORD = 'C0n3x10n2025$*'
 
             try:
                 user_dn = None
