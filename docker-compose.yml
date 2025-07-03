@@ -19,7 +19,7 @@ services:
       dockerfile: Containerfile
     container_name: preguntame_frontend
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - backend
     networks:
