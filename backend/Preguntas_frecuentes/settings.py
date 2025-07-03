@@ -157,14 +157,34 @@ EMAIL_USE_TLS = True
 
 # --- CONFIGURACIÓN PARA AUTENTICACIÓN LDAP con verificación de actividad ---
 
-AUTH_LDAP_SERVER_URI = f"ldap://{os.getenv('LDAP_SERVER')}:{os.getenv('LDAP_PORT', '389')}"
-AUTH_LDAP_BIND_DN = os.getenv('LDAP_BIND_USER_DN')
-AUTH_LDAP_BIND_PASSWORD = os.getenv('LDAP_BIND_PASSWORD')
+# Carga explícita del .env (por si acaso)
+from dotenv import load_dotenv
+load_dotenv()
+
+import logging
+logger = logging.getLogger('django_auth_ldap')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
+
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+
+# Variables de entorno LDAP
+AUTH_LDAP_SERVER_URI = f"ldap://{os.environ.get('LDAP_SERVER')}:{os.environ.get('LDAP_PORT', '389')}"
+AUTH_LDAP_BIND_DN = os.environ.get('LDAP_BIND_USER_DN')
+AUTH_LDAP_BIND_PASSWORD = os.environ.get('LDAP_BIND_PASSWORD')
+
+# Validación de variables de entorno
+if not AUTH_LDAP_SERVER_URI or not AUTH_LDAP_BIND_DN or not AUTH_LDAP_BIND_PASSWORD:
+    print("[ERROR] Faltan variables de entorno LDAP. Revisa tu archivo .env")
+    print(f"AUTH_LDAP_SERVER_URI: {AUTH_LDAP_SERVER_URI}")
+    print(f"AUTH_LDAP_BIND_DN: {AUTH_LDAP_BIND_DN}")
+    print(f"AUTH_LDAP_BIND_PASSWORD: {'***' if AUTH_LDAP_BIND_PASSWORD else None}")
 
 AUTH_LDAP_USER_SEARCH = LDAPSearch(
-    os.getenv('LDAP_BASE_DN'),
-    2,  # 2 es el valor entero para SCOPE_SUBTREE
-    '(&(objectClass=user)(objectCategory=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(sAMAccountName=%(user)s))'
+    os.environ.get('LDAP_BASE_DN'),
+    2,  # 2 equivale a ldap.SCOPE_SUBTREE
+    '(sAMAccountName=%(user)s)'
 )
 
 AUTH_LDAP_USER_ATTR_MAP = {
@@ -238,3 +258,7 @@ LOGGING = {
         },
     },
 }
+
+logger = logging.getLogger('django_auth_ldap')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)

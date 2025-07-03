@@ -9,8 +9,8 @@ LDAP_SERVER_URI_TEST = 'ldap://10.10.10.4:389'
 
 # Credenciales del usuario de servicio para el bind (lectura del AD)
 # Este usuario necesita permisos de lectura en tu AD.
-LDAP_BIND_DN_TEST = 'CN=jagrajales,OU=Usuarios,DC=grupodecor,DC=local'
-LDAP_BIND_PASSWORD_TEST = 'Decor2025##' # Contraseña REAL de tu usuario de servicio
+LDAP_BIND_DN_TEST = 'automatización@grupodecor.local'
+LDAP_BIND_PASSWORD_TEST = 'C0n3x10n2025$*' # Contraseña REAL de tu usuario de servicio
 
 # Base DN (Distinguished Name) donde buscar usuarios
 # Esta es la ruta correcta identificada para tus usuarios.
@@ -43,7 +43,7 @@ try:
     if conn.bound:
         print("¡Bind (autenticación) del usuario de servicio exitoso!")
 
-        test_user_samaccountname = 'ltrejos'
+        test_user_samaccountname = 'jagrajales'
         search_filter = f'(sAMAccountName={test_user_samaccountname})'
         
         print(f"\nIntentando buscar al usuario '{test_user_samaccountname}'...")
@@ -64,15 +64,26 @@ try:
             
             # Intentar autenticar el usuario final con su propia contraseña
             print(f"\n--- Intentando autenticar al usuario final '{test_user_samaccountname}' ---")
-            TEST_USER_PASSWORD = 'Decor2024*'
+            TEST_USER_PASSWORD = 'Decor2026*'
 
             try:
-                user_conn = Connection(server, user=test_user_samaccountname, password=TEST_USER_PASSWORD, auto_bind=True)
-                if user_conn.bound:
+                user_dn = None
+                # Buscar el DN del usuario encontrado
+                for entry in conn.entries:
+                    if hasattr(entry, 'entry_dn'):
+                        user_dn = entry.entry_dn
+                        break
+                if user_dn:
+                    user_conn = Connection(server, user=user_dn, password=TEST_USER_PASSWORD, auto_bind=True)
+                else:
+                    print(f"No se pudo determinar el DN del usuario '{test_user_samaccountname}'.")
+                    user_conn = None
+                if user_conn and user_conn.bound:
                     print(f"¡Autenticación exitosa para el usuario '{test_user_samaccountname}' con sus credenciales!")
                 else:
-                    print(f"Fallo en la autenticación para el usuario '{test_user_samaccountname}'. Resultado: {user_conn.result}")
-                user_conn.unbind()
+                    print(f"Fallo en la autenticación para el usuario '{test_user_samaccountname}'. Resultado: {user_conn.result if user_conn else 'Sin conexión'}")
+                if user_conn:
+                    user_conn.unbind()
             except LDAPBindError as e:
                 print(f"Error de autenticación para el usuario '{test_user_samaccountname}': {e}")
             except Exception as e:
