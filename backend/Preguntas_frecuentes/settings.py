@@ -20,11 +20,9 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = True
-
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-development-key-placeholder')
-
-ALLOWED_HOSTS = ['*'] # ¡Cambiar para producción!
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
 
 EMAIL_HOST_USER = 'notificacionesaplicativoweb@grupodecor.com'
 EMAIL_HOST_PASSWORD = '1Ngr3s0W3b2024*'
@@ -115,10 +113,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Preguntas_frecuentes.wsgi.application'
 
+# Seguridad para producción
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Configuración de base de datos para PostgreSQL (ajustar en el paso 3)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'db'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
 
