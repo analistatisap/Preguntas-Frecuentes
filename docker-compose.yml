@@ -12,6 +12,22 @@ services:
       - "8000:8000"
     networks:
       - default
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: preguntas
+      POSTGRES_PASSWORD: una_contraseña_segura
+      POSTGRES_DB: preguntas_frecuentes
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
 
   frontend:
     build:
@@ -25,18 +41,5 @@ services:
     networks:
       - default
 
-# Si usas base de datos, descomenta y configura:
-#  db:
-#    image: postgres:13
-#    container_name: postgres_db
-#    environment:
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: postgres
-#      POSTGRES_DB: preguntas_frecuentes
-#    ports:
-#      - "5432:5432"
-#    networks:
-#      - default
-
-#volumes:
-  #postgres_data: {} 
+volumes:
+  postgres_data: 
