@@ -3,49 +3,40 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./backend # El contexto de construcción para el backend
+      context: ./backend
       dockerfile: Containerfile
-    container_name: django_backend
+    container_name: preguntame_backend
     env_file:
       - ./backend/.env
-      
-    volumes:
-      - ./backend:/app/:z # Monta el directorio del backend del host en /app del contenedor
-      - ./backend/gunicorn_config.py:/app/gunicorn_config.py:z
     ports:
       - "8000:8000"
-    # depends_on:
-      # - db
-    networks: # Es buena práctica definir redes si las usas, aunque aquí no está tu pf_network_server
-      - default # Por defecto, Podman Compose crea una red para los servicios
+    networks:
+      - default
 
   frontend:
     build:
       context: ./frontend/preguntas_frecuentes
       dockerfile: Containerfile
-    container_name: vue_frontend
-    #volumes:
-     # - ./frontend/preguntas_frecuentes:/app 
+    container_name: preguntame_frontend
     ports:
-      - "3000:80"
-    depends_on: # Si tu frontend necesita del backend para correr (lo más probable)
+      - "80:80"
+    depends_on:
       - backend
     networks:
       - default
 
-  #db:
-    #image: postgres:13
-    #container_name: postgres_db
-    #environment:
-      #POSTGRES_USER: postgres
-      #POSTGRES_PASSWORD: postgres
-      #POSTGRES_DB: preguntas_frecuentes
-    #volumes:
-      #- postgres_data:/var/lib/postgresql/data
-    #ports:
-      #- "5432:5432"
-  # networks: # Este bloque estaba mal ubicado y es innecesario aquí
-    # - default
+# Si usas base de datos, descomenta y configura:
+#  db:
+#    image: postgres:13
+#    container_name: postgres_db
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: preguntas_frecuentes
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      - default
 
 #volumes:
   #postgres_data: {} 
