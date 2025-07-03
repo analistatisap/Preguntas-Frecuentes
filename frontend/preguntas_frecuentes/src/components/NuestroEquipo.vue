@@ -24,6 +24,13 @@
         </div>
         <div class="tarjeta-miembro">
           <div class="imagen-container">
+            <img src="/fotosNE/Gustavo.jpeg" alt="Gustavo Adolfo Gaitan Palacio">
+          </div>
+          <h3>Gustavo Adolfo Gaitan Palacio</h3>
+          <p class="rol">Administrador WMS-Letra SAP</p>
+        </div>
+        <div class="tarjeta-miembro">
+          <div class="imagen-container">
             <img src="/fotosNE/KarenElianaCaicedo.avif" alt="Karen Eliana Caicedo B.">
           </div>
           <h3>Karen Eliana Caicedo B.</h3>
