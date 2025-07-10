@@ -41,3 +41,5 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 RUN python --version
 RUN pip install --upgrade pip
 RUN pip install Django==5.2.1
+RUN pip install psycopg2-binary
+RUN pip show psycopg2-binary
