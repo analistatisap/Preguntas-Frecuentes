@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Containerfile
+    container_name: preguntame_backend
+    environment:
+      - DJANGO_DEBUG=False
+      - SECRET_KEY=django-insecure-manual-deployment-key-change-this
+      - DJANGO_ALLOWED_HOSTS=nexusti.grupodecor.com,52.177.69.18,localhost,127.0.0.1
+      - POSTGRES_DB=preguntas_frecuentes
+      - POSTGRES_USER=preguntas
+      - POSTGRES_PASSWORD=preguntas123
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - LDAP_SERVER=tu_servidor_ldap
+      - LDAP_PORT=389
+      - LDAP_BIND_USER_DN=tu_usuario_ldap
+      - LDAP_BIND_PASSWORD=tu_password_ldap
+      - LDAP_BASE_DN=tu_base_dn_ldap
+      - EMAIL_HOST=smtp.office365.com
+      - EMAIL_PORT=587
+      - EMAIL_HOST_USER=notificacionesaplicativoweb@grupodecor.com
+      - EMAIL_HOST_PASSWORD=1Ngr3s0W3b2024*
+      - DEFAULT_FROM_EMAIL=notificacionesaplicativoweb@grupodecor.com
+    ports:
+      - "8000:8000"
+    networks:
+      - preguntame_network
+    depends_on:
+      - db
+    restart: unless-stopped
+    volumes:
+      - static_files:/app/staticfiles
+      - media_files:/app/media
+
+  db:
+    image: postgres:13
+    container_name: preguntame_db
+    environment:
+      POSTGRES_USER: preguntas
+      POSTGRES_PASSWORD: preguntas123
+      POSTGRES_DB: preguntas_frecuentes
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - preguntame_network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend/preguntas_frecuentes
+      dockerfile: Containerfile
+    container_name: preguntame_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - preguntame_network
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: preguntame_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx-simple.conf:/etc/nginx/nginx.conf
+      - static_files:/var/www/static
+      - media_files:/var/www/media
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - preguntame_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  static_files:
+  media_files:
+
+networks:
+  preguntame_network:
+    driver: bridge 

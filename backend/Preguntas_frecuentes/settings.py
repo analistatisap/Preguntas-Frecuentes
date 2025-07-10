@@ -58,6 +58,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4173",
     "http://127.0.0.1:4173",
     "http://172.16.29.5:4173",
+    "https://nexusti.grupodecor.com",
+    "https://52.177.69.18",
+    "http://nexusti.grupodecor.com",
+    "http://52.177.69.18",
+    "http://10.10.10.5",
+    "https://10.10.10.5",
 ]
 
 # Configuraciones adicionales de CORS
