@@ -23,6 +23,9 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 ## Copia el resto del código de la aplicación
 COPY . /app/
 
+RUN pip install psycopg2-binary
+RUN pip show psycopg2-binary
+
 # Configura la variable de entorno DJANGO_SETTINGS_MODULE
 ENV DJANGO_SETTINGS_MODULE=Preguntas_frecuentes.settings
 
@@ -41,5 +44,3 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 RUN python --version
 RUN pip install --upgrade pip
 RUN pip install Django==5.2.1
-RUN pip install psycopg2-binary
-RUN pip show psycopg2-binary
