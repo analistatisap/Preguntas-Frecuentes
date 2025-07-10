@@ -37,3 +37,7 @@ EXPOSE 8000
 
 ## Usa el script como ENTRYPOINT para iniciar la aplicación
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+RUN python --version
+RUN pip install --upgrade pip
+RUN pip install Django==5.2.1
