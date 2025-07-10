@@ -6,12 +6,14 @@ WORKDIR /app
 
 ## Copia el archivo de requisitos primero para aprovechar el cache de Podman
 COPY requirements.txt /app/
+RUN cat /app/requirements.txt
 
 ## Instala dependencias del sistema necesarias para python-ldap y Pillow
-RUN apt-get update && apt-get install -y gcc libldap2-dev libsasl2-dev python3-dev libssl-dev && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y gcc libldap2-dev libsasl2-dev python3-dev libssl-dev libpq-dev && rm -rf /var/lib/apt/lists/*
 
 ## Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip show psycopg2-binary
 
 ## Copia el script de entrada y dale permisos de ejecución
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
@@ -35,8 +37,3 @@ EXPOSE 8000
 
 ## Usa el script como ENTRYPOINT para iniciar la aplicación
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
-ENV LDAP_SERVER=dummy
-ENV LDAP_BIND_USER_DN=dummy
-ENV LDAP_BIND_PASSWORD=dummy
-ENV LDAP_BASE_DN=dummy
