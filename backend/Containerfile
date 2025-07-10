@@ -12,8 +12,8 @@ RUN cat /app/requirements.txt
 RUN apt-get update && apt-get install -y gcc libldap2-dev libsasl2-dev python3-dev libssl-dev libpq-dev && rm -rf /var/lib/apt/lists/*
 
 ## Instala las dependencias
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip show psycopg2-binary
+RUN pip install --no-cache-dir -r requirements.txt || (cat /app/requirements.txt && exit 1)
+RUN pip list
 
 ## Copia el script de entrada y dale permisos de ejecución
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
