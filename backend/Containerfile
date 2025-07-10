@@ -35,3 +35,8 @@ EXPOSE 8000
 
 ## Usa el script como ENTRYPOINT para iniciar la aplicación
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+ENV LDAP_SERVER=dummy
+ENV LDAP_BIND_USER_DN=dummy
+ENV LDAP_BIND_PASSWORD=dummy
+ENV LDAP_BASE_DN=dummy
