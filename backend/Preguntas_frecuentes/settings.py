@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = ['*']
 
 EMAIL_HOST_USER = 'notificacionesaplicativoweb@grupodecor.com'
 EMAIL_HOST_PASSWORD = '1Ngr3s0W3b2024*'
@@ -49,21 +49,7 @@ INSTALLED_APPS = [
 
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://172.16.29.5:3000",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://172.16.29.5:5173",
-    "http://localhost:4173",
-    "http://127.0.0.1:4173",
-    "http://172.16.29.5:4173",
-    "https://nexusti.grupodecor.com",
-    "https://52.177.69.18",
-    "http://nexusti.grupodecor.com",
-    "http://52.177.69.18",
-    "http://10.10.10.5",
-    "https://10.10.10.5",
+    '*'
 ]
 
 # Configuraciones adicionales de CORS

@@ -2,7 +2,7 @@
 import multiprocessing
 
 # Configuración del servidor
-bind = "0.0.0.0:5048"
+bind = "0.0.0.0:5047"
 workers = multiprocessing.cpu_count() * 2 + 1
 worker_class = "sync"
 worker_connections = 1000
