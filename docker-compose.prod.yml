@@ -21,7 +21,7 @@ services:
       - LDAP_BIND_PASSWORD=${LDAP_BIND_PASSWORD}
       - LDAP_BASE_DN=${LDAP_BASE_DN}
       - EMAIL_HOST=${EMAIL_HOST}
-      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_PORT=587
     # ports:
     #   - "5047:8000"
     networks:
