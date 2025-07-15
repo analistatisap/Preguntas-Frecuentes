@@ -22,7 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'preguntame.grupodecor.com',
+    'preguntame.grupodecor.com:5046',
+    'preguntame.grupodecor.com:5047',
+    '*',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://preguntame.grupodecor.com',
+    'https://preguntame.grupodecor.com:5046',
+    'https://preguntame.grupodecor.com:5047',
+]
 
 EMAIL_HOST_USER = 'notificacionesaplicativoweb@grupodecor.com'
 EMAIL_HOST_PASSWORD = '1Ngr3s0W3b2024*'
