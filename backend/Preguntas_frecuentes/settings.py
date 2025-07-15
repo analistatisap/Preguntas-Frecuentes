@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 
 # Configuración de CORS
 CORS_ALLOWED_ORIGINS = [
-    '*'
+    "https://preguntame.grupodecor.com:5046",
 ]
 
 # Configuraciones adicionales de CORS
