@@ -51,7 +51,7 @@ services:
       dockerfile: Containerfile
     container_name: preguntame_frontend
     ports:
-      - "80:80"
+      - "5046:80"
     depends_on:
       - backend
     networks:
