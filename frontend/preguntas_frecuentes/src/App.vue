@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <!-- El header y el nav solo se muestran si no estamos en la página de login -->
+    <!-- Overlay para cerrar el menú en móviles -->
+    <div v-if="menuAbierto" class="menu-overlay" @click="closeMenu"></div>
     <header class="cabecera-corporativa" v-if="!isLoginPage">
       <div class="logo-corporativo">
         <img :src="logoUrl" alt="Logo Corporativo" />
       </div>
-
-      <!-- La navegación principal solo se muestra si el usuario está autenticado -->
       <nav class="navegacion-principal" v-if="user">
         <button class="menu-toggle" @click="toggleMenu" aria-label="Toggle menu">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
         </button>
         <ul :class="['menu-principal', { 'menu-visible': menuAbierto }]">
+          <!-- Botón de cerrar solo visible en móviles -->
+          <li class="close-btn" v-if="menuAbierto" @click="closeMenu">&times;</li>
           <li class="menu-item">
             <router-link to="/" class="menu-link">Inicio</router-link>
           </li>
@@ -36,27 +37,20 @@
           </li>
         </ul>
       </nav>
-
-      <!-- Acciones de usuario: Mostrar nombre y botón de logout -->
       <div class="user-actions" v-if="user">
         <span class="user-name">Hola, {{ user.fullName || user.username }}</span>
         <button @click="logout" class="logout-button">Cerrar Sesión</button>
       </div>
     </header>
-
     <main>
       <router-view />
     </main>
-
-    <!-- Modal de notificación de inactividad -->
     <ModalNotificacion
       :visible="modalInactividadVisible"
       titulo="Sesión finalizada"
       mensaje="Se finalizó su sesión por inactividad. Por favor, vuelva a iniciar sesión para continuar."
       @aceptar="cerrarModalInactividad"
     />
-
-    <!-- El footer solo se muestra si no estamos en la página de login -->
     <footer class="pie-pagina-corporativo" v-if="!isLoginPage">
       <p>&copy; 2025 GRUPO DECOR. Todos los derechos reservados.</p>
       <img src="http://atlasqa.grupodecor.com:4587/pruebas_proyectos/Vista_Reset_User/cinta_grupo_decor.png" alt="Cinta Grupo Decor" style="margin-top: 1rem; max-width: 400px; width: 100%; display: block; margin-left: auto; margin-right: auto;" />
@@ -332,42 +326,58 @@ main {
   cursor: pointer;
 }
 
-@media (max-width: 992px) {
-  .user-actions {
-    /* Mover las acciones al menú hamburguesa */
-    display: none; 
-  }
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 1100;
+}
 
-  .menu-toggle {
-    display: block;
-    margin-left: auto; /* Empuja el botón a la derecha */
-  }
+.menu-principal {
+  transition: right 0.3s;
+}
 
-  .navegacion-principal {
-    margin-left: auto;
-  }
-
+@media (max-width: 600px) {
   .menu-principal {
-    display: none;
+    position: fixed;
+    top: 0;
+    right: -100vw;
+    width: 70vw;
+    max-width: 320px;
+    height: 100vh;
+    background: #2c3e50;
     flex-direction: column;
-    position: absolute;
-    top: 80px;
-    right: 0;
-    background-color: #2c3e50;
-    width: 250px;
-    padding: 1rem;
+    align-items: flex-start;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    font-size: 1.1rem;
+    z-index: 1200;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+    overflow-y: auto;
+    right: -100vw;
   }
-
   .menu-principal.menu-visible {
-    display: flex;
+    right: 0;
   }
-
-  .dropdown .submenu {
-    position: static;
+  .close-btn {
     display: block;
+    font-size: 2.2rem;
+    color: #fff;
     background: none;
-    box-shadow: none;
-    padding-left: 1rem;
+    border: none;
+    margin-bottom: 1.5rem;
+    margin-left: auto;
+    cursor: pointer;
+    text-align: right;
+  }
+  .menu-item {
+    margin-bottom: 1.2rem;
+  }
+  .menu-link, .submenu-link {
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
   }
 }
 </style>
