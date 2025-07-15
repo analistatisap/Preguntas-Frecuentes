@@ -134,7 +134,7 @@ export default {
       searchTips: '',
       loadingManuales: false,
       loadingTips: false,
-      backendUrl: 'http://172.16.29.5:8000', 
+      backendUrl: '/api', 
       modalTip: null,
       // Cache de datos
       cache: {
@@ -203,7 +203,7 @@ export default {
 
       this.loadingManuales = true;
       try {
-        const res = await fetch(`${this.backendUrl}/api/recursos/manuales/`, {
+        const res = await fetch(`${this.backendUrl}/recursos/manuales/`, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -233,7 +233,7 @@ export default {
 
       this.loadingTips = true;
       try {
-        const res = await fetch(`${this.backendUrl}/api/recursos/tips/`, {
+        const res = await fetch(`${this.backendUrl}/recursos/tips/`, {
           headers: {
             'Content-Type': 'application/json'
           }

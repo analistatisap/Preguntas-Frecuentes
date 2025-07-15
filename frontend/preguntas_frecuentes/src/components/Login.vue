@@ -202,7 +202,7 @@ export default {
         return;
       }
       try {
-        const response = await fetch('http://172.16.29.5:8000/api/login/', {
+        const response = await fetch('/api/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

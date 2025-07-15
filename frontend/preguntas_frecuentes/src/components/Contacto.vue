@@ -141,7 +141,7 @@ export default {
         correo: '',
         mensaje: ''
       },
-      backendUrl: 'http://172.16.29.5:8000',
+      backendUrl: '/api',
       errors: {},
       loading: false,
       touched: {
@@ -254,7 +254,7 @@ export default {
         this.loading = true;
         
         // Usar fetch normal en lugar de fetchWithAuth para evitar redirecciones
-        const response = await fetch(`${this.backendUrl}/api/contacto/enviar-correo/`, {
+        const response = await fetch(`${this.backendUrl}/contacto/enviar-correo/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

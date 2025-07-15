@@ -1,7 +1,7 @@
 // fetchWithAuth.js
 // Utilidad para peticiones autenticadas con refresco automático de token JWT
 
-const API_BASE = 'http://172.16.29.5:8000'; // Cambia si tu backend usa otra URL
+const API_BASE = '/api'; // Usar ruta relativa para producción detrás de nginx
 
 function parseJwt(token) {
   try {
@@ -38,7 +38,7 @@ export async function refreshToken() {
   }
   
   try {
-    const res = await fetch(`${API_BASE}/api/token/refresh/`, {
+    const res = await fetch(`${API_BASE}/token/refresh/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refresh })
