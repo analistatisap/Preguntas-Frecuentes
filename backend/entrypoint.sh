@@ -10,5 +10,4 @@ else
 fi
 
 echo "Iniciando Gunicorn..."
-# Ejecuta Gunicorn sin SSL, solo HTTP
 exec gunicorn --config gunicorn_config.py Preguntas_frecuentes.wsgi:application
