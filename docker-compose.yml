@@ -17,9 +17,9 @@ services:
     image: postgres:13
     container_name: postgres_db
     environment:
-      POSTGRES_USER:preguntas
-      POSTGRES_PASSWORD:Decor2026*
-      POSTGRES_DB:preguntas_frecuentes
+      POSTGRES_USER: preguntas
+      POSTGRES_PASSWORD: Decor2026*
+      POSTGRES_DB: preguntas_frecuentes
     ports:
       - "5432:5432"
     volumes:
