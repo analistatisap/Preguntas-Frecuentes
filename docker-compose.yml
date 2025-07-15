@@ -32,8 +32,8 @@ services:
       context: ./frontend/preguntas_frecuentes
       dockerfile: Containerfile
     container_name: preguntame_frontend
-    ports:
-      - "5046:80"
+    # ports:
+    #   - "5046:80"  # Quitado para que solo nginx exponga el 5046
     depends_on:
       - backend
     networks:
