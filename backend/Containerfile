@@ -9,7 +9,15 @@ COPY requirements.txt /app/
 RUN cat /app/requirements.txt
 
 ## Instala dependencias del sistema necesarias para python-ldap y Pillow
-RUN apt-get update && apt-get install -y gcc libldap2-dev libsasl2-dev python3-dev libssl-dev libpq-dev && rm -rf /var/lib/apt/lists/*
+# IMPORTANTE: Estas librerías son necesarias para que funcione la autenticación LDAP en Linux
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libldap2-dev \
+    libsasl2-dev \
+    python3-dev \
+    libssl-dev \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 ## Instala las dependencias
 RUN pip install --no-cache-dir -r requirements.txt || (cat /app/requirements.txt && exit 1)
