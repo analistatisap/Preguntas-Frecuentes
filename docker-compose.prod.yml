@@ -65,8 +65,8 @@ services:
       - "5046:5046"
       - "5047:5047"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/nginx.rocky.conf:/etc/nginx/nginx.conf
+      - ./nginx/certs:/etc/nginx/certs
     depends_on:
       - frontend
       - backend
