@@ -8,6 +8,8 @@ RUN npm install
 COPY . ./
 
 RUN npm run build
+RUN echo "Contenido de /app/public:" && ls -lh /app/public
+RUN echo "Contenido de /app/dist:" && ls -lh /app/dist
 
 # Etapa 2: Servir los archivos estáticos con Nginx
 FROM nginx:alpine
