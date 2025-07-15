@@ -10,6 +10,5 @@ else
 fi
 
 echo "Iniciando Gunicorn..."
-# Ejecuta Gunicorn, pasándole la configuración y la aplicación WSGI.
-# Usamos exec para que Gunicorn reemplace el proceso del script, permitiendo a Podman manejar señales.
-exec gunicorn --config gunicorn_config.py Preguntas_frecuentes.wsgi:application
+# Ejecuta Gunicorn con SSL
+exec gunicorn --certfile=/app/cert.pem --keyfile=/app/key.pem --config gunicorn_config.py Preguntas_frecuentes.wsgi:application
