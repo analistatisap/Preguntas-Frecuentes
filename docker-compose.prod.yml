@@ -22,8 +22,8 @@ services:
       - LDAP_BASE_DN=${LDAP_BASE_DN}
       - EMAIL_HOST=${EMAIL_HOST}
       - EMAIL_PORT=${EMAIL_PORT}
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "5047:8000"
     networks:
       - preguntame_network
     depends_on:
@@ -50,8 +50,8 @@ services:
       context: ./frontend/preguntas_frecuentes
       dockerfile: Containerfile
     container_name: preguntame_frontend
-    ports:
-      - "5046:80"
+    # ports:
+    #   - "5046:80"
     depends_on:
       - backend
     networks:
