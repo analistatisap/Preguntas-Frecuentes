@@ -43,7 +43,7 @@ services:
     image: nginx:alpine
     container_name: preguntame_nginx
     ports:
-      - "80:80"
+      # - "80:80"  # Comentado para evitar conflicto de puerto
       - "443:443"
       - "5046:5046"
     volumes:
