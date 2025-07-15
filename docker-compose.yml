@@ -8,8 +8,6 @@ services:
     container_name: preguntame_backend
     env_file:
       - ./backend/.env
-    ports:
-      - "5047:5047"
     networks:
       - default
     depends_on:
