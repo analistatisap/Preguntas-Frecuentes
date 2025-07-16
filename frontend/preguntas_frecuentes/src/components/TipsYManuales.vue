@@ -154,11 +154,10 @@ export default {
     getTipUrl(path) {
       console.log('getTipUrl:', path);
       if (!path) return '';
-      // Siempre fuerza la URL correcta para cualquier caso de media
-      if (path.includes('/media/')) {
-        // Extrae el path a partir de /media/
-        const mediaPath = path.substring(path.indexOf('/media/'));
-        return `https://preguntame.grupodecor.com:5046${mediaPath}`;
+      // Siempre extrae el path a partir de /media/ y lo fuerza al dominio y puerto correctos
+      const idx = path.indexOf('/media/');
+      if (idx !== -1) {
+        return `https://preguntame.grupodecor.com:5046${path.substring(idx)}`;
       }
       return path;
     },
