@@ -154,6 +154,9 @@ export default {
     getTipUrl(path) {
       if (!path) return '';
       if (/^https?:\/\//.test(path)) return path;
+      if (path.startsWith('/media/')) {
+        return `https://preguntame.grupodecor.com:5046${path}`;
+      }
       return `${this.backendUrl}${path}`;
     },
     isUrl(text) {
