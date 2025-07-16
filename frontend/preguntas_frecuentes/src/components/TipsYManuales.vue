@@ -154,16 +154,11 @@ export default {
     getTipUrl(path) {
       console.log('getTipUrl:', path);
       if (!path) return '';
-      // Si ya es la URL correcta, la retorna
-      if (path.startsWith('https://preguntame.grupodecor.com:5046')) return path;
-      // Si es una URL absoluta pero sin puerto, la corrige
-      if (path.startsWith('http://preguntame.grupodecor.com/media/') || path.startsWith('https://preguntame.grupodecor.com/media/')) {
-        return path.replace('http://preguntame.grupodecor.com/media/', 'https://preguntame.grupodecor.com:5046/media/')
-                   .replace('https://preguntame.grupodecor.com/media/', 'https://preguntame.grupodecor.com:5046/media/');
-      }
-      // Si es relativa, la construye correctamente
-      if (path.startsWith('/media/')) {
-        return `https://preguntame.grupodecor.com:5046${path}`;
+      // Siempre fuerza la URL correcta para cualquier caso de media
+      if (path.includes('/media/')) {
+        // Extrae el path a partir de /media/
+        const mediaPath = path.substring(path.indexOf('/media/'));
+        return `https://preguntame.grupodecor.com:5046${mediaPath}`;
       }
       return path;
     },
