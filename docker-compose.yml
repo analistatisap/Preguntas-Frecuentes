@@ -13,7 +13,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./backend/media:/app/media
+      - ./media:/app/media
 
   db:
     image: postgres:14
