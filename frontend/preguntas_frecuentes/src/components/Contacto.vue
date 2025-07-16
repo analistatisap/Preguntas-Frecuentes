@@ -260,8 +260,7 @@ export default {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            ...this.formData,
-            destinatario: 'SOPORTEMAS@ITAAS.NET.CO'
+            ...this.formData
           }),
         });
 
