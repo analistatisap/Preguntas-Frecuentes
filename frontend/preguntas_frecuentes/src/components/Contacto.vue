@@ -261,7 +261,7 @@ export default {
           },
           body: JSON.stringify({
             ...this.formData,
-            destinatario: 'decorsap@grupodecor.com'
+            destinatario: 'SOPORTEMAS@ITAAS.NET.CO'
           }),
         });
 
