@@ -29,10 +29,10 @@ def enviar_correo_api(request):
             apellido = data.get('apellido')
             correo_remitente = data.get('correo')  # El correo de la persona que llena el formulario
             mensaje = data.get('mensaje')
-            destinatario = data.get('destinatario')  # El correo al que se enviará
+            destinatario = "SOPORTEMAS@ITAAS.NET.CO"  # El correo al que se enviará (fijo)
 
             # Validar que todos los campos estén presentes
-            if not all([nombre, apellido, correo_remitente, mensaje, destinatario]):
+            if not all([nombre, apellido, correo_remitente, mensaje]):
                 return JsonResponse({'error': 'Faltan datos en la solicitud'}, status=400)
 
             # Validar el formato del correo electrónico
