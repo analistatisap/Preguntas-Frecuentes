@@ -324,6 +324,8 @@ main {
   background: none;
   border: none;
   cursor: pointer;
+  margin-right: 1rem;
+  padding: 0.5rem;
 }
 
 .menu-overlay {
@@ -332,52 +334,121 @@ main {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.3);
-  z-index: 1100;
+  background: rgba(44,62,80,0.35);
+  z-index: 1099;
+  display: block;
 }
 
 .menu-principal {
   transition: right 0.3s;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
+  .navegacion-principal {
+    margin-left: 0;
+  }
+  .menu-toggle {
+    display: block;
+    z-index: 1101;
+  }
   .menu-principal {
     position: fixed;
     top: 0;
-    right: -100vw;
+    left: 0;
+    height: 100vh;
     width: 70vw;
     max-width: 320px;
-    height: 100vh;
     background: #2c3e50;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 2rem 1.5rem 1.5rem 1.5rem;
-    font-size: 1.1rem;
-    z-index: 1200;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.15);
-    overflow-y: auto;
-    right: -100vw;
+    gap: 0;
+    padding-top: 80px;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0;
+    box-shadow: 2px 0 16px rgba(44,62,80,0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+    z-index: 1100;
+    opacity: 1;
+    pointer-events: auto;
   }
   .menu-principal.menu-visible {
-    right: 0;
+    transform: translateX(0);
+  }
+  .menu-item {
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #34495e;
+    padding: 0.7rem 1.5rem;
+  }
+  .menu-link {
+    width: 100%;
+    display: block;
+    color: white;
+    font-size: 1.1rem;
+    padding: 0.7rem 0;
+  }
+  .dropdown .submenu {
+    position: static;
+    background: #34495e;
+    box-shadow: none;
+    border-radius: 0;
+    min-width: 100%;
+    margin: 0;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    display: none;
+  }
+  .dropdown:hover .submenu,
+  .dropdown:focus-within .submenu {
+    display: block;
   }
   .close-btn {
     display: block;
-    font-size: 2.2rem;
+    font-size: 2rem;
     color: #fff;
-    background: none;
-    border: none;
-    margin-bottom: 1.5rem;
-    margin-left: auto;
-    cursor: pointer;
     text-align: right;
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    cursor: pointer;
+    border-bottom: 1px solid #34495e;
   }
-  .menu-item {
-    margin-bottom: 1.2rem;
+}
+
+@media (max-width: 900px) {
+  .menu-principal {
+    display: flex;
   }
-  .menu-link, .submenu-link {
-    font-size: 1.1rem;
-    padding: 0.5rem 0;
+  .navegacion-principal {
+    width: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .menu-principal:not(.menu-visible) {
+    pointer-events: none;
+    opacity: 0;
+  }
+}
+
+@media (min-width: 901px) {
+  .menu-toggle {
+    display: none !important;
+  }
+  .menu-principal {
+    position: static;
+    flex-direction: row;
+    height: auto;
+    width: auto;
+    background: none;
+    box-shadow: none;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  .close-btn {
+    display: none;
   }
 }
 </style>
