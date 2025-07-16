@@ -8,7 +8,11 @@
       </div>
       <nav class="navegacion-principal" v-if="user">
         <button class="menu-toggle" @click="toggleMenu" aria-label="Toggle menu">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="32" height="32">
+            <rect y="4" width="24" height="3" rx="1.5" fill="white"/>
+            <rect y="10.5" width="24" height="3" rx="1.5" fill="white"/>
+            <rect y="17" width="24" height="3" rx="1.5" fill="white"/>
+          </svg>
         </button>
         <ul :class="['menu-principal', { 'menu-visible': menuAbierto }]">
           <!-- Botón de cerrar solo visible en móviles -->
@@ -326,6 +330,14 @@ main {
   cursor: pointer;
   margin-right: 1rem;
   padding: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+.menu-toggle svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+  fill: white;
 }
 
 .menu-overlay {
@@ -348,8 +360,7 @@ main {
     margin-left: 0;
   }
   .menu-toggle {
-    display: block;
-    z-index: 1101;
+    display: flex;
   }
   .menu-principal {
     position: fixed;
