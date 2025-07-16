@@ -141,7 +141,7 @@ export default {
         correo: '',
         mensaje: ''
       },
-      backendUrl: '/api',
+      backendUrl: '',
       errors: {},
       loading: false,
       touched: {
