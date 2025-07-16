@@ -2,7 +2,7 @@
   <div class="pagina-contacto">
     <section class="contacto-seccion">
       <div class="contacto-izquierda">
-        <h2>ÁREA DE TECNOLOGÍA DE LA INFORMACIÓN</h2>
+        <h2>ÁREA DE TECNOLOGIA DE LA INFORMACIÓN</h2>
         <img :src="imgArbolSrc" alt="Árbol" class="img-arbol-contacto" />
         <p>CORREO</p>
         <div class="correos">
