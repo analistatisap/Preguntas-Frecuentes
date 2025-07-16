@@ -152,6 +152,7 @@ export default {
       return `${this.backendUrl}${path}`;
     },
     getTipUrl(path) {
+      console.log('getTipUrl:', path);
       if (!path) return '';
       // Si ya es la URL correcta, la retorna
       if (path.startsWith('https://preguntame.grupodecor.com:5046')) return path;
