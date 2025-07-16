@@ -32,6 +32,7 @@ def enviar_correo_api(request):
             destinatario = "SOPORTEMAS@ITAAS.NET.CO"  # El correo al que se enviará (fijo)
 
             # Validar que todos los campos estén presentes
+            logger.error(f"nombre: {nombre}, apellido: {apellido}, correo: {correo_remitente}, mensaje: {mensaje}")
             if not all([nombre, apellido, correo_remitente, mensaje]):
                 return JsonResponse({'error': 'Faltan datos en la solicitud'}, status=400)
 
