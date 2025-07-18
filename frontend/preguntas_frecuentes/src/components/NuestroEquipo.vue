@@ -82,10 +82,24 @@
         </div>
         <div class="tarjeta-miembro">
           <div class="imagen-container">
+            <img src="/fotosNE/Kevin.jpg" alt="Aprendiz de Tecnología">
+          </div>
+          <h3>Aprendiz de Tecnología</h3>
+          <p class="rol">Aprendiz de Tecnología</p>
+        </div>
+        <div class="tarjeta-miembro">
+          <div class="imagen-container">
             <img src="/fotosNE/VeronicaTrejos.jpg" alt="Luz Veronica Trejos Romero">
           </div>
           <h3>Luz Veronica Trejos Romero</h3>
           <p class="rol">Asistente de Tecnología SAP</p>
+        </div>
+        <div class="tarjeta-miembro">
+          <div class="imagen-container">
+            <img src="/fotosNE/sebastian.png" alt="Aprendiz de Tecnología">
+          </div>
+          <h3>Aprendiz de Tecnología</h3>
+          <p class="rol">Aprendiz de Tecnología</p>
         </div>
       </div>
 
