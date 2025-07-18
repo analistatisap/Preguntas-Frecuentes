@@ -141,7 +141,7 @@ export default {
         correo: '',
         mensaje: ''
       },
-      backendUrl: '',
+      backendUrl: 'https://preguntame.grupodecor.com:5047',
       errors: {},
       loading: false,
       touched: {
