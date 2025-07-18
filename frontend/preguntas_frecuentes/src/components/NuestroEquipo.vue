@@ -82,17 +82,19 @@
         </div>
         <div class="tarjeta-miembro">
           <div class="imagen-container">
-            <img src="/fotosNE/Kevin.jpg" alt="Aprendiz de Tecnología">
-          </div>
-          <h3>Aprendiz de Tecnología</h3>
-          <p class="rol">Aprendiz de Tecnología</p>
-        </div>
-        <div class="tarjeta-miembro">
-          <div class="imagen-container">
             <img src="/fotosNE/VeronicaTrejos.jpg" alt="Luz Veronica Trejos Romero">
           </div>
           <h3>Luz Veronica Trejos Romero</h3>
           <p class="rol">Asistente de Tecnología SAP</p>
+        </div>
+      </div>
+      <div class="miembros-nivel-5-aprendices">
+        <div class="tarjeta-miembro">
+          <div class="imagen-container">
+            <img src="/fotosNE/Kevin.jpg" alt="Aprendiz de Tecnología">
+          </div>
+          <h3>Aprendiz de Tecnología</h3>
+          <p class="rol">Aprendiz de Tecnología</p>
         </div>
         <div class="tarjeta-miembro">
           <div class="imagen-container">
@@ -206,6 +208,7 @@ h2 {
 .miembros-nivel-3-coordinadores,
 .miembros-nivel-4-analistas,
 .miembros-nivel-5-asistentes,
+.miembros-nivel-5-aprendices, /* Estilo para el contenedor de miembros de Aprendices */
 .miembros-infraestructura, /* Estilo para el contenedor de miembros de Infraestructura */
 .miembros-soporte-tecnico { /* Estilo para el contenedor de miembros de Soporte Técnico */
   display: flex;
@@ -240,6 +243,9 @@ h2 {
 }
   .miembros-nivel-5-asistentes {
     margin-top: 1.5rem; /* Espacio debajo de Analistas */
+}
+  .miembros-nivel-5-aprendices {
+    margin-top: 1.5rem; /* Espacio debajo de Asistentes */
 }
 
 
@@ -305,6 +311,7 @@ h2 {
   .miembros-nivel-3-coordinadores,
   .miembros-nivel-4-analistas,
   .miembros-nivel-5-asistentes,
+  .miembros-nivel-5-aprendices,
   .miembros-infraestructura,
   .miembros-soporte-tecnico {
     flex-direction: column;
