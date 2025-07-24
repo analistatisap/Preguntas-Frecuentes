@@ -8,6 +8,7 @@ class TipSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ManualSerializer(serializers.ModelSerializer):
+    imagen = serializers.ImageField(use_url=True, required=False, allow_null=True)  # Agregando campo imagen
     class Meta:
         model = Manual
         fields = '__all__'
