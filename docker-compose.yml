@@ -13,7 +13,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./media:/app/media
+      - ./media:/app/media:z
 
   db:
     image: postgres:14
@@ -52,8 +52,8 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/certs:/etc/nginx/ssl:ro
-      - ./staticfiles:/var/www/static
-      - ./media:/var/www/media
+      - ./staticfiles:/var/www/static:z
+      - ./media:/var/www/media:z
     depends_on:
       - backend
       - frontend
