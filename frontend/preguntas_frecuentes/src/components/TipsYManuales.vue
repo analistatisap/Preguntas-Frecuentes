@@ -38,13 +38,13 @@
         <h3>{{ manual.titulo }}</h3>
         <div class="icono-manual">
           <a v-if="manual.archivo" :href="getManualUrl(manual.archivo)" target="_blank" class="manual-icon-link">
-            <img :src="manual.imagen || getManualIcon(manual.titulo)" :alt="manual.titulo">
+            <img :src="manual.imagen ? getTipUrl(manual.imagen) : getManualIcon(manual.titulo)" :alt="manual.titulo">
           </a>
           <a v-else-if="isUrl(manual.descripcion)" :href="manual.descripcion" target="_blank" class="manual-icon-link">
-            <img :src="manual.imagen || getManualIcon(manual.titulo)" :alt="manual.titulo">
+            <img :src="manual.imagen ? getTipUrl(manual.imagen) : getManualIcon(manual.titulo)" :alt="manual.titulo">
           </a>
           <div v-else>
-            <img :src="manual.imagen || getManualIcon(manual.titulo)" :alt="manual.titulo">
+            <img :src="manual.imagen ? getTipUrl(manual.imagen) : getManualIcon(manual.titulo)" :alt="manual.titulo">
           </div>
         </div>
         <p v-if="manual.descripcion && !isUrl(manual.descripcion)" class="manual-desc" v-html="manual.descripcion"></p>
