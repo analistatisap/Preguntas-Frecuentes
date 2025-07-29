@@ -18,26 +18,26 @@
           <!-- Botón de cerrar solo visible en móviles -->
           <li class="close-btn" v-if="menuAbierto" @click="closeMenu">&times;</li>
           <li class="menu-item">
-            <router-link to="/" class="menu-link" @click="closeMenu">Inicio</router-link>
+            <a href="#" class="menu-link" @click.prevent="navigateTo('inicio')">Inicio</a>
           </li>
           <li class="menu-item dropdown">
             <a href="#" class="menu-link" @click.prevent>Nosotros</a>
             <ul class="submenu">
-              <li><router-link to="/nuestro-equipo" class="submenu-link" @click="closeMenu">Nuestro Equipo</router-link></li>
+              <li><a href="#" class="submenu-link" @click.prevent="navigateTo('nuestro-equipo')">Nuestro Equipo</a></li>
             </ul>
           </li>
           <li class="menu-item dropdown">
             <a href="#" class="menu-link" @click.prevent>Recursos</a>
             <ul class="submenu">
-              <li><router-link to="/tips-y-manuales" class="submenu-link" @click="closeMenu">Tips y Manuales</router-link></li>
-              <li><router-link to="/preguntas-frecuentes" class="submenu-link" @click="closeMenu">Preguntas Frecuentes</router-link></li>
+              <li><a href="#" class="submenu-link" @click.prevent="navigateTo('tips-y-manuales')">Tips y Manuales</a></li>
+              <li><a href="#" class="submenu-link" @click.prevent="navigateTo('preguntas-frecuentes')">Preguntas Frecuentes</a></li>
             </ul>
           </li>
           <li class="menu-item">
-            <router-link to="/portales" class="menu-link" @click="closeMenu">Portales</router-link>
+            <a href="#" class="menu-link" @click.prevent="navigateTo('portales')">Portales</a>
           </li>
           <li class="menu-item">
-            <router-link to="/contacto" class="menu-link" @click="closeMenu">Contacto</router-link>
+            <a href="#" class="menu-link" @click.prevent="navigateTo('contacto')">Contacto</a>
           </li>
         </ul>
       </nav>
@@ -99,67 +99,37 @@ export default {
           this.user = JSON.parse(userData);
         } catch (e) {
           console.error("Error al parsear datos de usuario desde localStorage", e);
-          this.user = null;
-          localStorage.removeItem('user'); // Limpiar dato corrupto
         }
-      } else {
-        this.user = null;
       }
     },
-    logout(motivo) {
+    logout() {
       localStorage.removeItem('user');
       this.user = null;
-      if (motivo === 'inactividad') {
-        this.modalInactividadVisible = true;
-      } else {
-        this.$router.push('/login');
-      }
+      this.$router.push({ name: 'login' });
     },
     cerrarModalInactividad() {
       this.modalInactividadVisible = false;
-      this.$router.push('/login');
+      this.$router.push({ name: 'login' });
     },
-    resetInactivityTimer() {
-      if (inactivityTimeoutId) clearTimeout(inactivityTimeoutId);
-      if (!this.user) return;
-      inactivityTimeoutId = setTimeout(() => {
-        this.logout('inactividad');
-      }, INACTIVITY_LIMIT);
-    },
-    setupInactivityListeners() {
-      ['mousemove', 'keydown', 'mousedown', 'scroll', 'touchstart'].forEach(event => {
-        window.addEventListener(event, this.resetInactivityTimer);
-      });
-      this.resetInactivityTimer();
-    },
-    removeInactivityListeners() {
-      ['mousemove', 'keydown', 'mousedown', 'scroll', 'touchstart'].forEach(event => {
-        window.removeEventListener(event, this.resetInactivityTimer);
-      });
-      if (inactivityTimeoutId) clearTimeout(inactivityTimeoutId);
-    },
-  },
-  watch: {
-    '$route'() {
-      this.loadUser();
+    navigateTo(routeName) {
       this.closeMenu();
+      this.$router.push({ name: routeName });
     },
-    user(newVal) {
-      if (newVal) {
-        this.setupInactivityListeners();
-      } else {
-        this.removeInactivityListeners();
-      }
-    }
   },
-  created() {
+  mounted() {
     this.loadUser();
-    if (this.user) {
-      this.setupInactivityListeners();
-    }
-  },
-  beforeUnmount() {
-    this.removeInactivityListeners();
+
+    // Timeout para cerrar sesión por inactividad
+    const resetTimeout = () => {
+      clearTimeout(inactivityTimeoutId);
+      inactivityTimeoutId = setTimeout(() => {
+        this.modalInactividadVisible = true;
+      }, INACTIVITY_LIMIT);
+    };
+
+    window.addEventListener('mousemove', resetTimeout);
+    window.addEventListener('keydown', resetTimeout);
+    resetTimeout();
   },
 };
 </script>
