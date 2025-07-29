@@ -18,26 +18,26 @@
           <!-- Botón de cerrar solo visible en móviles -->
           <li class="close-btn" v-if="menuAbierto" @click="closeMenu">&times;</li>
           <li class="menu-item">
-            <router-link to="/" class="menu-link">Inicio</router-link>
+            <router-link to="/" class="menu-link" @click="closeMenu">Inicio</router-link>
           </li>
           <li class="menu-item dropdown">
             <a href="#" class="menu-link" @click.prevent>Nosotros</a>
             <ul class="submenu">
-              <li><router-link to="/nuestro-equipo" class="submenu-link">Nuestro Equipo</router-link></li>
+              <li><router-link to="/nuestro-equipo" class="submenu-link" @click="closeMenu">Nuestro Equipo</router-link></li>
             </ul>
           </li>
           <li class="menu-item dropdown">
             <a href="#" class="menu-link" @click.prevent>Recursos</a>
             <ul class="submenu">
-              <li><router-link to="/tips-y-manuales" class="submenu-link">Tips y Manuales</router-link></li>
-              <li><router-link to="/preguntas-frecuentes" class="submenu-link">Preguntas Frecuentes</router-link></li>
+              <li><router-link to="/tips-y-manuales" class="submenu-link" @click="closeMenu">Tips y Manuales</router-link></li>
+              <li><router-link to="/preguntas-frecuentes" class="submenu-link" @click="closeMenu">Preguntas Frecuentes</router-link></li>
             </ul>
           </li>
           <li class="menu-item">
-            <router-link to="/portales" class="menu-link">Portales</router-link>
+            <router-link to="/portales" class="menu-link" @click="closeMenu">Portales</router-link>
           </li>
           <li class="menu-item">
-            <router-link to="/contacto" class="menu-link">Contacto</router-link>
+            <router-link to="/contacto" class="menu-link" @click="closeMenu">Contacto</router-link>
           </li>
         </ul>
       </nav>
