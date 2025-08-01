@@ -28,7 +28,6 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 
-## Copia el resto del código de la aplicación
 COPY . /app/
 
 RUN pip install psycopg2-binary
@@ -37,10 +36,10 @@ RUN pip show psycopg2-binary
 # Configura la variable de entorno DJANGO_SETTINGS_MODULE
 ENV DJANGO_SETTINGS_MODULE=Preguntas_frecuentes.settings
 
-## Ejecuta las migraciones de la base de datos (opcional)
+## Ejecuta las migraciones de la base de datos
 # RUN python manage.py migrate
 
-## Recolecta archivos estáticos (opcional)
+## Recolecta archivos estáticos
 RUN python manage.py collectstatic --noinput
 
 ## Expone el puerto en el que Gunicorn escuchará
