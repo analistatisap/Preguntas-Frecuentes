@@ -222,10 +222,6 @@ export default {
           }
           if (data.user) {
             localStorage.setItem('user', JSON.stringify(data.user));
-            // Emitir evento global para actualizar el estado del usuario en App.vue
-            window.dispatchEvent(new CustomEvent('user-logged-in', {
-              detail: { user: data.user }
-            }));
           }
           toast.success('¡Inicio de sesión exitoso! Bienvenido.');
           this.$router.push('/');

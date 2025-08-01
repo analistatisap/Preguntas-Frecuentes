@@ -123,8 +123,19 @@ export default {
   mounted() {
     this.loadUser();
 
-    // Escuchar evento de login para actualizar el estado del usuario
-    window.addEventListener('user-logged-in', this.handleUserLogin);
+    // Verificar cambios en localStorage cada segundo para detectar login
+    this.checkUserInterval = setInterval(() => {
+      const userData = localStorage.getItem('user');
+      if (userData && !this.user) {
+        try {
+          this.user = JSON.parse(userData);
+        } catch (e) {
+          console.error("Error al parsear datos de usuario", e);
+        }
+      } else if (!userData && this.user) {
+        this.user = null;
+      }
+    }, 1000);
 
     // Timeout para cerrar sesión por inactividad
     const resetTimeout = () => {
@@ -139,10 +150,13 @@ export default {
     resetTimeout();
   },
   beforeUnmount() {
-    // Limpiar el listener cuando el componente se desmonte
-    window.removeEventListener('user-logged-in', this.handleUserLogin);
+    // Limpiar el intervalo cuando el componente se desmonte
+    if (this.checkUserInterval) {
+      clearInterval(this.checkUserInterval);
+    }
   },
-  }
+  },
+}
 </script>
 
 <style scoped>
