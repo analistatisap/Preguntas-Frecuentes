@@ -115,9 +115,16 @@ export default {
       this.closeMenu();
       this.$router.push({ name: routeName });
     },
+    handleUserLogin(event) {
+      // Actualizar el estado del usuario cuando se recibe el evento de login
+      this.user = event.detail.user;
+    },
   },
   mounted() {
     this.loadUser();
+
+    // Escuchar evento de login para actualizar el estado del usuario
+    window.addEventListener('user-logged-in', this.handleUserLogin);
 
     // Timeout para cerrar sesión por inactividad
     const resetTimeout = () => {
@@ -131,7 +138,11 @@ export default {
     window.addEventListener('keydown', resetTimeout);
     resetTimeout();
   },
-};
+  beforeUnmount() {
+    // Limpiar el listener cuando el componente se desmonte
+    window.removeEventListener('user-logged-in', this.handleUserLogin);
+  },
+  }
 </script>
 
 <style scoped>
