@@ -12,17 +12,69 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.py.class
 
 # Archivos de entorno
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Archivos de logs
 *.log
+logs/
 
 # Archivos de IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
 # Archivos de sistema
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# Certificados SSL (sensibles)
+nginx/certs/
+*.crt
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Frontend - Node.js
+frontend/preguntas_frecuentes/node_modules/
+frontend/preguntas_frecuentes/dist/
+frontend/preguntas_frecuentes/.nyc_output/
+frontend/preguntas_frecuentes/coverage/
+
+# Frontend - Build y caché
+frontend/preguntas_frecuentes/.cache/
+frontend/preguntas_frecuentes/.temp/
+frontend/preguntas_frecuentes/build/
+
+# Frontend - Logs
+frontend/preguntas_frecuentes/npm-debug.log*
+frontend/preguntas_frecuentes/yarn-debug.log*
+frontend/preguntas_frecuentes/yarn-error.log*
+frontend/preguntas_frecuentes/pnpm-debug.log*
+
+# Frontend - Entorno
+frontend/preguntas_frecuentes/.env.local
+frontend/preguntas_frecuentes/.env.*.local
+
+# Backend - Django
+backend/db.sqlite3
+backend/media/tips/
+backend/media/manuals/
+
+# Docker
+.dockerignore
+
+# Backup files
+*.backup
+*.bak
+*.tmp
