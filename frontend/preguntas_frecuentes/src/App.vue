@@ -104,38 +104,31 @@ export default {
     },
     logout() {
       localStorage.removeItem('user');
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
       this.user = null;
       this.$router.push({ name: 'login' });
     },
     cerrarModalInactividad() {
       this.modalInactividadVisible = false;
-      this.$router.push({ name: 'login' });
+      this.logout();
     },
     navigateTo(routeName) {
       this.closeMenu();
       this.$router.push({ name: routeName });
     },
-    handleUserLogin(event) {
-      // Actualizar el estado del usuario cuando se recibe el evento de login
-      this.user = event.detail.user;
-    },
+  },
+  watch: {
+    '$route': {
+      handler() {
+        // Verificar usuario cuando cambia la ruta (incluyendo después del login)
+        this.loadUser();
+      },
+      immediate: true
+    }
   },
   mounted() {
     this.loadUser();
-
-    // Verificar cambios en localStorage cada segundo para detectar login
-    this.checkUserInterval = setInterval(() => {
-      const userData = localStorage.getItem('user');
-      if (userData && !this.user) {
-        try {
-          this.user = JSON.parse(userData);
-        } catch (e) {
-          console.error("Error al parsear datos de usuario", e);
-        }
-      } else if (!userData && this.user) {
-        this.user = null;
-      }
-    }, 1000);
 
     // Timeout para cerrar sesión por inactividad
     const resetTimeout = () => {
@@ -149,14 +142,12 @@ export default {
     window.addEventListener('keydown', resetTimeout);
     resetTimeout();
   },
-  beforeUnmount() {
-    // Limpiar el intervalo cuando el componente se desmonte
-    if (this.checkUserInterval) {
-      clearInterval(this.checkUserInterval);
+  unmounted() {
+    if (inactivityTimeoutId) {
+      clearTimeout(inactivityTimeoutId);
     }
   },
-  },
-}
+};
 </script>
 
 <style scoped>
@@ -225,77 +216,50 @@ main {
 .dropdown .submenu {
   display: none;
   position: absolute;
-  left: 0;
   top: 100%;
+  left: 0;
   background-color: #34495e;
   list-style: none;
   padding: 0.5rem 0;
-  margin-top: 0.5rem;
-  border-radius: 16px; /* Más redondeado */
-  box-shadow: 0 8px 32px 0 rgba(44, 62, 80, 0.18), 0 1.5px 6px 0 rgba(0,0,0,0.10);
-  min-width: 170px;
-  opacity: 0;
-  transform: translateY(10px) scale(0.98);
-  pointer-events: none;
-  transition: opacity 0.25s cubic-bezier(.4,0,.2,1), transform 0.25s cubic-bezier(.4,0,.2,1);
-  z-index: 1001;
+  margin: 0;
+  min-width: 200px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 1000;
 }
-.dropdown:hover .submenu,
-.dropdown:focus-within .submenu {
+.dropdown:hover .submenu {
   display: block;
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-/* Triángulo indicador */
-.dropdown .submenu::before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: 24px;
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #34495e;
-  filter: drop-shadow(0 2px 2px rgba(44,62,80,0.10));
 }
 .submenu-link {
-  color: white;
-  padding: 0.7rem 1.2rem;
   display: block;
+  padding: 0.5rem 1rem;
+  color: white;
   text-decoration: none;
-  border-radius: 10px;
-  font-size: 1.08rem;
-  transition: background 0.18s, color 0.18s, transform 0.18s;
+  transition: background-color 0.3s;
 }
 .submenu-link:hover {
-  background: #1abc9c;
-  color: #fff;
-  transform: scale(1.04);
-  box-shadow: 0 2px 8px rgba(26,188,156,0.10);
+  background-color: #2c3e50;
+  color: #1abc9c;
 }
 
-/* Acciones de Usuario */
+/* User actions */
 .user-actions {
-  margin-left: auto; /* Empuja a la derecha */
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
 .user-name {
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .logout-button {
   background-color: #e74c3c;
   color: white;
   border: none;
-  padding: 0.6rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
   transition: background-color 0.3s;
 }
 
@@ -303,158 +267,68 @@ main {
   background-color: #c0392b;
 }
 
-/* Pie de página */
-.pie-pagina-corporativo {
-  text-align: center;
-  padding: 1.5rem;
-  background-color: #2c3e50;
-  color: #bdc3c7;
-}
-
-.redes-sociales a {
-  color: white;
-  margin: 0 0.5rem;
-  text-decoration: none;
-}
-
-/* Responsividad del menú */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-right: 1rem;
-  padding: 0.5rem;
-  align-items: center;
-  justify-content: center;
-}
-.menu-toggle svg {
-  display: block;
-  width: 32px;
-  height: 32px;
-  fill: white;
-}
-
-.menu-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(44,62,80,0.35);
-  z-index: 1099;
-  display: block;
-}
-
-.menu-principal {
-  transition: right 0.3s;
-}
-
-@media (max-width: 900px) {
-  .navegacion-principal {
-    margin-left: 0;
-  }
-  .menu-toggle {
-    display: flex;
-  }
+/* Responsive */
+@media (max-width: 768px) {
   .menu-principal {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
+    width: 250px;
     height: 100vh;
-    width: 70vw;
-    max-width: 320px;
-    background: #2c3e50;
+    background-color: #2c3e50;
     flex-direction: column;
-    gap: 0;
-    padding-top: 80px;
-    padding-left: 0;
-    padding-right: 0;
-    margin: 0;
-    box-shadow: 2px 0 16px rgba(44,62,80,0.15);
+    padding: 2rem 1rem;
+    z-index: 1001;
     transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
-    z-index: 1100;
-    opacity: 1;
-    pointer-events: auto;
+    transition: transform 0.3s ease;
   }
+  
   .menu-principal.menu-visible {
+    display: flex;
     transform: translateX(0);
   }
-  .menu-item {
-    width: 100%;
-    text-align: left;
-    border-bottom: 1px solid #34495e;
-    padding: 0.7rem 1.5rem;
-  }
-  .menu-link {
-    width: 100%;
-    display: block;
-    color: white;
-    font-size: 1.1rem;
-    padding: 0.7rem 0;
-  }
-  .dropdown .submenu {
-    position: static;
-    background: #34495e;
-    box-shadow: none;
-    border-radius: 0;
-    min-width: 100%;
-    margin: 0;
-    padding: 0.5rem 0 0.5rem 1.5rem;
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-    display: none;
-  }
-  .dropdown:hover .submenu,
-  .dropdown:focus-within .submenu {
-    display: block;
-  }
-  .close-btn {
-    display: block;
-    font-size: 2rem;
-    color: #fff;
-    text-align: right;
-    padding: 1rem 1.5rem 0.5rem 1.5rem;
-    cursor: pointer;
-    border-bottom: 1px solid #34495e;
-  }
-}
-
-@media (max-width: 900px) {
-  .menu-principal {
-    display: flex;
-  }
-  .navegacion-principal {
-    width: auto;
-  }
-}
-
-@media (max-width: 900px) {
-  .menu-principal:not(.menu-visible) {
-    pointer-events: none;
-    opacity: 0;
-  }
-}
-
-@media (min-width: 901px) {
+  
   .menu-toggle {
-    display: none !important;
-  }
-  .menu-principal {
-    position: static;
-    flex-direction: row;
-    height: auto;
-    width: auto;
+    display: block;
     background: none;
-    box-shadow: none;
-    transform: none !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
+    border: none;
+    cursor: pointer;
   }
+  
   .close-btn {
-    display: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: white;
+  }
+}
+
+/* Pie de página */
+.pie-pagina-corporativo {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 2rem;
+  margin-top: auto;
+}
+
+.menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .menu-overlay {
+    display: block;
   }
 }
 </style>
