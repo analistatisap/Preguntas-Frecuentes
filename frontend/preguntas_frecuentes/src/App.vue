@@ -135,6 +135,7 @@ export default {
       clearTimeout(inactivityTimeoutId);
       inactivityTimeoutId = setTimeout(() => {
         this.modalInactividadVisible = true;
+        this.logout(); // Llamada al método de logout para limpiar la sesión
       }, INACTIVITY_LIMIT);
     };
 
