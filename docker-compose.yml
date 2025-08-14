@@ -12,6 +12,7 @@ services:
       - default
     depends_on:
       - db
+      - redis
     volumes:
       - ./media:/app/media:z
 
@@ -26,6 +27,12 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
+
+  redis:
+    image: redis:alpine
+    container_name: preguntame_redis
     networks:
       - default
 

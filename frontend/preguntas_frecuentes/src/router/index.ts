@@ -1,12 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Inicio from '@/components/Inicio.vue';
-import NuestroEquipo from '@/components/NuestroEquipo.vue';
-import Portales from '@/components/Portales.vue';
-import AboutView from '../views/AboutView.vue';
-import PreguntasFrecuentes from '@/components/PreguntasFrecuentes.vue';
-import Contacto from '@/components/Contacto.vue';
-import TipsYManuales from '@/components/TipsYManuales.vue';
-import Login from '@/components/Login.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,45 +6,45 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: Login,
+      component: () => import('@/components/Login.vue'),
     },
     
     {
       path: '/',
       name: 'inicio',
-      component: Inicio
+      component: () => import('@/components/Inicio.vue')
     },
 
     {
       path: '/about',
       name: 'about',
-      component: AboutView,
+      component: () => import('../views/AboutView.vue'),
     },
     {
       path: '/nuestro-equipo',
       name: 'nuestro-equipo',
-      component: NuestroEquipo,
+      component: () => import('@/components/NuestroEquipo.vue'),
     },
     {
       path: '/portales',
       name: 'portales',
-      component: Portales,
+      component: () => import('@/components/Portales.vue'),
     },
 
     {
       path: '/preguntas-frecuentes',
       name: 'preguntas-frecuentes',
-      component: PreguntasFrecuentes,
+      component: () => import('@/components/PreguntasFrecuentes.vue'),
     },
     {
       path: '/contacto',
       name: 'contacto',
-      component: Contacto,
+      component: () => import('@/components/Contacto.vue'),
     },
     {
       path: '/tips-y-manuales',
       name: 'tips-y-manuales',
-      component: TipsYManuales,
+      component: () => import('@/components/TipsYManuales.vue'),
     }
   ],
 });
@@ -67,7 +59,6 @@ router.beforeEach((to, from, next) => {
     // Si el usuario NO está autenticado y no va al login, lo redirigimos al login
     next({ name: 'login' });
   } else {
-    // En cualquier otro caso, permitimos la navegación
     next();
   }
 });
