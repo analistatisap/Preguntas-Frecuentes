@@ -74,7 +74,7 @@ export default {
               //Respuesta con formato HTML e imágenes
               respuesta: `
                 <p>Desde la caja general, ingresar a opciones tratamiento: </p>
-                <p><img src="/home/jagrajales/preguntas_frecuentes/PreguntasFrecuentes/frontend/preguntas_frecuentes/public/respuestaspreguntasfrecuentes/librocaja.png" alt="Imagen de Caja General"></p>
+                <p><img src="/respuestaspreguntasfrecuentes/librocaja.png" alt="Imagen de Caja General"></p>
                 <p>Validar que tenga las siguientes dos opciones (Periodo Visualización Hoy y Fijar fecha contable y documento igual a fecha sistema) estén marcadas de la siguiente manera:</p>
                 <p><img src="/respuestaspreguntasfrecuentes/caja2.png" alt="Imagen de Opciones Tratamiento Contable"></p>
                 <p class="nota"><strong>NOTA:</strong> en caso de que no se encuentren seleccionadas por defecto, se deben marcar las casillas y seleccionar el icono grabar:</p>
