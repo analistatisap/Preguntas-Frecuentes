@@ -149,6 +149,8 @@ export default {
     getManualUrl(path) {
       // Si el path ya es una URL absoluta, la retorna tal cual
       if (/^https?:\/\//.test(path)) return path;
+      // Si el path es un archivo de medios, no le añadas /api
+      if (path.startsWith('/media/')) return path;
       return `${this.backendUrl}${path}`;
     },
     getTipUrl(path) {
