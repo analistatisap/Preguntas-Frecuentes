@@ -136,13 +136,6 @@ export default {
       loadingTips: false,
       backendUrl: '/api', 
       modalTip: null,
-      // Cache de datos
-      cache: {
-        manuales: null,
-        tips: null,
-        lastFetch: null,
-        cacheDuration: 5 * 60 * 1000 // 5 minutos
-      }
     };
   },
   methods: {
@@ -195,19 +188,7 @@ export default {
       // ...agrega más casos según tus imágenes...
       return '/imgtipsymanuales/nube.png'; // genérico
     },
-    // Verificar si el cache es válido
-    isCacheValid() {
-      return this.cache.lastFetch && 
-             (Date.now() - this.cache.lastFetch) < this.cache.cacheDuration;
-    },
     async fetchManuales() {
-      // Verificar cache primero
-      if (this.isCacheValid() && this.cache.manuales) {
-        this.manuales = this.cache.manuales;
-        this.manualesFiltrados = [...this.manuales];
-        return;
-      }
-
       this.loadingManuales = true;
       try {
         const res = await fetch(`${this.backendUrl}/recursos/manuales/`, {
@@ -218,10 +199,6 @@ export default {
         if (!res.ok) throw new Error('Error al obtener manuales');
         this.manuales = await res.json();
         this.manualesFiltrados = [...this.manuales];
-        
-        // Guardar en cache
-        this.cache.manuales = this.manuales;
-        this.cache.lastFetch = Date.now();
       } catch (e) {
         this.manuales = [];
         this.manualesFiltrados = [];
@@ -231,13 +208,6 @@ export default {
       }
     },
     async fetchTips() {
-      // Verificar cache primero
-      if (this.isCacheValid() && this.cache.tips) {
-        this.tips = this.cache.tips;
-        this.tipsFiltrados = [...this.tips];
-        return;
-      }
-
       this.loadingTips = true;
       try {
         const res = await fetch(`${this.backendUrl}/recursos/tips/`, {
@@ -248,10 +218,6 @@ export default {
         if (!res.ok) throw new Error('Error al obtener tips');
         this.tips = await res.json();
         this.tipsFiltrados = [...this.tips];
-        
-        // Guardar en cache
-        this.cache.tips = this.tips;
-        this.cache.lastFetch = Date.now();
       } catch (e) {
         this.tips = [];
         this.tipsFiltrados = [];

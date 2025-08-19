@@ -73,6 +73,7 @@ backend/media/manuals/
 
 # Docker
 .dockerignore
+docker-compose.override.yml
 
 # Backup files
 *.backup

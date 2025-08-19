@@ -16,7 +16,6 @@ class TipViewSet(viewsets.ModelViewSet):
     serializer_class = TipSerializer
     permission_classes = [AllowAny]
 
-    @method_decorator(cache_page(CACHE_TTL))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
@@ -25,6 +24,5 @@ class ManualViewSet(viewsets.ModelViewSet):
     serializer_class = ManualSerializer
     permission_classes = [AllowAny]
 
-    @method_decorator(cache_page(CACHE_TTL))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
