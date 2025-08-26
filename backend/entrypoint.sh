@@ -1,5 +1,5 @@
 #!/bin/sh
-# Este script se ejecutará cuando el contenedor se inicie.
+# Este script se ejecuta cuando el contenedor se inicie.
 
 echo "Verificando que gunicorn_config.py exista..."
 if [ -f "/app/gunicorn_config.py" ]; then

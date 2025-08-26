@@ -6,7 +6,6 @@ from rest_framework.permissions import AllowAny
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
-# Cache timeout for 15 minutes
 CACHE_TTL = 60 * 15
 
 # Create your views here.

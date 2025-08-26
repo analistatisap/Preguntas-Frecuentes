@@ -4,13 +4,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from .serializers import LoginSerializer # Importa el nuevo serializer
+from .serializers import LoginSerializer
 import logging
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 
-# Obtener una instancia del logger
 logger = logging.getLogger(__name__)
 
 def home(request):

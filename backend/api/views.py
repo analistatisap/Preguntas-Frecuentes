@@ -8,18 +8,15 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-# Asegúrate de que 'ldap3' esté en tu archivo requirements.txt
 from ldap3 import Server, Connection, ALL, Tls
 from ldap3.core.exceptions import LDAPBindError, LDAPException
 
-# --- Configuración de LDAP ---
-# ¡IMPORTANTE! Estos valores deben ser configurados como variables de entorno en tu entorno de Podman/Docker.
+
 LDAP_SERVER = os.environ.get('LDAP_SERVER', '10.10.10.4')
 LDAP_PORT = int(os.environ.get('LDAP_PORT', 389)) # Usar 636 para LDAPS (recomendado)
 LDAP_BASE_DN = os.environ.get('LDAP_BASE_DN', 'OU=Usuarios,OU=01 - GRUPODECOR,DC=grupodecor,DC=local')
 LDAP_BIND_USER_DN = os.environ.get('LDAP_BIND_USER_DN', 'CN=Andres Felipe Viveros Alban,OU=Decor SAP,OU=TI,OU=Oficina Principal,OU=Usuarios,OU=01 - GRUPODECOR,DC=grupodecor,DC=local')
 LDAP_BIND_PASSWORD = os.environ.get('LDAP_BIND_PASSWORD')
-# Opcional: Ruta al certificado CA para LDAPS. Necesario si el servidor AD usa un certificado no confiable por defecto.
 LDAP_TLS_CACERT = os.environ.get('LDAP_TLS_CACERT', None)
 
 @csrf_exempt
@@ -47,7 +44,6 @@ def login_ldap_view(request):
 
         logging.info(f"Intentando autenticar username recibido: {username}")
 
-        # Filtro de búsqueda más estricto: solo usuarios habilitados y con sAMAccountName exacto
         search_filter = f'(&(objectClass=user)(objectCategory=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(sAMAccountName={username}))'
 
         # --- Configuración de Servidor y TLS para LDAPS ---
@@ -75,7 +71,6 @@ def login_ldap_view(request):
             logging.error(f"Falló el bind con el usuario de servicio. Resultado: {conn.result}")
             return JsonResponse({'error': 'Error interno del servidor al conectar con el Directorio Activo.'}, status=500)
         
-        # 2. Buscar al usuario para obtener su DN (Distinguished Name) completo
         logging.info(f"Buscando usuario '{username}' con filtro: {search_filter}")
         conn.search(search_base=LDAP_BASE_DN,
                     search_filter=search_filter,
@@ -89,7 +84,6 @@ def login_ldap_view(request):
         user_dn = user_entry.distinguishedName.value
         logging.info(f"DN encontrado para {username}: {user_dn}")
         
-        # 3. Intentar una nueva conexión con las credenciales del usuario para validar la contraseña
         logging.info(f"Intentando autenticar al usuario con DN: {user_dn}")
         user_conn = Connection(server, user=user_dn, password=password, auto_bind=True)
         if not user_conn.bound:
@@ -109,24 +103,20 @@ def login_ldap_view(request):
         logging.warning("Cuerpo de la petición inválido (no es JSON).")
         return JsonResponse({'error': 'Cuerpo de la petición inválido (no es JSON).'}, status=400)
     except LDAPBindError as e:
-        # Esto puede ocurrir si las credenciales del usuario de servicio son incorrectas
         logging.error(f"Error de Bind LDAP: {e}", exc_info=True)
         return JsonResponse({'error': 'Error de credenciales del servicio de autenticación.'}, status=500)
     except LDAPException as e:
-        # Captura otras excepciones de ldap3
         logging.error(f"Error de LDAP: {e}", exc_info=True)
         return JsonResponse({'error': 'Error de comunicación con el servicio de autenticación.'}, status=500)
     except Exception as e:
         logging.error(f"Error inesperado en login_ldap_view: {e}", exc_info=True)
         return JsonResponse({'error': 'Error interno del servidor durante la autenticación.'}, status=500)
     finally:
-        # Asegurarse de que ambas conexiones se cierren
         if conn and conn.bound:
             conn.unbind()
         if user_conn and user_conn.bound:
             user_conn.unbind()
 
-# --- Vistas de ejemplo para otros endpoints ---
 @csrf_exempt
 def enviar_correo_view(request):
     return JsonResponse({'message': 'Endpoint de enviar correo (por implementar)'})

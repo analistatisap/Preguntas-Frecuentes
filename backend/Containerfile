@@ -4,12 +4,11 @@ FROM python:3.10-slim
 ## Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-## Copia el archivo de requisitos primero para aprovechar el cache de Podman
+## Copia el archivo de requisitos primero para aprovechar el cache de Docker
 COPY requirements.txt /app/
 RUN cat /app/requirements.txt
 
 ## Instala dependencias del sistema necesarias para python-ldap y Pillow
-# IMPORTANTE: Estas librerías son necesarias para que funcione la autenticación LDAP en Linux
 RUN apt-get update && apt-get install -y \
     gcc \
     libldap2-dev \
@@ -23,7 +22,7 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir -r requirements.txt || (cat /app/requirements.txt && exit 1)
 RUN pip list
 
-## Copia el script de entrada y dale permisos de ejecución
+
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
@@ -34,11 +33,9 @@ COPY . /app/
 RUN pip install psycopg2-binary
 RUN pip show psycopg2-binary
 
-# Configura la variable de entorno DJANGO_SETTINGS_MODULE
 ENV DJANGO_SETTINGS_MODULE=Preguntas_frecuentes.settings
 
-## Ejecuta las migraciones de la base de datos
-# RUN python manage.py migrate
+
 
 ## Recolecta archivos estáticos
 RUN python manage.py collectstatic --noinput
