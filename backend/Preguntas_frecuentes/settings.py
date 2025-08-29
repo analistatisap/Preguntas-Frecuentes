@@ -35,8 +35,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://preguntame.grupodecor.com:5047',
 ]
 
-EMAIL_HOST_USER = 'notificacionesaplicativoweb@grupodecor.com'
-EMAIL_HOST_PASSWORD = '1Ngr3s0W3b2024*'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'notificacionesaplicativoweb@grupodecor.com'
 
 
@@ -172,7 +172,7 @@ try:
     EMAIL_PORT = int(os.environ.get('EMAIL_PORT') or 587)
 except (TypeError, ValueError):
     EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
 
 
 # --- CONFIGURACIÓN PARA AUTENTICACIÓN LDAP con verificación de actividad ---
