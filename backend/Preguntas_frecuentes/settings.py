@@ -165,6 +165,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.office365.com')
 # Puerto para el envío de correos
@@ -173,6 +174,13 @@ try:
 except (TypeError, ValueError):
     EMAIL_PORT = 587
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+
+# Prints de depuración
+print('EMAIL_HOST:', EMAIL_HOST)
+print('EMAIL_PORT:', EMAIL_PORT)
+print('EMAIL_USE_TLS:', EMAIL_USE_TLS)
+print('EMAIL_HOST_USER:', EMAIL_HOST_USER)
+print('EMAIL_HOST_PASSWORD:', EMAIL_HOST_PASSWORD)
 
 
 # --- CONFIGURACIÓN PARA AUTENTICACIÓN LDAP con verificación de actividad ---
